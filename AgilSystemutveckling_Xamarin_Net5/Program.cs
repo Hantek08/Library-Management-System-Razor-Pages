@@ -1,10 +1,16 @@
+using AgilSystemutveckling_Xamarin_Net5.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-var app = builder.Build();
 
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+builder.Services.AddDbContext<LibraryDbContext> (options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection")));
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
