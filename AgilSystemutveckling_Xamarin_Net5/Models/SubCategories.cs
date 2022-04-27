@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Models
 {
-    public class Authors
+    public class SubCategories
     {
         [Key]
-        public int Id  { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
     }

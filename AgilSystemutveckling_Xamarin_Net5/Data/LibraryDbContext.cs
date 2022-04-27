@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using AgilSystemutveckling_Xamarin_Net5.DatabaseModel;
+using AgilSystemutveckling_Xamarin_Net5.Models;
 using Microsoft.AspNetCore.Hosting.Server;
 using MySqlConnector;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
