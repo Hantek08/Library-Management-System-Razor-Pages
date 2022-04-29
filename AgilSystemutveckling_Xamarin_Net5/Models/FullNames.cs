@@ -7,8 +7,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
     {
         [Key]
         public int Id { get; set; }
+
         [ForeignKey("Name")]
         public Names Name { get; set; }
+
         [ForeignKey("SurName")]
         public SurNames SurName { get; set; }
     }

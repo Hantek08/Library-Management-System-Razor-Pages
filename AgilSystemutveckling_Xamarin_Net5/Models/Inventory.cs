@@ -7,11 +7,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
         public Products Product { get; set; }
-        [Required]
         public int Stock { get; set; }
-        [Required]
         public bool InStock { get; set; }
     }
 }
