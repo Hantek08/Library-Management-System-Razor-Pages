@@ -13,9 +13,8 @@ html {
   min-height: 100%;
 }
 
-
 body {
-    margin-bottom: 60px;
+    margin-bottom: 0px;
     background-color: #FFF3CA;
 }
 
@@ -69,6 +68,54 @@ input.Info {
 
 /* Search Page */
 
+input.Books {
+    font-size: 24px;
+    background-color: #FFC48E;
+    color: #FFF3CA;
+    border: none;
+    width: 209px;
+    height: 46px;
+    margin-top: -9px;
+    margin-right: 0px;
+    border-bottom: 2px;
+    border-color: #FFF3CA;
+    border-bottom-style: solid;
+}
+
+input.Books:hover {
+    background-color: #FFF3CA;
+    color: #FFC48E;
+}
+
+input.Movies {
+    font-size: 24px;
+    background-color: #FFC48E;
+    color: #FFF3CA;
+    border: none;
+    width: 209px;
+    height: 46px;
+    margin-top: -9px;
+    margin-right: 0px;
+    border-bottom: 2px;
+    border-color: #FFF3CA;
+    border-bottom-style: solid;
+}
+
+input.Movies:hover {
+    background-color: #FFF3CA;
+    color: #FFC48E;
+}
+
+.Books{
+display: inline;
+justify-content: center;
+}
+
+td a {
+    display: block;
+    color: black;
+}
+
 h1.SearchPageTitle {
     margin-top: 0px;
     color: #FFF3CA;
@@ -78,28 +125,33 @@ h1.SearchPageTitle {
 .Menu {
     background-color: #FFC48E;
     height: 150px;
-    width: 100%;
+    width: 80%;
     padding: 0px;
     float: left;
+    width: 100%;
 }
 
 #myInput {
+    display: block;
     background-image: url('/css/searchicon.png');
     background-position: 10px 10px;
     background-repeat: no-repeat;
-    width: 100%;
+    width: 80%;
     font-size: 16px;
     padding: 12px 20px 12px 40px;
     border: 1px solid #ddd;
-    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #myTable {
     border-collapse: collapse;
-    width: 100%;
+    width: 80%;
     border: 1px solid #ddd;
     font-size: 18px;
     background-color: white;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #myTable th, #myTable td {

@@ -5,7 +5,14 @@
 }
 
 <header class="Menu">
-    <h1 class="SearchPageTitle">Stan AB Biblioteken</h1>
+    <div class="Title">
+        <h1 class="SearchPageTitle">Stan AB</h1>
+        <h1 class="SearchPageTitle">Biblioteken</h1>
+    </div>
+    <div id="Buttons">
+        <input class="Books" type="submit" asp-page="/LoginPage" value="Books">
+        <input class="Movies" type="submit" asp-page="/LoginPage" value="Movies">
+    </div>
 </header>
 
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
@@ -13,16 +20,26 @@
 <table id="myTable">
   <tr class="header">
     <th style="width:60%;">Name</th>
-    <th style="width:40%;">Country</th>
+    <th style="width:40%;">Author</th>
   </tr>
-  @foreach (var item in BookName)
+  @foreach (var item in SearchPageModel.BookName)
   {
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Germany</td>
-  </tr>
+        <tr>
+            <td><a href="/index">@item.Title</a></td>
+        </tr>
   }
 </table>
+
+<style>
+
+    .body-container {
+            /*remove the container default padding attribute*/
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+            /*increase width as per your need*/
+            max-width: 100%;
+        } 
+</style>
 
 <script>
 function myFunction() {
