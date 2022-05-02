@@ -8,8 +8,9 @@
     <input class="Info" type="submit" value="Info">
     <h1 class="display-4">Stan AB Biblioteken</h1>
     <div id="Buttons">
-        <input class="LogIn" type="submit" value="Log In">
-        
+        <form>
+        <input class="LogIn" type="submit" asp-page="/LoginPage" value="Log In">
+        </form>
         <form method="get">
             <input class="Guest" type="submit" asp-page="/SearchPage" value="Guest">
         </form>
