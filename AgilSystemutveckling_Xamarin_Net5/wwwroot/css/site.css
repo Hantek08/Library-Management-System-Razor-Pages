@@ -13,6 +13,14 @@ html {
   min-height: 100%;
 }
 
+.Menu {
+    background-color: #FFC48E;
+    height: 150px;
+    width: 100%;
+    padding: 0px;
+    float: left;
+}
+
 body {
     margin-bottom: 60px;
     background-color: #FFF3CA;
@@ -21,6 +29,12 @@ body {
 h1.display-4 {
     margin-top: -50px;
     color: #FFC48E;
+    font-weight: bold;
+}
+
+h1.SearchPageTitle {
+    margin-top: 0px;
+    color: #FFF3CA;
     font-weight: bold;
 }
 
