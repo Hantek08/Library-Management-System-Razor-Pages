@@ -13,18 +13,13 @@ html {
   min-height: 100%;
 }
 
-.Menu {
-    background-color: #FFC48E;
-    height: 150px;
-    width: 100%;
-    padding: 0px;
-    float: left;
-}
 
 body {
     margin-bottom: 60px;
     background-color: #FFF3CA;
 }
+
+/* Home Page */
 
 h1.display-4 {
     margin-top: -50px;
@@ -32,11 +27,6 @@ h1.display-4 {
     font-weight: bold;
 }
 
-h1.SearchPageTitle {
-    margin-top: 0px;
-    color: #FFF3CA;
-    font-weight: bold;
-}
 
 input.LogIn {
     font-size: 36px;
@@ -75,4 +65,52 @@ input.Info {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Search Page */
+
+h1.SearchPageTitle {
+    margin-top: 0px;
+    color: #FFF3CA;
+    font-weight: bold;
+}
+
+.Menu {
+    background-color: #FFC48E;
+    height: 150px;
+    width: 100%;
+    padding: 0px;
+    float: left;
+}
+
+#myInput {
+    background-image: url('/css/searchicon.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-top: 40px;
+}
+
+#myTable {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 18px;
+    background-color: white;
+}
+
+#myTable th, #myTable td {
+    text-align: left;
+    padding: 12px;
+}
+
+#myTable tr {
+    border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+    background-color: #f1f1f1;
 }
