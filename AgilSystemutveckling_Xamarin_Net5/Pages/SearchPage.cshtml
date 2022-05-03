@@ -21,13 +21,16 @@
 
 <table id="myTable">
   <tr class="header">
-    <th style="width:100%;">Name</th>
+    <th style="width:50%;">Name</th>
+    <th style="width:50%;">Author</th>
+
 
   </tr>
   @foreach (var item in SearchPageModel.BookName)
   {
         <tr>
             <td><a href="/index">@item.Title</a></td>
+            <td><a href="/index">@item.Name</a></td>
         </tr>
   }
 </table>

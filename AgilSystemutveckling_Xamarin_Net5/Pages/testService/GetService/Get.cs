@@ -15,12 +15,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<TestModels.Product> GetAllProducts()
         {
-            var sql = @$"SELECT Title, A.Name, C.Name, S.Name
-                        from Products AS P
-                        INNER JOIN Authors AS A
-                        ON P.Author = A.Id
-                        Inner Join Categorys AS C On C.Id = P.Category
-                        Inner Join SubCategorys AS S On S.Id = P.SubCategory";
+            var sql = @$"SELECT Title, Authors.Name
+                        from Products
+                        INNER JOIN Authors ON Products.Author = Authors.Id";
             var name = new List<TestModels.Product>();
             using (var connection = new MySqlConnection(connString))
             {
