@@ -17,13 +17,17 @@ namespace AgilSystemutveckling_Xamarin_Net5.Data
             Configuration = configuration;
         }
         // Configure database to be used (MySQL).
+
+      
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321;";
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
-        // Create following table(s).
-        public DbSet<Names> Names { get; set; }
-        public DbSet<SurNames> SurNames { get; set; }
+
+       
+
+
+
     }
 }

@@ -7,16 +7,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string? Title { get; set; }
+         public string? Description {get;set;}
+        public Authors? Author { get; set; }
 
-        [ForeignKey("Author")]
-        public Authors Author { get; set; }
+       
+        public Categories? Category { get; set; }
 
-        [ForeignKey("Category")]
-        public Categories Category { get; set; }
-
-        [ForeignKey("SubCategory")]
-        public SubCategories SubCategory { get; set; }
+    
+        public SubCategories? SubCategory { get; set; }
     }
 }

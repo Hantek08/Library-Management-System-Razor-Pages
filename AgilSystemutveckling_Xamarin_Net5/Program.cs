@@ -1,7 +1,9 @@
 using AgilSystemutveckling_Xamarin_Net5.Data;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using AgilSystemutveckling_Xamarin_Net5.Models;
 
+using AgilSystemutveckling_Xamarin_Net5.Services;
 
 
 #region Test Data Shown in Console
@@ -11,8 +13,10 @@ MySqlConnection connection = new MySqlConnection(
 
 connection.Open();
 
-string query = "Select * from Names";
+string query = "Select * from Item";
 
+
+//var query = AddProduct();
 MySqlCommand command = new MySqlCommand(query, connection);
 MySqlDataReader reader = command.ExecuteReader();
 
