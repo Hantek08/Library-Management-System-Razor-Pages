@@ -19,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\testService\DeleteService\" />
-    <Folder Include="Pages\testService\CreateService\" />
-    <Folder Include="Pages\testService\UpdateService\" />
+    <Folder Include="Pages\TestService\DeleteService\" />
+    <Folder Include="Pages\TestService\CreateService\" />
+    <Folder Include="Pages\TestService\UpdateService\" />
   </ItemGroup>
 
 </Project>

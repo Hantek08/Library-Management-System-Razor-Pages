@@ -1,4 +1,4 @@
-﻿namespace AgilSystemutveckling_Xamarin_Net5.Pages.testModel
+﻿namespace AgilSystemutveckling_Xamarin_Net5.TestModels
 {
     public class Category
     {

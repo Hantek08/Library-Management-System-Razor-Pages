@@ -1,4 +1,4 @@
-﻿namespace AgilSystemutveckling_Xamarin_Net5.Pages.testModel
+﻿namespace AgilSystemutveckling_Xamarin_Net5.TestModels
 {
     public class Product
     {
@@ -7,8 +7,6 @@
         public string Description { get; set; }
         public Author Author { get; set; }
         public Category Category { get; set; }
-
-
         public SubCategory SubCategory { get; set; }
     }
 }
