@@ -5,16 +5,16 @@ using System.Data.SqlClient;
 using System.Linq;
 using MySqlConnector;
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService
+namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.Get
 {
-    public class getProducts
+    public class Get
     {
         
         static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321";
 
-        public static List<testModel.Product> products()
+        public static List<testModel.Product> GetAllProducts()
         {
-            var sql = @$"SELECT title FROM Products";
+            var sql = @$"SELECT Title, FROM Products";
             var namn = new List<testModel.Product>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -24,5 +24,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService
 
             return namn;
         }
+
+
     }
 }
