@@ -28,15 +28,25 @@ namespace AgilSystemutveckling_Xamarin_Net5.Services
             return _productList.Where(p => p.Title.Contains(searchString)).ToList();
         }
 
-        public Products DeleteProduct(int id)
+        public async void DeleteProduct(int id)
         {
             var productToDelete = GetProductById(id);
             if(productToDelete != null)
             {
                 _dbContext.Remove(productToDelete);
-                _dbContext.SaveChanges();
+              await  _dbContext.SaveChangesAsync();
             }
-            return productToDelete;
+            
+
         }
+
+        public async void AddProduct(Products product)
+        {
+            product.Id = _productList.Max(p => p.Id) +1;
+            _dbContext.Add(product);
+            await _dbContext.SaveChangesAsync();
+        }
+
+     
     }
 }

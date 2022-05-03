@@ -6,6 +6,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Services
         IEnumerable<Products> GetAllProducts();
         Products GetProductById(int id);
         IEnumerable<Products> SearchProduct(string searchString);
-        Products DeleteProduct(int id);
+        void DeleteProduct(int id);
+
+        void AddProduct(Products product);
+
     }
 }

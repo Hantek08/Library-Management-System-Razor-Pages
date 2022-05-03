@@ -22,9 +22,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         public IActionResult OnPost()
         {
-            _dbContext.Products.Add(products);
-            _dbContext.SaveChanges();
-            return RedirectToPage("Index");
+
+            
+        return RedirectToPage("Index");
         }
     }
 }
