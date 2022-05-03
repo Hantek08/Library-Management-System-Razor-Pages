@@ -24,10 +24,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Data
             var connectionString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321;";
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
-
-       
-
-
-
+        // Create following table(s).
+        public DbSet<Names> Names { get; set; }
+        public DbSet<SurNames> SurNames { get; set; }
+        public DbSet<Products> Products { get; set; }
+        public DbSet<Authors> Authors { get; set; }
+        public DbSet<Categories> Categories { get; set; }
+        public DbSet<SubCategories> SubCategories { get; set; }
     }
 }
