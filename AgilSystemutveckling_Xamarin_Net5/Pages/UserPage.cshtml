@@ -2,4 +2,31 @@
 @model AgilSystemutveckling_Xamarin_Net5.Pages.UserPageModel
 @{
 }
-<h1>@LoginPageModel.username</h1>
+<container class="userPage">
+	<table>
+		<tr>
+			<td>
+				<h1>You are logged in as @LoginPageModel.username</h1>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="/index">go back</a>
+			</td>
+		</tr>
+	</table>
+</container>
+
+
+
+<style>
+	.userPage{
+		display:flex;
+		justify-content: center;
+		margin-top: 200px;
+	}
+
+	a{
+		text-align: center;
+	}
+</style>

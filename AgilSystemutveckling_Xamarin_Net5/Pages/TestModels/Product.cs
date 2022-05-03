@@ -5,8 +5,8 @@
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public Author Author { get; set; }
-        public Category Category { get; set; }
-        public SubCategory SubCategory { get; set; }
+        public Author A { get; set; }
+        public Category C { get; set; }
+        public SubCategory S { get; set; }
     }
 }

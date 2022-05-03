@@ -21,7 +21,7 @@ body {
 /* Home Page */
 
 h1.display-4 {
-    margin-top: -50px;
+    margin-top: 50px;
     color: #FFC48E;
     font-weight: bold;
     border: none;
@@ -126,9 +126,10 @@ td a {
 }
 
 h1.SearchPageTitle {
-    margin-top: 0px;
+    margin-top: 20px;
     color: #FFF3CA;
     font-weight: bold;
+    margin-left: 20px;
 }
 
 .Menu {
