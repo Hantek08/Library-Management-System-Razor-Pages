@@ -14,15 +14,20 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.Get
 
         public static List<testModel.Product> GetAllProducts()
         {
-            var sql = @$"SELECT Title, FROM Products";
-            var namn = new List<testModel.Product>();
+            var sql = @$"SELECT Title, A.Name, C.Name, S.Name
+                        from Products AS P
+                        INNER JOIN Authors AS A
+                        ON P.Author = A.Id
+                        Inner Join Categorys AS C On C.Id = P.Category
+                        Inner Join SubCategorys AS S On S.Id = P.SubCategory";
+            var name = new List<testModel.Product>();
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
-                namn = connection.Query<testModel.Product>(sql).ToList();
+                name = connection.Query<testModel.Product>(sql).ToList();
             }
 
-            return namn;
+            return name;
         }
 
 
