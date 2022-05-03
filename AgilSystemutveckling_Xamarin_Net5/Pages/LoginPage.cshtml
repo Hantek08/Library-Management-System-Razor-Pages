@@ -7,12 +7,14 @@
 input[type=text], input[type=password] {
   width: 60%;
   padding: 12px 20px;
+  width: 400px;
+  height: 50px;
   margin: 8px 0;
   display: inline-block;
   box-sizing: border-box;
 }
 
-button {
+.button {
   background-color: #FFC48E;
   color: white;
   font-size: 24px;
@@ -21,46 +23,62 @@ button {
   border: none;
   cursor: pointer;
   width: 60%;
+  margin-left: 80px;
 }
 
-button:hover {
+.button:hover {
   opacity: 0.8;
 }
 
-.container {
+.LogInBox{
 
-  padding: 20px;
-  width: 60%;
+    margin-top: 20px;
+    display:flex;
+    justify-content:center;
 }
 
-span.psw {
-  float: right;
-  padding-top: 16px;
+.PageTitle{
+    margin-top: 200px;
+    display:flex;
+    justify-content:center;
+    font-weight: bold;
+    font-size: 36px;
+    color: #ffbb7d;
+    margin-right: 0px;
 }
+
+.Back{
+
+    margin-left: 130px;
+
+}
+
+
 
 
 </style>
 
-<h2>Login</h2>
 
 <form method="post">
-
-
+    
+    <h2 class="PageTitle">Login</h2>
+    <container class="LogInBox">
 
     <table>
             <tr>
-                <td>Username</td>
-                <td><input type="text" asp-for="Username" name="Username"/></td>
+                <td><input type="text" asp-for="Username" name="Username" placeholder="Username.."/></td>
             </tr>
             <tr>
-                <td>Password</td>
-                <td><input type="password" asp-for="Password" name="Password"/></td>
+                <td><input type="password" asp-for="Password" name="Password" placeholder="Password.."/></td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
-                <td><input type="submit" value="Login" /></td>
+                <td><input class="button" type="submit" value="Login" /></td>
+            </tr>
+            <tr>
+                <td><a class="Back" href="/index">Back to home page</a></td>
             </tr>
         </table>  
 
+    </container>
 
 </form>

@@ -24,6 +24,7 @@ h1.display-4 {
     margin-top: -50px;
     color: #FFC48E;
     font-weight: bold;
+    border: none;
 }
 
 
@@ -64,6 +65,14 @@ input.Info {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.Guest:hover {
+    opacity: 0.8;
+}
+
+.LogIn:hover {
+    opacity: 0.8;
 }
 
 /* Search Page */
