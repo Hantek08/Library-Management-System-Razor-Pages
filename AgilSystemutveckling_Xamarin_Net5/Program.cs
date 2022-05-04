@@ -1,9 +1,9 @@
 using AgilSystemutveckling_Xamarin_Net5.Data;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
-using AgilSystemutveckling_Xamarin_Net5.Models;
+using AgilSystemutveckling_Xamarin_Net5.TestModels;
 
-using AgilSystemutveckling_Xamarin_Net5.Services;
+using AgilSystemutveckling_Xamarin_Net5;
 
 
 #region Test Data Shown in Console

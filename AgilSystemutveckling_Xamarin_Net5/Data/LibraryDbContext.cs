@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using AgilSystemutveckling_Xamarin_Net5.Models;
+using AgilSystemutveckling_Xamarin_Net5.TestModels;
 using Microsoft.AspNetCore.Hosting.Server;
 using MySqlConnector;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -25,11 +25,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Data
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
         // Create following table(s).
-        public DbSet<Names> Names { get; set; }
-        public DbSet<SurNames> SurNames { get; set; }
-        public DbSet<Products> Products { get; set; }
-        public DbSet<Authors> Authors { get; set; }
-        public DbSet<Categories> Categories { get; set; }
-        public DbSet<SubCategories> SubCategories { get; set; }
+        public DbSet<sName> Names { get; set; }
+        public DbSet<sSurname> SurNames { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
     }
 }

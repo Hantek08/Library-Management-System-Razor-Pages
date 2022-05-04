@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using AgilSystemutveckling_Xamarin_Net5.Models;
+using AgilSystemutveckling_Xamarin_Net5.TestModels;
 using AgilSystemutveckling_Xamarin_Net5.Data;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages
