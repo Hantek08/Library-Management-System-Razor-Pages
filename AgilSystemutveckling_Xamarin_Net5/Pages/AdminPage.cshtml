@@ -9,10 +9,13 @@
         <h1 class="SearchPageTitle">Biblioteken</h1>
     </div>
     
-    <div id="Buttons">
-        <input class="Books" type="submit" asp-page="/LoginPage" value="Books">
-        <input class="Movies" type="submit" asp-page="/LoginPage" value="Movies">
-    </div>
+    <table class="adminButtoms">
+        <tr>
+            <td><input class="Books" type="submit" asp-page="/LoginPage" value="Users"></td>
+            <td><input class="Movies" type="submit" asp-page="/LoginPage" value="Products"></td>
+        </tr>
+    </table>
+
     <style>
         input.Books, input.Movies{
             font-size: 24px;
@@ -59,8 +62,14 @@
             padding-left: 0px !important;
             padding-right: 0px !important;
             /*increase width as per your need*/
-            max-width: 100%;
+            max-width: 100%;      
         } 
+        .adminButtoms{
+            display: flex;
+            justify-content: center;
+            margin-top: -40px;
+        }
+         
  
     </style>
 </header>

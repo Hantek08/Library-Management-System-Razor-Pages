@@ -13,7 +13,7 @@
     }
     
 
-    input.LogIn {
+    #LogIn {
         font-size: 36px;
         background-color: #FFC48E;
         color: white;
@@ -24,7 +24,7 @@
         margin-right: 20px;
     }
 
-    input.Guest {
+    #Guest {
         font-size: 36px;
         background-color: #FFC48E;
         color: white;
@@ -46,7 +46,7 @@
         margin-left: 1300px;
     }
 
-    #Buttons {
+    .Buttons {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -66,12 +66,12 @@
     <input class="Info" type="submit" value="Info">
     -->
     <h1 class="display-4">Stan AB Biblioteken</h1>
-    <div id="Buttons">
+    <div class="Buttons">
         <form>
-            <input class="LogIn" type="submit" asp-page="/LoginPage" value="Log In">
+            <input id="LogIn" type="submit" asp-page="/LoginPage" value="Log In">
         </form>
         <form method="get">
-            <input class="Guest" type="submit" asp-page="/SearchPage" value="Guest">
+            <input id="Guest" type="submit" asp-page="/SearchPage" value="Guest">
         </form>
     </div>
 
