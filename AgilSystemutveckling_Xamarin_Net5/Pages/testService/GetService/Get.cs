@@ -30,7 +30,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<TestModels.User> GetAllUsers()
         {
-            var sql = @$"Select Username, Password from Users";
+            var sql = @$"Select Username, Password from User";
             var user = new List<TestModels.User>();
             using (var connection = new MySqlConnection(connString))
             {
