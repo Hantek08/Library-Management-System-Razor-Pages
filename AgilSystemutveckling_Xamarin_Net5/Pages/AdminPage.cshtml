@@ -2,3 +2,65 @@
 @model AgilSystemutveckling_Xamarin_Net5.Pages.AdminPageModel
 @{
 }
+
+<header class="Menu">
+    <div class="Title">
+        <h1 class="SearchPageTitle">Stan AB</h1>
+        <h1 class="SearchPageTitle">Biblioteken</h1>
+    </div>
+    
+    <div id="Buttons">
+        <input class="Books" type="submit" asp-page="/LoginPage" value="Books">
+        <input class="Movies" type="submit" asp-page="/LoginPage" value="Movies">
+    </div>
+    <style>
+        input.Books, input.Movies{
+            font-size: 24px;
+            background-color: #FFC48E;
+            color: #FFF3CA;
+            border: none;
+            width: 209px;
+            height: 46px;
+            margin-top: -9px;
+            margin-right: 0px;
+            border-bottom: 2px;
+            border-color: #FFF3CA;
+            border-bottom-style: solid;
+            }
+
+        .Menu {
+            background-color: #FFC48E;
+            height: 150px;
+            width: 100%;
+            padding: 0px;
+            float: left;
+            width: 100%;
+            }
+
+        h1.SearchPageTitle {
+            margin-top: 20px;
+            color: #FFF3CA;
+            font-weight: bold;
+            margin-left: 20px;
+            }
+
+        input.Movies:hover, input.Books:hover {
+            background-color: #FFF3CA;
+            color: #FFC48E;
+            }
+
+        .Books{
+            display: inline;
+            justify-content: center;
+            }
+
+            .body-container {
+            /*remove the container default padding attribute*/
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+            /*increase width as per your need*/
+            max-width: 100%;
+        } 
+ 
+    </style>
+</header>
