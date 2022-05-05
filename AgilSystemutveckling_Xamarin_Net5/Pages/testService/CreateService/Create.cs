@@ -10,8 +10,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
         #region User related
         public static TestModels.User AddUser(User user)
         {
-            // Bind to user input.
-            // user.Id = "<read from input as INT>";
             user.FullNameId = 0;
             user.Username = "<read from input>";
             user.Password = "<read from input>";
@@ -20,7 +18,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
             user.Blocked = false;
 
             MySqlConnection connection = new MySqlConnection(connString);
-
 
             var cmdText = @$"INSERT INTO Author 
                                 VALUES (@FullNameId, @Username, @Password, @Address, @AccessId, @Blocked)";

@@ -5,7 +5,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
     public class SearchPageModel : PageModel
     {
-        public static List<TestModels.Product> BookName;
+        public static List<TestModels.Product> BookName { get; set; }
 
         public void OnGet()
         {

@@ -11,10 +11,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 {
     public class Get
     {
-        
 
+        #region Connection string
         static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321";
+        #endregion
 
+        #region Product related methods
         public static List<TestModels.Product> GetAllProducts()
         {
             var sql = @$"SELECT Title, Author.AuthorName, 
@@ -33,6 +35,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return name;
         }
+        #endregion
+
         #region User related methods
         public static List<TestModels.User> GetAllUsers()
         {
@@ -78,7 +82,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
             string letter = "<first letter of search query here>";
-            var sql = @$"Select Username from User where name = '{letter}%' ORDER BY Username";
+            var sql = @$"Select Username from User where Username = '{letter}%' ORDER BY Username";
             var user = new List<TestModels.User>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -88,6 +92,63 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return user;
         }
+        #endregion
+        #region Author related methods
+        public static List<TestModels.Author> GetAllAuthors()
+        {
+            // If someone just wants to search for any user starting with a letter, this will
+            // sort based on the first letter of the username.
+            var sql = @$"Select Id, AuthorName 
+                                From Author";
+            var author = new List<TestModels.Author>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+               author = connection.Query<TestModels.Author>(sql).ToList();
+            }
+
+            return author;
+        }
+        public static List<TestModels.Author> GetAllAuthorsStartingWithLetter()
+        {
+            string letter = "<first letter of search query here>";
+            var sql = @$"Select AuthorName from Author where AuthorName = '{letter}%' ORDER BY AuthorName";
+            var author = new List<TestModels.Author>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                author = connection.Query<TestModels.Author>(sql).ToList();
+            }
+
+            return author;
+        }
+
+        public static List<TestModels.Author> GetAllAuthorsOrderedAlphabetically()
+        {
+            var sql = @$"Select AuthorName from Author ORDER BY AuthorName";
+            var author = new List<TestModels.Author>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                author = connection.Query<TestModels.Author>(sql).ToList();
+            }
+
+            return author;
+        }
+
+        public static List<TestModels.Author> GetAllAuthorsReverseOrder()
+        {
+            var sql = @$"Select AuthorName from Author ORDER BY AuthorName desc";
+            var author = new List<TestModels.Author>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                author = connection.Query<TestModels.Author>(sql).ToList();
+            }
+
+            return author;
+        }
+
         #endregion
     }
 }
