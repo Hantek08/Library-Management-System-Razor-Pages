@@ -28,6 +28,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             {
                 connection.Open();
                 name = connection.Query<TestModels.Product>(sql).ToList();
+                connection.Close();
             }
 
             return name;
