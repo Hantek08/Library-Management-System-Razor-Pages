@@ -40,7 +40,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         #region User related methods
         public static List<TestModels.User> GetAllUsers()
         {
-            var sql = @$"Select Username, Password from User";
+            var sql = @$"Select Username, Password
+                            from User";
             var user = new List<User>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -53,7 +54,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<User> GetAllUsersOrderedAlphabetically()
         {
-            var sql = @$"Select Username from User ORDER BY Username";
+            var sql = @$"Select Username 
+                            from User 
+                            ORDER BY Username";
             var user = new List<User>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -112,7 +115,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         public static List<Author> GetAllAuthorsStartingWithLetter()
         {
             string letter = "<first letter of search query here>";
-            var sql = @$"Select AuthorName from Author where AuthorName = '{letter}%' ORDER BY AuthorName";
+            var sql = @$"Select AuthorName 
+                            from Author 
+                            where AuthorName = '{letter}%' 
+                            ORDER BY AuthorName";
             var author = new List<Author>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -182,6 +188,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return author;
         }
+
+
+
 
         #endregion
     }

@@ -4,17 +4,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using AgilSystemutveckling_Xamarin_Net5.TestModels;
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages
+namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestPages
 {
     [BindProperties]
-    public class TestPageSortedIdModel : PageModel
+    public class TestPageSortedReverseModel : PageModel
     {
-       
         public List<Author> Authors { get; set; }
         public void OnGet()
         {
-            Authors = TestService.GetService.Get.GetAllAuthorsOrderedById();
+            Authors = TestService.GetService.Get.GetAllAuthorsReverseOrder();
         }
-
     }
 }

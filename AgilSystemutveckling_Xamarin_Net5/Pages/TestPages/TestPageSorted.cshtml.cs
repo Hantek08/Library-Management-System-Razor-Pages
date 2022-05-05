@@ -4,12 +4,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using AgilSystemutveckling_Xamarin_Net5.TestModels;
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages
+namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestPages
 {
     [BindProperties]
     public class TestPageSortedModel : PageModel
     {
-       
         public List<Author> Authors { get; set; }
         public void OnGet()
         {
