@@ -3,9 +3,9 @@
     public class History
     {
         public int Id { get; set; }
-        public string? UserId { get; set; }
-        public string? Product { get; set; }
+        public int UserId { get; set; }
+        public int ProductId { get; set; }
         public DateTime Time { get; set; }
-        public string? Action { get; set; }
+        public int ActionId { get; set; }
     }
 }
