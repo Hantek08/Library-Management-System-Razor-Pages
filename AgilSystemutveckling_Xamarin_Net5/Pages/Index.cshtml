@@ -35,7 +35,7 @@
         margin-left: 20px;
     }
 
-    input.Info {
+    #Info {
         font-size: 24px;
         background-color: #9AC4F5;
         color: white;
@@ -46,36 +46,26 @@
         margin-left: 1300px;
     }
 
-    .Buttons {
+     .indexBtns{
         display: flex;
         align-items: center;
         justify-content: center;
     }
-
-    .Guest:hover {
-        opacity: 0.8;
-    }
-
-    .LogIn:hover {
-        opacity: 0.8;
-    }
 </style>
 
 <div class="text-center">
-    <!--
-    <input class="Info" type="submit" value="Info">
-    -->
+    <input id="Info" class="Buttons" type="submit" value="Info">
+    
     <h1 class="display-4">Stan AB Biblioteken</h1>
-    <div class="Buttons">
+</div>
+    <div class="indexBtns">
         <form>
-            <input id="LogIn" type="submit" asp-page="/LoginPage" value="Log In">
+            <input id="LogIn" class="Buttons" type="submit" asp-page="/LoginPage" value="Log In">
         </form>
         <form method="get">
-            <input id="Guest" type="submit" asp-page="/SearchPage" value="Guest">
+            <input id="Guest" class="Buttons" type="submit" asp-page="/SearchPage" value="Guest">
         </form>
     </div>
-
-</div>
 
 <style>
 
