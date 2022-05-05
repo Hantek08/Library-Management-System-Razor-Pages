@@ -3,6 +3,6 @@
     public class FirstName
     {
         public int Id { get; set; }
-        public string _FirstName { get; set; }
+        public string? _FirstName { get; set; }
     }
 }
