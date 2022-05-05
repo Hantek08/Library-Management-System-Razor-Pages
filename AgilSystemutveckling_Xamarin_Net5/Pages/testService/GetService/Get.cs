@@ -5,12 +5,14 @@ using System.Data.SqlClient;
 using System.Linq;
 
 using MySqlConnector;
+using AgilSystemutveckling_Xamarin_Net5.TestModels;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 {
     public class Get
     {
         
+
         static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321";
 
         public static List<TestModels.Product> GetAllProducts()
@@ -30,7 +32,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return name;
         }
-
+        #region User related methods
         public static List<TestModels.User> GetAllUsers()
         {
             var sql = @$"Select Username, Password from User";
@@ -44,9 +46,64 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             return user;
         }
 
+        public static List<TestModels.User> GetAllUsersOrderedAlphabetically()
+        {
+            var sql = @$"Select Username from User ORDER BY Username";
+            var user = new List<TestModels.User>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                user = connection.Query<TestModels.User>(sql).ToList();
+            }
 
+            return user;
+        }
 
+        public static List<TestModels.User> GetAllUsersReverseOrder()
+        {
+            var sql = @$"Select Username from User ORDER BY Username desc";
+            var user = new List<TestModels.User>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                user = connection.Query<TestModels.User>(sql).ToList();
+            }
 
+            return user;
+        }
 
+        public static List<TestModels.User> GetAllUsersStartingWithLetter()
+        {
+            // If someone just wants to search for any user starting with a letter, this will
+            // sort based on the first letter of the username.
+            string letter = "<first letter of search query here>";
+            var sql = @$"Select Username from User where name = '{letter}%' ORDER BY Username";
+            var user = new List<TestModels.User>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                user = connection.Query<TestModels.User>(sql).ToList();
+            }
+
+            return user;
+        }
+        #endregion
+
+        #region Author related
+        public static TestModels.Author AddAuthor()
+        {
+            int id = 0;
+            string authorName = "";
+            var author = new Author { AuthorName = authorName };
+            MySqlConnection connection = new MySqlConnection(connString);
+            connection.Open();
+
+            var sql = @$"INSERT INTO Author (AuthorName)
+                            VALUES {authorName}";
+
+            return author;
+        }
+
+        #endregion
     }
 }

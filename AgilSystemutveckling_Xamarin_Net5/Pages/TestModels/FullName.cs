@@ -3,7 +3,7 @@
     public class FullName
     {
         public int Id { get; set; }
-        public FirstName Name { get; set; }
-        public sSurname Surname { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
     }
 }
