@@ -12,11 +12,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
         {
             // Bind to user input.
             // user.Id = "<read from input as INT>";
-            user.FullNameId = "<read from input>";
+            user.FullNameId = 0;
             user.Username = "<read from input>";
             user.Password = "<read from input>";
             user.Address = "<read from input>";
-            user.AccessId = "<read from input>";
+            user.AccessId = 0;
             user.Blocked = false;
 
             MySqlConnection connection = new MySqlConnection(connString);
