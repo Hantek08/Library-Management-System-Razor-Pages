@@ -83,7 +83,7 @@ h1.SearchPageTitle {
     height: 150px;
     width: stretch;
     padding: 0px;
-    float: left;
+    margin-top: 0;
 }
 
 #myInput {

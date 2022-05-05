@@ -11,26 +11,32 @@
         <h1 class="SearchPageTitle">Stan AB</h1>
         <h1 class="SearchPageTitle">Biblioteken</h1>
     </div>
+    <!--
+
     <div id="Buttons">
         <input class="Books" type="submit" asp-page="/LoginPage" value="Books">
         <input class="Movies" type="submit" asp-page="/LoginPage" value="Movies">
     </div>
+    -->
 </header>
 
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
 
 <table id="myTable">
   <tr class="header">
-    <th style="width:50%;">Name</th>
-    <th style="width:50%;">Author</th>
-
+    <th style="width:25%;">Name</th>
+    <th style="width:25%;">Author</th>
+    <th style="width:25%;">Sub Category</th>
+    <th style="width:25%;">Category</th>
 
   </tr>
   @foreach (var item in SearchPageModel.BookName)
   {
         <tr>
-            <td><a href="/index">@item.Username</a></td>
-            <td><a href="/index">@item.Password</a></td>
+            <td><a href="/index">@item.Title</a></td>
+            <td><a href="/index">@item.AuthorName</a></td>
+            <td><a href="/index">@item.SubCategoryName</a></td>
+            <td><a href="/index">@item.CategoryName</a></td>
         </tr>
   }
 </table>

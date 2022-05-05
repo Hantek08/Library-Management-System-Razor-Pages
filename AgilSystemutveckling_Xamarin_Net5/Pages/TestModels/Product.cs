@@ -2,11 +2,9 @@
 {
     public class Product
     {
-        public int Id { get; set; }
         public string Title { get; set; }
-        public string Name { get; set; }
-        public Author A { get; set; }
-        public Category C { get; set; }
-        public SubCategory S { get; set; }
+        public string AuthorName { get; set; }
+        public string CategoryName { get; set; }
+        public string SubCategoryName { get; set; }
     }
 }
