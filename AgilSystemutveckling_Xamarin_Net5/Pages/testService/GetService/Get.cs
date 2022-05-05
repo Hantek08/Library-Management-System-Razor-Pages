@@ -88,22 +88,5 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             return user;
         }
         #endregion
-
-        #region Author related
-        public static TestModels.Author AddAuthor()
-        {
-            int id = 0;
-            string authorName = "";
-            var author = new Author { AuthorName = authorName };
-            MySqlConnection connection = new MySqlConnection(connString);
-            connection.Open();
-
-            var sql = @$"INSERT INTO Author (AuthorName)
-                            VALUES {authorName}";
-
-            return author;
-        }
-
-        #endregion
     }
 }
