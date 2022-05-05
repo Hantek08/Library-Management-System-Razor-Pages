@@ -27,17 +27,18 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             username = Username;
             password = Password;
 
-            if (Username.Equals("abc") && Password.Equals("123"))
+            List<TestModels.User> users = TestService.GetService.Get.GetAllUsers();
+
+            foreach (var item in users)
             {
-                /*HttpContext.Session.SetString("username", Username);
-                HttpContext.Session.SetString(Username, username);*/
-                return RedirectToPage("/UserPage");
+                if (Username.Equals(item.Username) && Password.Equals(item.Password))
+                {
+                    /*HttpContext.Session.SetString("username", Username);
+                    HttpContext.Session.SetString(Username, username);*/
+                    return RedirectToPage("/UserPage");
+                }
             }
-            else
-            {
- 
-                return Page();
-            }
+            return Page();
         }
     }
 }
