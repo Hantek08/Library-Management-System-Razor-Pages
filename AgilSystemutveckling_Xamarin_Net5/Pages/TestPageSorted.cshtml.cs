@@ -7,18 +7,14 @@ using AgilSystemutveckling_Xamarin_Net5.TestModels;
 namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
     [BindProperties]
-    public class TestPageCreateModel : PageModel
+    public class TestPageSortedModel : PageModel
     {
-        public Author Author { get; set; }
+       
+        public List<Author> Authors { get; set; }
         public void OnGet()
         {
-            
+            Authors = TestService.GetService.Get.GetAllAuthorsOrderedAlphabetically();
         }
 
-        public IActionResult OnPost()
-        {
-            Author = testService.CreateService.Create.AddAuthor(Author);
-            return RedirectToPage("TestPage");
-        }
     }
 }

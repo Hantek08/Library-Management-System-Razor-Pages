@@ -8,6 +8,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
         static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321";
 
         #region User related
+        // Needs editing.
         public static User AddUser(User user)
         {
             user.FullNameId = 0;

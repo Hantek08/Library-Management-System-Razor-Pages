@@ -103,7 +103,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             var author = new List<Author>();
             using (var connection = new MySqlConnection(connString))
             {
-                connection.Open();
+               connection.Open();
                author = connection.Query<Author>(sql).ToList();
             }
 
@@ -125,7 +125,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<Author> GetAllAuthorsOrderedAlphabetically()
         {
-            var sql = @$"Select AuthorName from Author ORDER BY AuthorName";
+            var sql = @$"Select Id, AuthorName 
+                             from Author 
+                             ORDER BY AuthorName";
             var author = new List<Author>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -138,7 +140,39 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<Author> GetAllAuthorsReverseOrder()
         {
-            var sql = @$"Select AuthorName from Author ORDER BY AuthorName desc";
+            var sql = @$"Select Id, AuthorName 
+                            from Author 
+                            ORDER BY AuthorName desc";
+            var author = new List<Author>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                author = connection.Query<Author>(sql).ToList();
+            }
+
+            return author;
+        }
+
+        public static List<Author> GetAllAuthorsOrderedById()
+        {
+            var sql = @$"Select Id, AuthorName 
+                             from Author 
+                             ORDER BY Id";
+            var author = new List<Author>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                author = connection.Query<Author>(sql).ToList();
+            }
+
+            return author;
+        }
+
+        public static List<Author> GetAllAuthorsReverseOrderId()
+        {
+            var sql = @$"Select Id, AuthorName 
+                            from Author 
+                            ORDER BY Id desc";
             var author = new List<Author>();
             using (var connection = new MySqlConnection(connString))
             {
