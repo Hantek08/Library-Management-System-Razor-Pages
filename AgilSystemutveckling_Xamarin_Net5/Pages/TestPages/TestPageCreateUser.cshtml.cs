@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,13 +8,13 @@ using AgilSystemutveckling_Xamarin_Net5.TestModels;
 namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestPages
 {
     [BindProperties]
-    public class TestPageSortedIdModel : PageModel
+    public class TestPageCreateUserModel : PageModel
     {
-        public List<Author>? Authors { get; set; }
-        public void OnGet()
+        public User User{ get; set; }
+        public IActionResult OnPost()
         {
-            Authors = TestService.GetService.Get.GetAllAuthorsOrderedById();
+            User = testService.CreateService.Create.AddUser(User);
+            return RedirectToPage("TestPage");
         }
-
     }
 }

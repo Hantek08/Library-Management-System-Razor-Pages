@@ -1,11 +1,11 @@
-﻿using System;
+﻿using AgilSystemutveckling_Xamarin_Net5.TestModels;
+using AgilSystemutveckling_Xamarin_Net5.Constants;
 using Dapper;
+using MySqlConnector;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-
-using MySqlConnector;
-using AgilSystemutveckling_Xamarin_Net5.TestModels;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 {
@@ -25,15 +25,79 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
                         INNER JOIN Author ON Product.AuthorId = Author.Id
                         INNER JOIN Category ON Product.CategoryId = Category.Id
                         INNER JOIN SubCategory ON Product.SubCategoryId = SubCategory.Id";
-            var name = new List<Product>();
-            using (var connection = new MySqlConnection(connString))
+            var products = new List<Product>();
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
-                name = connection.Query<Product>(sql).ToList();
+                products = connection.Query<Product>(sql).ToList();
                 connection.Close();
             }
 
-            return name;
+            return products;
+        }
+
+        public static List<Product> GetAllProductsOrderedAlphabetically()
+        {
+            string? sql = @$"SELECT Id, Title, AuthorName,
+                        Category.CategoryName, SubCategory.SubCategoryName
+                        from Product
+                        INNER JOIN Author ON Product.AuthorId = Author.Id
+                        INNER JOIN Category ON Product.CategoryId = Category.Id
+                        INNER JOIN SubCategory ON Product.SubCategoryId = SubCategory.Id";
+            var products = new List<Product>();
+            using (var connection = new MySqlConnection(Constant.connectionString))
+            {
+                connection.Open();
+                products = connection.Query<Product>(sql).ToList();
+                connection.Close();
+            }
+
+            return products;
+        }
+
+        public static List<Product> GetAllProductsOrderedByCategory()
+        {
+            var sql = @$"Select Id, Title, AuthorName 
+                             from Product 
+                             ORDER BY Category";
+            var products = new List<Product>();
+            using (var connection = new MySqlConnection(Constant.connectionString))
+            {
+                connection.Open();
+                products = connection.Query<Product>(sql).ToList();
+            }
+
+            return products;
+        }
+
+        public static List<Product> GetAllProductsOrderedById()
+        {
+            var sql = @$"Select Id, Title, AuthorName 
+                             from Author 
+                             ORDER BY Id";
+            var products = new List<Product>();
+            using (var connection = new MySqlConnection(Constant.connectionString))
+            {
+                connection.Open();
+                products = connection.Query<Product>(sql).ToList();
+            }
+
+            return products;
+        }
+
+        public static List<Product> GetAllProductsOrderedByIdReverse()
+        {
+            var sql = @$"Select Id, Title, AuthorName 
+                             from Author 
+                             ORDER BY Id desc";
+            var products = new List<Product>();
+            using (var connection = new MySqlConnection(Constant.connectionString))
+            {
+                connection.Open();
+                products = connection.Query<Product>(sql).ToList();
+            }
+
+            return products;
         }
         #endregion
 
@@ -96,6 +160,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             return user;
         }
         #endregion
+
         #region Author related methods
         public static List<Author> GetAllAuthors()
         {
@@ -103,14 +168,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             // sort based on the first letter of the username.
             var sql = @$"Select Id, AuthorName 
                                 From Author";
-            var author = new List<Author>();
-            using (var connection = new MySqlConnection(connString))
+            var authors = new List<Author>();
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
-               connection.Open();
-               author = connection.Query<Author>(sql).ToList();
+                connection.Open();
+                authors = connection.Query<Author>(sql).ToList();
             }
 
-            return author;
+            return authors;
         }
         public static List<Author> GetAllAuthorsStartingWithLetter()
         {
@@ -120,7 +185,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
                             where AuthorName = '{letter}%' 
                             ORDER BY AuthorName";
             var author = new List<Author>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 author = connection.Query<Author>(sql).ToList();
@@ -135,7 +200,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
                              from Author 
                              ORDER BY AuthorName";
             var author = new List<Author>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 author = connection.Query<Author>(sql).ToList();
@@ -150,7 +215,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
                             from Author 
                             ORDER BY AuthorName desc";
             var author = new List<Author>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 author = connection.Query<Author>(sql).ToList();
@@ -165,7 +230,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
                              from Author 
                              ORDER BY Id";
             var author = new List<Author>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 author = connection.Query<Author>(sql).ToList();
@@ -180,7 +245,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
                             from Author 
                             ORDER BY Id desc";
             var author = new List<Author>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 author = connection.Query<Author>(sql).ToList();
@@ -188,10 +253,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return author;
         }
-
-
-
-
         #endregion
+
     }
 }
