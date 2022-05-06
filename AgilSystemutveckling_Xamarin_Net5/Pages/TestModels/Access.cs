@@ -1,8 +1,8 @@
 ﻿namespace AgilSystemutveckling_Xamarin_Net5.TestModels
 {
-    public class sName
+    public class Access
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Level { get; set; }
     }
 }

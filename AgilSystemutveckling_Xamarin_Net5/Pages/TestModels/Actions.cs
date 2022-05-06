@@ -1,8 +1,8 @@
 ﻿namespace AgilSystemutveckling_Xamarin_Net5.TestModels
 {
-    public class Accesse
+    public class Actions
     {
         public int Id { get; set; }
-        public string Level { get; set; }
+        public string? Action { get; set; }
     }
 }
