@@ -4,72 +4,109 @@
 }
 
 <header class="Menu">
-    <div class="Title">
-        <h1 class="SearchPageTitle">Stan AB</h1>
-        <h1 class="SearchPageTitle">Biblioteken</h1>
+    
+    <div class="header-box">
+      <h1 class="header-title">Stan AB Bibloteken</h1>
     </div>
     
     <table class="adminButtoms">
         <tr>
-            <td><input class="Books" type="submit" asp-page="/LoginPage" value="Users"></td>
-            <td><input class="Movies" type="submit" asp-page="/LoginPage" value="Products"></td>
+            <td><input class="users" type="submit" asp-page="/LoginPage" value="Users"></td>
+            <td><input class="products" type="submit" asp-page="/LoginPage" value="Products"></td>
+            <td><input class="repports" type="submit" asp-page="/LoginPage" value="Repports"></td>
         </tr>
     </table>
 
+    <div class="center-of-page">
+
+        <input
+        class="search-field"
+        type="text"
+        placeholder="Search for book name..."/>
+
+
+        <table id="myTable">
+            <tr>
+                <th style="width:50%;">Id</th>
+                <th style="width:50%;">Name</th>         
+            </tr>
+                @foreach (var item in TestService.GetService.Get.GetAllUsers())
+                {
+                    <tr>
+                        <td style="width:50%;"><a href="/index">@item.Id</a></td>
+                        <td style="width:50%;"><a href="/index">@item.Password</a></td>
+                    </tr>
+                }
+        </table>
+    </div>
+
+
     <style>
-        input.Books, input.Movies{
-            font-size: 24px;
-            background-color: #FFC48E;
-            color: #FFF3CA;
-            border: none;
-            width: 209px;
-            height: 46px;
-            margin-top: -9px;
-            margin-right: 0px;
-            border-bottom: 2px;
-            border-color: #FFF3CA;
-            border-bottom-style: solid;
-            }
 
-        .Menu {
-            background-color: #FFC48E;
+        .header-box {
+            width:stretch;
             height: 150px;
-            width: 100%;
+            background-color: rgb(86, 146, 88);
             padding: 0px;
-            float: left;
+            margin: 0px;
+            }
+
+        .header-title {
+            margin-top: 0px;
+            padding-top: 30px;
+            padding-left: 20px;
+            max-width: 330px;
+            font-size: calc(1.375rem + 1.5vw);
+            font-family: sans-serif;
+            color: rgb(46, 46, 46);
+            }
+
+
+        .center-of-page {
+            background-color: rgb(255 ,243 ,202);
+            position: fixed;
             width: 100%;
+            height: 100%;
             }
 
-        h1.SearchPageTitle {
-            margin-top: 20px;
-            color: #FFF3CA;
-            font-weight: bold;
-            margin-left: 20px;
+        .search-field {
+            display: block;
+            width: 60%;
+            margin-left: 213px;
+            margin-right: auto;
+            margin-bottom:20px;
+            margin-top: 80px;
+            padding: 12px 20px 12px 40px;
             }
 
-        input.Movies:hover, input.Books:hover {
-            background-color: #FFF3CA;
-            color: #FFC48E;
-            }
-
-        .Books{
-            display: inline;
-            justify-content: center;
-            }
-
-            .body-container {
-            /*remove the container default padding attribute*/
-            padding-left: 0px !important;
-            padding-right: 0px !important;
-            /*increase width as per your need*/
-            max-width: 100%;      
-        } 
         .adminButtoms{
             display: flex;
             justify-content: center;
             margin-top: -40px;
-        }
-         
- 
-    </style>
+            }
+
+        .users, .products, .repports{
+            font-size: 24px;
+            background-color: rgb(255 ,243 ,202);
+            color: rgb(46, 46, 46);
+            border: none;
+            width: 209px;
+            height: 46px;
+            margin-top: -3px;
+            border-color: rgb(255 ,243 ,202);
+            border-bottom-style: solid;
+            margin-right: 40px;
+            transition:  opacity 0.30s, ;
+            }
+            
+        .users:hover, .products:hover, .repports:hover{
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            }
+
+        </style>
+
+
 </header>
+
+
