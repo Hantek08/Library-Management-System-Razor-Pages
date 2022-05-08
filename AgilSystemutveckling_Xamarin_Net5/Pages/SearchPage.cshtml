@@ -22,26 +22,38 @@
 
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
 
-<table id="myTable">
-  <tr class="header">
-    <th style="width:25%;">Name</th>
-    <th style="width:25%;">Author</th>
-    <th style="width:25%;">Sub Category</th>
-    <th style="width:25%;">Category</th>
 
-  </tr>
+  
   @foreach (var item in SearchPageModel.BookName)
   {
+    <table id="myTable">
         <tr>
-            <td><a href="/index">@item.Title</a></td>
-            <td><a href="/index">@item.AuthorName</a></td>
-            <td><a href="/index">@item.SubCategoryName</a></td>
-            <td><a href="/index">@item.CategoryName</a></td>
+            <td>
+                <p class="BookTitle" href=/index>@item.Title</p>
+                <img src="https://image.bokus.com/images/9789129657333_200x_gullivers-resor_kartonnage"/>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <a href="/index">@item.Title</a>
+                            <p>by @item.AuthorName</p>
+                            <p>@item.SubCategoryName</p>
+                            <p>@item.CategoryName</p>
+                        </td>
+                </table>
+            </td>
         </tr>
+    </table>
   }
-</table>
 
 <style>
+
+    .BookTitle{
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
 
     .body-container {
             /*remove the container default padding attribute*/
