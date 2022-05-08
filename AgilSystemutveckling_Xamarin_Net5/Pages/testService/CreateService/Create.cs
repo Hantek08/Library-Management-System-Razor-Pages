@@ -1,4 +1,5 @@
 ﻿using AgilSystemutveckling_Xamarin_Net5.TestModels;
+using Dapper;
 using MySqlConnector;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
@@ -11,26 +12,21 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
         // Needs editing.
         public static User AddUser(User user)
         {
-            user.FullNameId = 0;
-            user.Username = "<read from input>";
-            user.Password = "<read from input>";
-            user.Address = "<read from input>";
-            user.AccessId = 0;
-            user.Blocked = false;
-
+            
             MySqlConnection connection = new MySqlConnection(connString);
 
-            var cmdText = @$"INSERT INTO Author 
-                                VALUES (@FullNameId, @Username, @Password, @Address, @AccessId, @Blocked)";
+            var cmdText = @$"INSERT INTO User (Username, Password, Address, AccessId)
+                                VALUES (@Username, @Password, @Address, @AccessId)";
 
 
             var cmd = new MySqlCommand(cmdText, connection);
             // cmd.Parameters.AddWithValue($"@Id", author.Id); - same as above comment.
-            cmd.Parameters.AddWithValue($"@FullNameId", user.FullNameId);
+            //cmd.Parameters.AddWithValue($"@FullNameId", user.FullNameId);
             cmd.Parameters.AddWithValue($"@Username", user.Username);
             cmd.Parameters.AddWithValue($"@Password", user.Password);
             cmd.Parameters.AddWithValue($"@Address", user.Address);
-            cmd.Parameters.AddWithValue($"@Blocked", user.Blocked);
+           // cmd.Parameters.AddWithValue($"@Blocked", user.Blocked);
+            cmd.Parameters.AddWithValue($"@AccessId", user.AccessId);
             connection.Open();
             int r = cmd.ExecuteNonQuery();
 
@@ -59,5 +55,59 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
             return author;
         }
         #endregion
+
+        public static Product AddProduct(Product product)
+        {
+
+            MySqlConnection connection = new MySqlConnection(connString);
+
+            var cmdText = @$"INSERT INTO Product (Title, AuthorName, CategoryName, SubCategoryName)
+                                VALUES (@Title, @AuthorName, @CategoryName, @SubCategoryName)";
+
+            var cmd = new MySqlCommand(cmdText, connection);
+            cmd.Parameters.AddWithValue($"@Title", product.Title);
+            cmd.Parameters.AddWithValue($"@AuthorName", product.AuthorName);
+            cmd.Parameters.AddWithValue($"@CategoryName",  product.CategoryName);
+            cmd.Parameters.AddWithValue($"@SubCategoryName", product.SubCategoryName);
+            connection.Open();
+            int r = cmd.ExecuteNonQuery();
+
+            return product;
+        }
+
+        public static Category AddCategory(Category category)
+        {
+
+            MySqlConnection connection = new MySqlConnection(connString);
+
+            var cmdText = @$"INSERT INTO Category (CategoryName)
+                                VALUES (@CategoryName)";
+
+            var cmd = new MySqlCommand(cmdText, connection);
+            cmd.Parameters.AddWithValue($"@CategoryName", category.CategoryName);
+           
+            connection.Open();
+            int r = cmd.ExecuteNonQuery();
+
+            return category;
+        }
+
+        public static SubCategory AddSubCategory(SubCategory subcategory)
+        {
+
+            MySqlConnection connection = new MySqlConnection(connString);
+
+            var cmdText = @$"INSERT INTO SubCategory (SubCategoryName)
+                                VALUES (@SubCategoryName)";
+
+            var cmd = new MySqlCommand(cmdText, connection);
+            cmd.Parameters.AddWithValue($"@SubCategoryName", subcategory.SubCategoryName);
+
+            connection.Open();
+            int r = cmd.ExecuteNonQuery();
+
+            return subcategory;
+        }
+
     }
 }
