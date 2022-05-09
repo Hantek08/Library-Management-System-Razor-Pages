@@ -38,8 +38,17 @@
             @foreach(var item in Model.Authors)
             {
                 <tr>
-                    <td width="50%">@item.Id</td>
-                    <td width="30%">@item.AuthorName</td>
+                    <td width="12%">@item.Id</td>
+                    <td width="12%">@item.FirstName</td>
+                    <td width="12%">@item.LastName</td>
+                    <td width="12%">@item.Username</td>
+                    <td width="12%">@item.Password</td>
+                    <td width="12%">@item.Address</td>
+                    <td width="12%">@item.Blocked</td>
+                    <td width="12%">@item.Level</td>
+
+
+
                     <td>
                         <div class="w-75 btn-group" role="group">
                             <!-- Replace Edit with location of Edit page -->
