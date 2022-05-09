@@ -17,6 +17,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         #endregion
 
         #region Product related methods
+
+
         public static List<Product> GetAllProducts()
         {
             string? sql = @$"SELECT Title, Author.AuthorName,
@@ -25,6 +27,56 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
                         INNER JOIN Author ON Product.AuthorId = Author.Id
                         INNER JOIN Category ON Product.CategoryId = Category.Id
                         INNER JOIN SubCategory ON Product.SubCategoryId = SubCategory.Id";
+            var name = new List<Product>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                name = connection.Query<Product>(sql).ToList();
+                connection.Close();
+            }
+
+            return name;
+        }
+
+        public static List<Product> GetBook()
+        {
+            string? sql = @$"SELECT Title, Author.AuthorName, SubCategory.SubCategoryName
+                            FROM Products
+                            WHERE Category='Book'";
+                        
+            var name = new List<Product>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                name = connection.Query<Product>(sql).ToList();
+                connection.Close();
+            }
+
+            return name;
+        }
+
+        public static List<Product> GetEbook()
+        {
+            string? sql = @$"SELECT Title, Author.AuthorName, SubCategory.SubCategoryName
+                            FROM Products
+                            WHERE Category='E-Book'";
+
+            var name = new List<Product>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                name = connection.Query<Product>(sql).ToList();
+                connection.Close();
+            }
+
+            return name;
+        }
+        public static List<Product> GetMovie()
+        {
+            string? sql = @$"SELECT Title, Author.AuthorName, SubCategory.SubCategoryName
+                            FROM Products 
+                            WHERE Category='Movie'";
+
             var name = new List<Product>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -52,6 +104,19 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             return user;
         }
 
+        public static List<TestModels.User> GetAllUsersWithAllProperties()
+        {
+            var sql = @$"Select * FROM User 
+                            from User";
+            var user = new List<User>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                user = connection.Query<User>(sql).ToList();
+            }
+
+            return user;
+        }
         public static List<User> GetAllUsersOrderedAlphabetically()
         {
             var sql = @$"Select Username 
@@ -128,7 +193,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return author;
         }
-
         public static List<Author> GetAllAuthorsOrderedAlphabetically()
         {
             var sql = @$"Select Id, AuthorName 
@@ -188,9 +252,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return author;
         }
-
-
-
 
         #endregion
     }

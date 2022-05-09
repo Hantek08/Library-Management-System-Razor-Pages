@@ -26,8 +26,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService
                 }
             }
         }
-
-
         public static void DeleteUser(int id)
         {
             var sql = $"DELETE FROM User WHERE id = @id";
@@ -45,6 +43,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService
                 }
             }
         }
+        
     }
 }
 
