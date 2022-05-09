@@ -109,5 +109,19 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
             return subcategory;
         }
 
+        public static int CustomerMakeALoan(int productID, int HistoryuserID)
+        {
+            MySqlConnection connection = new MySqlConnection(connString);
+            var cmdText = @"INSERT INTO History (HistoryUserID) VALUES (@HistoryUserID)";
+
+            var cmd = new MySqlCommand(cmdText, connection);
+            cmd.Parameters.AddWithValue($"@HistoryUserID", History.HistoryUserID);
+
+            connection.Open();
+            int r = cmd.ExecuteNonQuery();
+
+            return history;
+        }
+
     }
 }
