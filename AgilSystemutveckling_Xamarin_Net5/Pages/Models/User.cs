@@ -3,12 +3,12 @@
     public class User
     {
         public int Id { get; set; }
-        public int FullNameId { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
-        public int AccessId { get; set; }
         public string? Address { get; set; }
         public bool Blocked { get; set; } = false;
-
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public int Level { get; set; }
     }
 }
