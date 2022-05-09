@@ -1,0 +1,75 @@
+﻿@page
+@model AgilSystemutveckling_Xamarin_Net5.Pages.SearchPageModel
+@{
+    ViewData["Title"] = "Search page";
+}
+
+
+
+<header class="Menu">
+    <div class="Title">
+        <h1 class="SearchPageTitle">Stan AB</h1>
+        <h1 class="SearchPageTitle">Biblioteken</h1>
+    </div>
+    <!--
+    <div id="Buttons">
+        <input class="Books" type="submit" asp-page="/LoginPage" value="Books">
+        <input class="Movies" type="submit" asp-page="/LoginPage" value="Movies">
+    </div>
+    -->
+</header>
+
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+
+<table id="myTable">
+  <tr class="header">
+    <th style="width:50%;">Name</th>
+    <th style="width:50%;">Author</th>
+    <th style="width:50%;">Category</th>
+    <th style="width:50%;">SubCategory</th>
+
+
+  </tr>
+  @foreach (var item in SearchPageModel.BookName)
+  {
+        <tr>
+            <td><a href="/index">@item.Title</a></td>
+            <td><a href="/index">@item.AuthorName</a></td>
+            <td><a href="/index">@item.CategoryName</a></td>
+            <td><a href="/index">@item.SubCategoryName</a></td>
+        </tr>
+  }
+</table>
+
+<style>
+
+    .body-container {
+            /*remove the container default padding attribute*/
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+            /*increase width as per your need*/
+            max-width: 100%;
+        } 
+</style>
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>
+

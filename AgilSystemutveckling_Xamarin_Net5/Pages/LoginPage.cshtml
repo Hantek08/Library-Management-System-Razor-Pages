@@ -1,0 +1,84 @@
+﻿@page
+@model AgilSystemutveckling_Xamarin_Net5.Pages.LoginPageModel
+@{
+}
+<style>
+
+input[type=text], input[type=password] {
+  width: 60%;
+  padding: 12px 20px;
+  width: 400px;
+  height: 50px;
+  margin: 8px 0;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.button {
+  background-color: #FFC48E;
+  color: white;
+  font-size: 24px;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 60%;
+  margin-left: 80px;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.LogInBox{
+
+    margin-top: 20px;
+    display:flex;
+    justify-content:center;
+}
+
+.PageTitle{
+    margin-top: 200px;
+    display:flex;
+    justify-content:center;
+    font-weight: bold;
+    font-size: 36px;
+    color: #ffbb7d;
+    margin-right: 0px;
+}
+
+.Back{
+
+    margin-left: 130px;
+
+}
+
+
+
+
+</style>
+
+
+<form method="post">
+    
+    <h2 class="PageTitle">Login</h2>
+    <container class="LogInBox">
+
+    <table>
+            <tr>
+                <td><input type="text" asp-for="Username" name="Username" placeholder="Username.."/></td>
+            </tr>
+            <tr>
+                <td><input type="password" asp-for="Password" name="Password" placeholder="Password.."/></td>
+            </tr>
+            <tr>
+                <td><input class="button" type="submit" value="Login" /></td>
+            </tr>
+            <tr>
+                <td><a class="Back" href="/index">Back to home page</a></td>
+            </tr>
+        </table>  
+
+    </container>
+
+</form>
