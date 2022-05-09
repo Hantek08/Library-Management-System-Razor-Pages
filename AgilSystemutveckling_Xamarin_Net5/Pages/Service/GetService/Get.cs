@@ -167,6 +167,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             return user;
         }
         #endregion
+
         #region Author related methods
         public static List<Models.Author> GetAllAuthors()
         {
@@ -258,6 +259,42 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return author;
         }
+
+        #endregion
+
+        #region Names related
+        public static List<Models.FirstNames> GetAllFirstNames()
+        {
+            // If someone just wants to search for any user starting with a letter, this will
+            // sort based on the first letter of the username.
+            var sql = @$"Select FirstName
+                                From FirstNames";
+            var firstName = new List<Models.FirstNames>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                firstName = connection.Query<Models.FirstNames>(sql).ToList();
+            }
+
+            return firstName;
+        }
+
+        public static List<Models.LastNames> GetAllLastNames()
+        {
+            // If someone just wants to search for any user starting with a letter, this will
+            // sort based on the first letter of the username.
+            var sql = @$"Select * 
+                                From LastNames";
+            var lastName = new List<Models.LastNames>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                lastName = connection.Query<Models.LastNames>(sql).ToList();
+            }
+
+            return lastName;
+        }
+
 
         #endregion
     }

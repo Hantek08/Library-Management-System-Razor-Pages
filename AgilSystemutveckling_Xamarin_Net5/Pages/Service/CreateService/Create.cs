@@ -29,6 +29,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
             //cmd.Parameters.AddWithValue($"@AccessId", user.AccessId);
             connection.Open();
             int r = cmd.ExecuteNonQuery();
+            connection.Close();
 
             return user;
         }
@@ -51,6 +52,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
             cmd.Parameters.AddWithValue($"@AuthorName", author.AuthorName);
             connection.Open();
             cmd.ExecuteNonQuery();
+            connection.Close();
 
             return author;
         }
@@ -71,10 +73,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
             cmd.Parameters.AddWithValue($"@SubCategoryName", product.SubCategoryName);
             connection.Open();
             int r = cmd.ExecuteNonQuery();
+            connection.Close();
 
             return product;
         }
 
+        #region Category related
         public static Models.Category AddCategory(Models.Category category)
         {
 
@@ -88,10 +92,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
 
             connection.Open();
             int r = cmd.ExecuteNonQuery();
+            connection.Close();
+
 
             return category;
         }
+        #endregion
 
+        #region Subcategory related
         public static Models.SubCategory AddSubCategory(Models.SubCategory subcategory)
         {
 
@@ -105,9 +113,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
 
             connection.Open();
             int r = cmd.ExecuteNonQuery();
+            connection.Close();
 
             return subcategory;
         }
+        #endregion
+
 
         //public static int CustomerMakeALoan(int productID, int HistoryuserID)
         //{
