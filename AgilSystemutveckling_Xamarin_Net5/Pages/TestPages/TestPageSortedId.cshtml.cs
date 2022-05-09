@@ -9,7 +9,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestPages
     [BindProperties]
     public class TestPageSortedIdModel : PageModel
     {
-        public List<Author> Authors { get; set; }
+        public List<Models.Author> Authors { get; set; }
         public void OnGet()
         {
             Authors = TestService.GetService.Get.GetAllAuthorsOrderedById();

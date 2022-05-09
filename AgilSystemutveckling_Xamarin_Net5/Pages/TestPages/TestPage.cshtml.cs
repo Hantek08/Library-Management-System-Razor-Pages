@@ -9,10 +9,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestPages
     [BindProperties]
     public class TestPageModel : PageModel
     {
-        public List<User> Authors { get; set; }
+        public List<Product> Authors { get; set; }
         public void OnGet()
         {
-            Authors = TestService.GetService.Get.GetAllUsers();
+            Authors = TestService.GetService.Get.GetAllProducts();
         }
     }
 }

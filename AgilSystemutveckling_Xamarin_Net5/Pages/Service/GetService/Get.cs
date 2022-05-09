@@ -21,12 +21,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<Product> GetAllProducts()
         {
-            string? sql = @$"SELECT Title, Author.AuthorName,
-                        Category.CategoryName, SubCategory.SubCategoryName
-                        from Product
-                        INNER JOIN Author ON Product.AuthorId = Author.Id
-                        INNER JOIN Category ON Product.CategoryId = Category.Id
-                        INNER JOIN SubCategory ON Product.SubCategoryId = SubCategory.Id";
+            string? sql = @$"Select Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitInStock, Products.InStock, Products.ImgUrl
+                            from Products
+                            inner join Authors on Products.AuthorId = Authors.Id
+                            inner join Categories on Products.CategoryId = Categories.Id
+                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id";
             var name = new List<Product>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -167,92 +168,92 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         }
         #endregion
         #region Author related methods
-        public static List<Author> GetAllAuthors()
+        public static List<Models.Author> GetAllAuthors()
         {
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
             var sql = @$"Select Id, AuthorName 
                                 From Author";
-            var author = new List<Author>();
+            var author = new List<Models.Author>();
             using (var connection = new MySqlConnection(connString))
             {
-               connection.Open();
-               author = connection.Query<Author>(sql).ToList();
+                connection.Open();
+                author = connection.Query<Models.Author>(sql).ToList();
             }
 
             return author;
         }
-        public static List<Author> GetAllAuthorsStartingWithLetter()
+        public static List<Models.Author> GetAllAuthorsStartingWithLetter()
         {
             string letter = "<first letter of search query here>";
             var sql = @$"Select AuthorName 
                             from Author 
                             where AuthorName = '{letter}%' 
                             ORDER BY AuthorName";
-            var author = new List<Author>();
+            var author = new List<Models.Author>();
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
-                author = connection.Query<Author>(sql).ToList();
+                author = connection.Query<Models.Author>(sql).ToList();
             }
 
             return author;
         }
-        public static List<Author> GetAllAuthorsOrderedAlphabetically()
+        public static List<Models.Author> GetAllAuthorsOrderedAlphabetically()
         {
             var sql = @$"Select Id, AuthorName 
                              from Author 
                              ORDER BY AuthorName";
-            var author = new List<Author>();
+            var author = new List<Models.Author>();
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
-                author = connection.Query<Author>(sql).ToList();
+                author = connection.Query<Models.Author>(sql).ToList();
             }
 
             return author;
         }
 
-        public static List<Author> GetAllAuthorsReverseOrder()
+        public static List<Models.Author> GetAllAuthorsReverseOrder()
         {
             var sql = @$"Select Id, AuthorName 
                             from Author 
                             ORDER BY AuthorName desc";
-            var author = new List<Author>();
+            var author = new List<Models.Author>();
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
-                author = connection.Query<Author>(sql).ToList();
+                author = connection.Query<Models.Author>(sql).ToList();
             }
 
             return author;
         }
 
-        public static List<Author> GetAllAuthorsOrderedById()
+        public static List<Models.Author> GetAllAuthorsOrderedById()
         {
             var sql = @$"Select Id, AuthorName 
                              from Author 
                              ORDER BY Id";
-            var author = new List<Author>();
+            var author = new List<Models.Author>();
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
-                author = connection.Query<Author>(sql).ToList();
+                author = connection.Query<Models.Author>(sql).ToList();
             }
 
             return author;
         }
 
-        public static List<Author> GetAllAuthorsReverseOrderId()
+        public static List<Models.Author> GetAllAuthorsReverseOrderId()
         {
             var sql = @$"Select Id, AuthorName 
                             from Author 
                             ORDER BY Id desc";
-            var author = new List<Author>();
+            var author = new List<Models.Author>();
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
-                author = connection.Query<Author>(sql).ToList();
+                author = connection.Query<Models.Author>(sql).ToList();
             }
 
             return author;

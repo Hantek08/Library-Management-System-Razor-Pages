@@ -35,10 +35,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
         #endregion
 
         #region Author related
-        public static Author AddAuthor(Author author)
+        public static Models.Author AddAuthor(Models.Author author)
         {
             // author.Id = "<input from user>" - if auto_increment cant be used.
-            
+
             MySqlConnection connection = new MySqlConnection(connString);
 
 
@@ -75,7 +75,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
             return product;
         }
 
-        public static Category AddCategory(Category category)
+        public static Models.Category AddCategory(Models.Category category)
         {
 
             MySqlConnection connection = new MySqlConnection(connString);
@@ -85,14 +85,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
 
             var cmd = new MySqlCommand(cmdText, connection);
             cmd.Parameters.AddWithValue($"@CategoryName", category.CategoryName);
-           
+
             connection.Open();
             int r = cmd.ExecuteNonQuery();
 
             return category;
         }
 
-        public static SubCategory AddSubCategory(SubCategory subcategory)
+        public static Models.SubCategory AddSubCategory(Models.SubCategory subcategory)
         {
 
             MySqlConnection connection = new MySqlConnection(connString);
