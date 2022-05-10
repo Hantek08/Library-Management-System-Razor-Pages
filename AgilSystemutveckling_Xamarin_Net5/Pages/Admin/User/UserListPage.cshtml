@@ -7,10 +7,10 @@
 
     <ul class="nav nav-pills nav-fill">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Products</a>
+        <a class="nav-link" aria-current="page" href="/SearchPage">Products</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Users</a>
+        <a class="nav-link active" href="#">Users</a>
       </li>
       
       <li class="nav-item">
@@ -22,25 +22,41 @@
 
 <input type="text" id="my_input" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
 
-  @foreach (var item in SearchPageModel.BookName)
+  @foreach (var item in TestService.GetService.Get.GetAllUsers())
   {
     <table id="myTable">
         <tr>
             <td>
-                <p class="BookTitle" href=/index>@item.Title</p>
-                <img src="https://image.bokus.com/images/9789129657333_200x_gullivers-resor_kartonnage"/>
-            </td>
-            <td>
                 <table>
                     <tr>
                         <td>
-                            <a href="/index">@item.Title</a>
-                            <p>by @item.AuthorName</p>
-                            <p>@item.SubCategoryName</p>
-                            <p>@item.CategoryName</p>
+                            <div id="info_box">
+                                <p>ID: @item.Id</p>
+                                <p>Username: @item.Username</p>
+                                <p>Password: @item.Password</p>
+                                <p>Access lvl: @item.Access</p>
+                            </div>
                         </td>
                 </table>
             </td>
         </tr>
     </table>
   }
+
+  <style>
+      #my_input{
+            width: 800px;
+            height: 40px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        #info_box{
+            background-color:white;
+            padding-bottom: 15px;
+            padding-top:15px;
+            padding-right: 500px;
+            border-radius: 10px;
+            padding-left: 30px;
+        }
+
+  </style>
