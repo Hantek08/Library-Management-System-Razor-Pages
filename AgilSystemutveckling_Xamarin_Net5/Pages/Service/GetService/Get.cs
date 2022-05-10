@@ -298,6 +298,28 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             return lastName;
         }
 
+        #endregion
+
+        #region Loan 
+        public static void UserAction (int userID, int productID,int actionID) //vilken siffra ska det stå här för actionID när man lånar bok?
+
+        {
+            MySqlConnection connection = new MySqlConnection(connString);
+
+            var cmdText = @$"INSERT INTO history (UserID, ProductID, DateTime, ActionID)
+                                VALUES (@UserID, @ProductID, @DateTime, @ActionID)";
+
+            var cmd = new MySqlCommand(cmdText, connection);
+
+            cmd.Parameters.AddWithValue($"@UserID", userID);
+            cmd.Parameters.AddWithValue($"@ProductID", productID);
+            cmd.Parameters.AddWithValue($"@DateTime", DateTime.Now);
+            cmd.Parameters.AddWithValue($"@ActionID", actionID);
+
+            connection.Open();
+            int r = cmd.ExecuteNonQuery();
+            connection.Close();
+        }
 
         #endregion
     }
