@@ -9,7 +9,6 @@
         public string? CategoryName { get; set; }
         public string? SubCategoryName { get; set; }
         public int UnitsInStock { get; set; }
-        public bool InStock { get; set; }
         public string? ImgUrl { get; set; }
     }
 }
