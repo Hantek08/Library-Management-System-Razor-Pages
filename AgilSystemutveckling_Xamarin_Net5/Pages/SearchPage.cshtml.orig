@@ -59,6 +59,7 @@
                             <p>by @item.AuthorName</p>
                             <p>@item.SubCategoryName</p>
                             <p>@item.CategoryName</p>
+
                         </td>
                 </table>
             </td>
