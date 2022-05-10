@@ -15,12 +15,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<TestModels.Product> GetAllProducts()
         {
-            var sql = @$"SELECT Title, Author.AuthorName, 
-                        Category.CategoryName, SubCategory.SubCategoryName
-                        from Product
-                        INNER JOIN Author ON Product.AuthorId = Author.Id
-                        INNER JOIN Category ON Product.CategoryId = Category.Id
-                        INNER JOIN SubCategory ON Product.SubCategoryId = SubCategory.Id";
+            var sql = @$"SELECT Title, Authors.AuthorName, 
+                        Categories.CategoryName, SubCategories.SubCategoryName
+                        from Products
+                        INNER JOIN Authors ON Products.AuthorId = Authors.Id
+                        INNER JOIN Categories ON Products.CategoryId = Categories.Id
+                        INNER JOIN SubCategories ON Products.SubCategoryId = SubCategories.Id";
             var name = new List<TestModels.Product>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -33,7 +33,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<TestModels.User> GetAllUsers()
         {
-            var sql = @$"Select * from User";
+            var sql = @$"Select * from Users";
             var user = new List<TestModels.User>();
             using (var connection = new MySqlConnection(connString))
             {

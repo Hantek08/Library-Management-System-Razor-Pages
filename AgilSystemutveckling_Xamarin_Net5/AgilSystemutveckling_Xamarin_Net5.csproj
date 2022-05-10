@@ -24,8 +24,4 @@
     <Folder Include="Pages\TestService\UpdateService\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\image\Logo.jpg" />
-  </ItemGroup>
-
 </Project>
