@@ -45,6 +45,17 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return user;
         }
+        public static TestModels.Product GetProductById(int id)
+        {
+            var sql = "SELECT * FROM Products WHERE id = @id";
+            var product = new TestModels.Product();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                product = connection.Query<TestModels.Product>(sql, new { id = id }).FirstOrDefault();
+            }
+            return product;
+        }
 
 
 
