@@ -2,3 +2,45 @@
 @model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User.UserListPageModel
 @{
 }
+
+<header class="Menu"> 
+
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#">Products</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Users</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link disabled">Disabled</a>
+      </li>
+    </ul>
+   
+</header>
+
+<input type="text" id="my_input" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+
+  @foreach (var item in SearchPageModel.BookName)
+  {
+    <table id="myTable">
+        <tr>
+            <td>
+                <p class="BookTitle" href=/index>@item.Title</p>
+                <img src="https://image.bokus.com/images/9789129657333_200x_gullivers-resor_kartonnage"/>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <a href="/index">@item.Title</a>
+                            <p>by @item.AuthorName</p>
+                            <p>@item.SubCategoryName</p>
+                            <p>@item.CategoryName</p>
+                        </td>
+                </table>
+            </td>
+        </tr>
+    </table>
+  }

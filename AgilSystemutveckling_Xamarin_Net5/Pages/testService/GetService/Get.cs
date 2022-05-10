@@ -21,7 +21,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
                         INNER JOIN Authors ON Products.AuthorId = Authors.Id
                         INNER JOIN Categories ON Products.CategoryId = Categories.Id
                         INNER JOIN SubCategories ON Products.SubCategoryId = SubCategories.Id";
+
             var name = new List<TestModels.Product>();
+
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
