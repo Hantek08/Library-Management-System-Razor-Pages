@@ -15,7 +15,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
             
             MySqlConnection connection = new MySqlConnection(connString);
 
-            var cmdText = @$"INSERT INTO User (Username, Password, Address, AccessId)
+            var cmdText = @$"INSERT INTO Users (Username, Password, Address, AccessId)
                                 VALUES (@Username, @Password, @Address, @AccessId)";
 
 
@@ -43,7 +43,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
             MySqlConnection connection = new MySqlConnection(connString);
 
 
-            var cmdText = @$"INSERT INTO Author (AuthorName)
+            var cmdText = @$"INSERT INTO Authors (AuthorName)
                                 VALUES (@AuthorName)";
 
 
@@ -63,7 +63,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
 
             MySqlConnection connection = new MySqlConnection(connString);
 
-            var cmdText = @$"INSERT INTO Product (Title, AuthorName, CategoryName, SubCategoryName)
+            var cmdText = @$"INSERT INTO Products (Title, AuthorName, CategoryName, SubCategoryName)
                                 VALUES (@Title, @AuthorName, @CategoryName, @SubCategoryName)";
 
             var cmd = new MySqlCommand(cmdText, connection);
@@ -84,7 +84,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
 
             MySqlConnection connection = new MySqlConnection(connString);
 
-            var cmdText = @$"INSERT INTO Category (CategoryName)
+            var cmdText = @$"INSERT INTO Categories (CategoryName)
                                 VALUES (@CategoryName)";
 
             var cmd = new MySqlCommand(cmdText, connection);
@@ -118,21 +118,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
             return subcategory;
         }
         #endregion
-
-
-        //public static int CustomerMakeALoan(int productID, int HistoryuserID)
-        //{
-        //    MySqlConnection connection = new MySqlConnection(connString);
-        //    var cmdText = @"INSERT INTO History (HistoryUserID) VALUES (@HistoryUserID)";
-
-        //    var cmd = new MySqlCommand(cmdText, connection);
-        //    cmd.Parameters.AddWithValue($"@HistoryUserID", History.HistoryUserID);
-
-        //    connection.Open();
-        //    int r = cmd.ExecuteNonQuery();
-
-        //    return history;
-        //}
 
     }
 }

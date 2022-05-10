@@ -41,9 +41,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<Product> GetBook()
         {
-            string? sql = @$"SELECT Title, Author.AuthorName, SubCategory.SubCategoryName
+            string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products
-                            WHERE Category='Book'";
+                            WHERE Categories='Book'";
                         
             var name = new List<Product>();
             using (var connection = new MySqlConnection(connString))
@@ -58,9 +58,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<Product> GetEbook()
         {
-            string? sql = @$"SELECT Title, Author.AuthorName, SubCategory.SubCategoryName
+            string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products
-                            WHERE Category='E-Book'";
+                            WHERE Categories='E-Book'";
 
             var name = new List<Product>();
             using (var connection = new MySqlConnection(connString))
@@ -74,9 +74,26 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         }
         public static List<Product> GetMovie()
         {
-            string? sql = @$"SELECT Title, Author.AuthorName, SubCategory.SubCategoryName
+            string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products 
-                            WHERE Category='Movie'";
+                            WHERE Categories='Movie'";
+
+            var name = new List<Product>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                name = connection.Query<Product>(sql).ToList();
+                connection.Close();
+            }
+
+            return name;
+        }
+
+        public static List<Product> BookSeminarium()
+        {
+            string? sql = @$"SELECT Title
+                            FROM Products
+                            WHERE Categories='Seminarium'";
 
             var name = new List<Product>();
             using (var connection = new MySqlConnection(connString))
@@ -109,24 +126,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return user;
         }
-
-        public static List<TestModels.User> GetAllUsersWithAllProperties()
-        {
-            var sql = @$"Select * FROM User 
-                            from User";
-            var user = new List<User>();
-            using (var connection = new MySqlConnection(connString))
-            {
-                connection.Open();
-                user = connection.Query<User>(sql).ToList();
-            }
-
-            return user;
-        }
         public static List<User> GetAllUsersOrderedAlphabetically()
         {
             var sql = @$"Select Username 
-                            from User 
+                            from Users
                             ORDER BY Username";
             var user = new List<User>();
             using (var connection = new MySqlConnection(connString))
@@ -140,7 +143,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<TestModels.User> GetAllUsersReverseOrder()
         {
-            var sql = @$"Select Username from User ORDER BY Username desc";
+            var sql = @$"Select Username from Users ORDER BY Username desc";
             var user = new List<User>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -156,7 +159,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
             string letter = "<first letter of search query here>";
-            var sql = @$"Select Username from User where Username = '{letter}%' ORDER BY Username";
+            var sql = @$"Select Username from Users where Username = '{letter}%' ORDER BY Username";
             var user = new List<User>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -174,7 +177,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
             var sql = @$"Select Id, AuthorName 
-                                From Author";
+                                From Authors";
             var author = new List<Models.Author>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -203,7 +206,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         public static List<Models.Author> GetAllAuthorsOrderedAlphabetically()
         {
             var sql = @$"Select Id, AuthorName 
-                             from Author 
+                             from Authors 
                              ORDER BY AuthorName";
             var author = new List<Models.Author>();
             using (var connection = new MySqlConnection(connString))
@@ -218,7 +221,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         public static List<Models.Author> GetAllAuthorsReverseOrder()
         {
             var sql = @$"Select Id, AuthorName 
-                            from Author 
+                            from Authors 
                             ORDER BY AuthorName desc";
             var author = new List<Models.Author>();
             using (var connection = new MySqlConnection(connString))
@@ -233,7 +236,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         public static List<Models.Author> GetAllAuthorsOrderedById()
         {
             var sql = @$"Select Id, AuthorName 
-                             from Author 
+                             from Authors
                              ORDER BY Id";
             var author = new List<Models.Author>();
             using (var connection = new MySqlConnection(connString))
@@ -248,7 +251,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         public static List<Models.Author> GetAllAuthorsReverseOrderId()
         {
             var sql = @$"Select Id, AuthorName 
-                            from Author 
+                            from Authors
                             ORDER BY Id desc";
             var author = new List<Models.Author>();
             using (var connection = new MySqlConnection(connString))
