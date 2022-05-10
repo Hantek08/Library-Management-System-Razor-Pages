@@ -15,7 +15,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<TestModels.Product> GetAllProducts()
         {
-            var sql = @$"SELECT Title, Authors.AuthorName, 
+            var sql = @$"SELECT Title, Description, Authors.AuthorName, 
                         Categories.CategoryName, SubCategories.SubCategoryName
                         from Products
                         INNER JOIN Authors ON Products.AuthorId = Authors.Id
