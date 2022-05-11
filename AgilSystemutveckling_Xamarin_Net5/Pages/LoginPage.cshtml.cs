@@ -10,10 +10,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         [BindProperty]
         public string Password { get; set; }
-
-        public static string username;
-        public static string password;
-
+       
         public void OnGet()
         {
 
@@ -22,10 +19,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         public IActionResult OnPost()
         {
-            Username = Request.Form["username"];
-            Password = Request.Form["password"];
-            username = Username;
-            password = Password;
 
             List<TestModels.User> users = TestService.GetService.Get.GetAllUsers();
 
