@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\TestService\DeleteService\" />
-    <Folder Include="Pages\TestService\CreateService\" />
     <Folder Include="Pages\TestService\UpdateService\" />
   </ItemGroup>
 

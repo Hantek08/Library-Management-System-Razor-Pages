@@ -1,0 +1,190 @@
+﻿body {
+    font-family: -apple-system, "Segoe UI", Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.site {
+    display: grid;
+    grid-template-areas:
+        'navigation header'
+        'navigation sub-navigation'
+        'navigation content';
+    grid-template-rows: 50px 40px 1fr;
+    grid-template-columns: 250px 1fr;
+    min-height: 100vh;
+}
+
+.site-header {
+    grid-area: header;
+    border-bottom: 1px solid #e5e5e5;
+    line-height: 50px;
+    padding: 0 16px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.site-navigation {
+    grid-area: navigation;
+    background-color: #222;
+    color: #eee;
+}
+
+    .site-navigation h2 {
+        padding: 12px 16px;
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .site-navigation h3 {
+        padding: 12px 16px 0;
+        margin: 0;
+        font-weight: bold;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: #f0f0f0;
+    }
+
+.nav-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    padding: 8px 16px;
+}
+
+    .nav-item.selected {
+        background-color: rgba(255, 255, 255, .16);
+        color: #fff;
+    }
+
+.site-sub-navigation {
+    grid-area: sub-navigation;
+    line-height: 40px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.sub-nav-items {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.sub-nav-item {
+    border-right: 1px solid #e0e0e0;
+    padding: 0 16px;
+}
+
+    .sub-nav-item.selected {
+        background-color: #f3f3f3;
+        font-weight: 600;
+    }
+
+.site-content {
+    grid-area: content;
+    padding: 0 32px;
+    background-color: #f3f3f3;
+}
+
+.users {
+    background-color: #fff;
+    border-radius: 1.25rem;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+    padding: 32px 32px 64px;
+    max-width: 960px;
+    margin: 32px auto;
+}
+
+.user-tools {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 32px 0;
+}
+
+.user-add {
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 16px;
+    outline: 0;
+    padding: 6px 14px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-color: #6FC767;
+    border-color: transparent;
+    color: #fff;
+    font-weight: bold;
+}
+
+.user-search {
+    position: relative;
+}
+
+.user-search-input {
+    margin: 0;
+    padding: 4px 6px 4px 30px;
+    font-size: 14px;
+    font-family: inherit;
+    height: 32px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 3px;
+    -webkit-appearance: none;
+}
+
+.user-search::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-size: 14px;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    top: 7px;
+    left: 7px;
+    opacity: 0.9;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktc2VhcmNoIiB2aWV3Qm94PSIwIDAgMTYgMTYiPgogIDxwYXRoIGQ9Ik0xMS43NDIgMTAuMzQ0YTYuNSA2LjUgMCAxIDAtMS4zOTcgMS4zOThoLS4wMDFjLjAzLjA0LjA2Mi4wNzguMDk4LjExNWwzLjg1IDMuODVhMSAxIDAgMCAwIDEuNDE1LTEuNDE0bC0zLjg1LTMuODVhMS4wMDcgMS4wMDcgMCAwIDAtLjExNS0uMXpNMTIgNi41YTUuNSA1LjUgMCAxIDEtMTEgMCA1LjUgNS41IDAgMCAxIDExIDB6Ii8+Cjwvc3ZnPg==);
+}
+
+.user-search-input:focus {
+    border-color: #0780ff;
+    outline: 0;
+    box-shadow: 0 0 3px rgb(7 128 255);
+}
+
+.user-list {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    .user-list td,
+    .user-list th {
+        padding: 16px 8px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .user-list th {
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .user-list img {
+        opacity: 0.3;
+    }
+
+        .user-list img:hover {
+            opacity: 1;
+        }
+
+    .user-list a {
+        text-decoration: none;
+        color: #0079f2;
+    }
