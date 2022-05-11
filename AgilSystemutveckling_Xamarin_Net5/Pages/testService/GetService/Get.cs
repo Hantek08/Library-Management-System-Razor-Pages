@@ -35,7 +35,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<TestModels.User> GetAllUsers()
         {
-            var sql = @$"Select * from Users";
+            var sql = @$"Select Users.Id, Users.Username, Users.Password, Users.Address, Users.Blocked, 
+                        FirstNames.FirstName, LastNames.LastName, Access.Level
+                        from Users
+                        inner join FullNames on Users.FullNameId = FullNames.Id
+                        inner join FirstNames on FullNames.FirstNameId = FirstNames.Id
+                        inner join LastNames on FullNames.LastNameId = LastNames.Id
+                        inner join Access on Users.AccessId = Access.Id";
             var user = new List<TestModels.User>();
             using (var connection = new MySqlConnection(connString))
             {

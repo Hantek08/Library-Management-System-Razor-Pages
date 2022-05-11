@@ -21,15 +21,21 @@ a {
     
 }
 .logo{
-    width:217px;
+    width:261px;
     margin-bottom: -83px;
     margin-left: 248px;
-    margin-top: -87px;
+    margin-top: -70px;
+}
+.info {
+    width: 37px;
+    margin-bottom: -83px;
+    margin-left: 248px;
+    margin-top: -85px;
 }
 .btn-primary {
     padding-right: 60px;
     padding-left: 60px;
-    border-color: #1861ac;
+    border-color: #6FC767;
     font-size: 20px;
     font-weight: bold;
 }
@@ -45,10 +51,13 @@ a {
     /*margin-bottom:-33px;*/
     /*padding-top: 1.5rem;*/
     margin-top:59px;
-    margin-bottom:-27px;
+    margin-bottom:-56px;
 }
 .card-body{
     padding: 7rem 6rem;
+}
+.card {
+    border-radius: 1.25rem;
 }
 .mt-5{
     margin-top: 4rem !important;
