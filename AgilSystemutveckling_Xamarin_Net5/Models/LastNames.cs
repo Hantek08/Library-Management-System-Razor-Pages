@@ -2,12 +2,11 @@
 
 namespace AgilSystemutveckling_Xamarin_Net5.Models
 {
-
-    public class Actions
+    public class LastNames
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public string? Action { get; set; }
+        [Required(ErrorMessage = "You must enter a last name.")]
+        public string? LastName { get; set; }
     }
 }

@@ -6,6 +6,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService
 {
     public class Delete
     {
+
         #region Connection string
         static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321";
         #endregion
@@ -70,6 +71,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService
         }
 
         #endregion
+
 
         #region User related
         public static void DeleteUser(int id)
