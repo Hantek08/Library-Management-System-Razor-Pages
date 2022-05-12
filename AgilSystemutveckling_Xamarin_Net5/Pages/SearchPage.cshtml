@@ -34,13 +34,13 @@
             <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
             <img class="imgSize" src="@item.ImgUrl"/>
 
-            </div>
-             <div class="col-10" style="margin-bottom:20px; margin-left:90px; background-color: white">
-             <h4>@item.Title</h4>
-             <ul style="list-style-type: none;">
-                 <li>By @item.AuthorName</li>
-                 <li>@item.CategoryName</li>
-                 <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
+        </div>
+         <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
+         <h4>@item.Title</h4>
+         <ul style="list-style-type: none;">
+             <li>By @item.AuthorName</li>
+             <li>@item.CategoryName</li>
+             <li>Available</li> <li><a asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
              
 
              </ul>
