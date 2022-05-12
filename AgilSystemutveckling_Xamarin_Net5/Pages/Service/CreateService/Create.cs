@@ -110,7 +110,15 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
-                connection.Execute(sqlMain);
+                try
+                {
+                    connection.Execute(sqlMain);
+                }
+                catch (Exception e)
+                {
+
+                    throw new Exception("Could not add user.", e);
+                }
             }
 
         }
@@ -325,7 +333,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
             {
                 connection.Open();
                 if (connection.State == System.Data.ConnectionState.Open)
-                    connection.Execute(sqlMain);
+                    try
+                    {
+                        connection.Execute(sqlMain);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Could not add Product, check if any inputs have < ' > signs.", e);
+                    }
             }
         }
 
