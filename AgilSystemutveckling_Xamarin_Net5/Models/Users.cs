@@ -3,7 +3,7 @@
 namespace AgilSystemutveckling_Xamarin_Net5.Models
 {
     public enum AccessLevels {
-        Visitor = 0,
+        Visitor = 1,
         User,
         Employee,
         Admin 
@@ -12,7 +12,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
     {
         [Key]
         public int Id { get; set; }
-        public int FullNameId { get; set; }
         [Required]
         public string? Username { get; set; }
         [Required]
@@ -20,7 +19,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
         public string? Address { get; set; }
         public bool Blocked { get; set; } // changed default value in database to 0.
         // INNER JOIN with database Access table
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
         [Required]
-        public int AccessId { get; set; }
+        public int Level { get; set; }
     }
 }

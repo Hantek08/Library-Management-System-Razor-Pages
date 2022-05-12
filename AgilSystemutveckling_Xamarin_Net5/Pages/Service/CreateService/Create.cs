@@ -10,112 +10,107 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
         static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321; AllowUserVariables=True;";
 
         #region User related
-        /// <summary>
-        /// Adds a user to User table in the database.
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
         public static void AddUser(Users user)
         {
-            FirstNames firstName = new();
-            LastNames lastName = new();
-            MySqlConnection connection = new MySqlConnection(connString);
+            int fullNameId = 0;
+            int firstNameId = 0;
+            int lastNameId = 0;
 
-            // WORKS
-            var sql1 = @"INSERT INTO FirstNames (FirstName)
-                                VALUES (@FirstName);
-                               INSERT INTO LastNames (LastName)
-                                VALUES (@LastName);";
-
-            var cmdFirstLastNames = new MySqlCommand(sql1, connection);
-
-            cmdFirstLastNames.Parameters.AddWithValue($"@FirstName", firstName.FirstName);
-            cmdFirstLastNames.Parameters.AddWithValue($"@LastName", lastName.LastName);
-
-            connection.Open();
-            if (connection.State == System.Data.ConnectionState.Open)
+            bool firstNameExists = false;
+            bool lastNameExists = false;
+            
+            List<FirstNames> firstNames = GetService.Get.GetAllFirstNames();
+            foreach (var item in firstNames)
             {
-                try
+                if (user.FirstName == item.FirstName)
                 {
-                    int r = cmdFirstLastNames.ExecuteNonQuery();
+                    firstNameId = item.Id;
+                    firstNameExists = true;
+                    break;
                 }
-                catch (Exception ex)
-                {
-                    // throw exception
-                }
-                connection.Close();
             }
-            else { /* connection is not open */ }
 
-            FullNames fullName = new();
-            //Next query 
-            var sql2 = @$"INSERT INTO FullNames (FirstName.Id, LastName.Id) 
-                                VALUES (@FirstName.Id, LastName.Id)";
-
-            var cmdFullNameAdd = new MySqlCommand(sql2, connection);
-
-            cmdFirstLastNames.Parameters.AddWithValue($"@FirstName.Id", fullName.FirstNameId);
-            cmdFirstLastNames.Parameters.AddWithValue($"@LastName.Id", fullName.LastNameId);
-
-            connection.Open();
-            if (connection.State == System.Data.ConnectionState.Open)
+            if (firstNameExists == false) 
             {
-                try
+                var sql = @$"insert into FirstNames (FirstName) 
+                        values ('{user.FirstName}')";
+                using (var connection = new MySqlConnection(connString))
                 {
-                    int r = cmdFullNameAdd.ExecuteNonQuery();
+                    connection.Open();
+                    connection.Execute(sql);
                 }
-                catch (Exception ex)
+
+                var sql2 = @$"SELECT Id
+                                FROM FirstNames
+                                where FirstName = '{user.FirstName}'";
+
+                using (var connection = new MySqlConnection(connString))
                 {
-                    // throw exception
+                    connection.Open();
+                    firstNameId = connection.QuerySingle<int>(sql2);
                 }
-                connection.Close();
             }
-            else { /* connection is not open */ }
 
-            var sql3 = $@"INSERT INTO Users (Username, Password, Address, AccessId)
-                                    VALUES(@Username, @Password, @Address, @AccessId)";
-
-            var cmdUser = new MySqlCommand(sql3, connection);
-
-
-
-            // error handling around inputs (remove if unnecessary)
-            if (user.Username != null && user.Username != "admin")
-                cmdUser.Parameters.AddWithValue($"@Username", user.Username);
-            if (user.Password != null && user.Password.Length > 7)
-                cmdUser.Parameters.AddWithValue($"@Password", user.Password);
-            if (user.Address != null)
-            cmdUser.Parameters.AddWithValue($"@Address", user.Address);
-            if (user.AccessId > -1 && user.AccessId < 5)
-            cmdUser.Parameters.AddWithValue($"@AccessId", user.AccessId);
-
-            connection.Open();
-            if (connection.State == System.Data.ConnectionState.Open)
+            List<LastNames> lastNames = GetService.Get.GetAllLastNames();
+            foreach (var item in lastNames)
             {
-                try
+                if (user.LastName == item.LastName)
                 {
-                    int r = cmdUser.ExecuteNonQuery();
+                    lastNameId = item.Id;
+                    lastNameExists = true;
+                    break;
                 }
-                catch (Exception ex)
-                {
-                    // throw exception
-                }
-                connection.Close();
             }
-            else { /* connection is not open */ }
 
-            // Update user with fullnameid
+            if (lastNameExists == false)
+            {
+                var sql = @$"insert into LastNames (LastName) 
+                        values ('{user.LastName}')";
+                using (var connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+                    connection.Execute(sql);
+                }
 
-            var sql4 = $@"UPDATE Users
-                                SET Users.FullNameId = (
-	                            SELECT FullNames.Id
-	                            FROM FullNames
-                                WHERE FullNames.Id = Users.Id);";
+                var sql2 = @$"SELECT Id
+                                FROM LastNames
+                                where LastName = '{user.LastName}'";
 
-            var updateWithFullName = new MySqlCommand(sql4, connection);
+                using (var connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+                    lastNameId = connection.QuerySingle<int>(sql2);
+                }
+            }
 
-            // comment in if necessary and change method return to Users.
-            // return user;
+            var sqlFN = @$"insert into FullNames (FirstNameId, LastNameId) 
+                        values ({firstNameId}, {lastNameId})";
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                connection.Execute(sqlFN);
+            }
+
+            var sqlFN2 = @$"SELECT Id
+                            FROM FullNames
+                            where LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
+
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                fullNameId = connection.QuerySingle<int>(sqlFN2);
+            }
+
+            var sqlMain = @$"insert into Users (FullNameId, Username, Password, AccessId,
+                                                    Address, Blocked) 
+                        values ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}',
+                                {user.Blocked})";
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                connection.Execute(sqlMain);
+            }
+
         }
         #endregion
 
@@ -144,6 +139,21 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
 
         public static void AddProduct(Products product)
         {
+            static List<Authors> GetAllAuthors()
+            {
+                
+                var sql = @$"Select Id, AuthorName 
+                                From Authors";
+                var author = new List<Models.Authors>();
+                using (var connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+                    author = connection.Query<Models.Authors>(sql).ToList();
+                }
+
+                return author;
+            }
+
             static List<Models.Categories> GetAllCategories()
             {
                 var sql = @$"Select Id, CategoryName 
@@ -180,7 +190,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
             bool CategoryExists = false;
             bool SubCategoryExists = false;
 
-            List<Models.Authors> authors = GetService.Get.GetAllAuthors();
+            List<Models.Authors> authors = GetAllAuthors();
             foreach (var author in authors) 
             {
                 if (author.AuthorName == product.AuthorName) 
