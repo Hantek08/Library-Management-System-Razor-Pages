@@ -53,7 +53,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         }
         public static TestModels.Product GetProductById(int id)
         {
-            var sql = "SELECT * FROM Products WHERE id = @id";
+            var sql = @$"SELECT Products.Id, Title, Description, Authors.AuthorName, 
+                        Categories.CategoryName, SubCategories.SubCategoryName
+                        from Products
+                        INNER JOIN Authors ON Products.AuthorId = Authors.Id
+                        INNER JOIN Categories ON Products.CategoryId = Categories.Id
+                        INNER JOIN SubCategories ON Products.SubCategoryId = SubCategories.Id
+                        WHERE Products.Id = @id";
+
             var product = new TestModels.Product();
             using (var connection = new MySqlConnection(connString))
             {
