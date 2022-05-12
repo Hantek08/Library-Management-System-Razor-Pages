@@ -22,12 +22,12 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-center">
                     <ul class="navbar-nav flex-grow-1" style="margin-bottom: 55px">
                         <li class="nav-item" style="font-weight: bold">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Logg out</a>
                         </li>
                          <li class="nav-item" style="font-weight: bold">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/SearchPage">Search</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/SearchPage">Home</a>
                         </li>
-
+                        @if(Globals.LoggedInUser.Level > 1){
                          <li class="nav-item" style="font-weight: bold">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Admin/User/UserListPage">User</a>
                         </li>
@@ -37,6 +37,7 @@
                          <li class="nav-item" style="font-weight: bold">
                             <a class="nav-link text-dark" asp-area="" asp-page="">Report</a>
                         </li>
+                        }
                         <li class="nav-item" style="font-weight: bold">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
