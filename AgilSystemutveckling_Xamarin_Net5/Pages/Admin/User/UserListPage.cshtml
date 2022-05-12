@@ -58,6 +58,7 @@
      </table>
 
        <!-- Modal HTML -->
+    <form method="post" asp-page-handler="Add">
     <div id="myModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -70,23 +71,49 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div> 
                         <div class="col-6">
                             <div class="mb-3">
-                                <label class="form-label">First Name</label>
-                                <input type="text" class="form-control">
-                                <span asp-validation-for="@UserListPageModel.UserList" class="text-danger"></span>
+                                <label asp-for="newUser.FirstName" class="form-label"> class="form-label">First Name</label>
+                                <input asp-for="newUser.FirstName" type="text" class="form-control">
+                                <span asp-validation-for="newUser.FirstName" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
-                                <label class="form-label">Last Name</label>
-                                <input type="text" class="form-control">
+                                <label asp-for="newUser.LastName" class="form-label">Last Name</label>
+                                <input asp-for="newUser.LastName" type="text" class="form-control">
+                                <span asp-validation-for="newUser.LastName" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                      <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label asp-for="newUser.Username" class="form-label">Username</label>
+                                <input asp-for="newUser.Username" type="text" class="form-control">
+                                <span asp-validation-for="newUser.Username" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                      <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control">
+                               <span asp-validation-for="newUser.LastName" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label class="form-label">Level</label>
-                                <input type="email" class="form-control">
+                                <label asp-for="newUser.Level" class="form-label">Level</label>
+                                 <select asp-for="newUser.Level" class="form-control"> 
+                                    <option value="">-- Select Level --</option>  
+                                    <option value="1">Customer</option> 
+                                    <option value="2">Employee</option> 
+                                    <option value="3">Admin</option> 
+                                </select>
+                            <span asp-validation-for="newUser.Level" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -95,6 +122,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Address</label>
                                 <input type="email" class="form-control">
+                               <span asp-validation-for="newUser.Address" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -107,6 +135,7 @@
             </div>
         </div>
     </div>
+    </form>
 </div>
 @section Scripts { 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 

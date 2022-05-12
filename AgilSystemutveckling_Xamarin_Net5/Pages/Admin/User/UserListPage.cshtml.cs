@@ -6,6 +6,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User
     public class UserListPageModel : PageModel
     {
         public static List<TestModels.User> UserList;
+        
+        [BindProperty]
+        public TestModels.User newUser { get; set; }
 
         public void OnGet()
         {
@@ -17,5 +20,16 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User
             ViewData["User"] = UserList;
             // git test
         }
+
+        public ActionResult OnPostAdd()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+          /*  TestService.CreateService.Create.AddUser(newUser);*/
+            return RedirectToPage("/Admin/User/UserListPage");
+        }
+
     }
 }
