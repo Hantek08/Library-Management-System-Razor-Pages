@@ -23,5 +23,8 @@
     <Folder Include="Pages\TestService\UpdateService\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\image\account.PNG" />
+  </ItemGroup>
 
 </Project>

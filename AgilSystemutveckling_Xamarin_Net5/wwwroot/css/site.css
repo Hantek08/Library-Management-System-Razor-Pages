@@ -10,8 +10,9 @@ a.navbar-brand {
 }
 .imgSize {
     width: 145px;
-    height:200px;
-    object-fit:cover;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
 }
 
 a {
@@ -34,8 +35,15 @@ a {
 .info {
     width: 37px;
     margin-bottom: -83px;
-    margin-left: 248px;
+    margin-left: 807px;
     margin-top: -85px;
+}
+.account {
+    width: 44px;
+    margin-bottom: -83px;
+    margin-left: -89px;
+    margin-top: -188px;
+    
 }
 .btn-primary {
     padding-right: 60px;
