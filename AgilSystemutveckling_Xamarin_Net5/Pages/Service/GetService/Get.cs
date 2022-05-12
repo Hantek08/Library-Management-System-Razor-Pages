@@ -16,6 +16,38 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
         static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321";
         #endregion
 
+        #region Category related
+        static List<Categories> GetAllCategories()
+        {
+            var sql = @$"SELECT Id, CategoryName 
+                                FROM Categories";
+            var categories = new List<Categories>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                categories = connection.Query<Categories>(sql).ToList();
+            }
+
+            return categories;
+        }
+
+        static List<SubCategories> GetAllSubCategories()
+        {
+            var sql = @$"SELECT Id, CategoryName 
+                                FROM Categories";
+            var subCategories = new List<SubCategories>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                subCategories = connection.Query<SubCategories>(sql).ToList();
+            }
+
+            return subCategories;
+        }
+
+        #endregion
+
+
         #region Product related methods
 
         /// <summary>
@@ -206,7 +238,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
         public static List<Users> GetAllUsersOrderedAlphabetically()
         {
             var sql = @$"Select Username 
-                            from Users
+                            FROM Users
                             ORDER BY Username";
             var user = new List<Users>();
             using (var connection = new MySqlConnection(connString))
@@ -223,7 +255,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
         /// <returns></returns>
         public static List<Users> GetAllUsersReverseOrder()
         {
-            var sql = @$"Select Username from Users ORDER BY Username desc";
+            var sql = @$"Select Username 
+                                FROM Users 
+                                ORDER BY Username desc";
             var user = new List<Users>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -241,7 +275,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
         {
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
-            string letter = "<first letter of search query here>";
             var sql = @$"SELECT Username 
                                FROM Users 
                                WHERE Username = '{a}%'
@@ -401,7 +434,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             MySqlConnection connection = new MySqlConnection(connString);
 
             var cmdText = @$"INSERT INTO History (ProductID, DateTime, ActionID)
-                                VALUES (@ProductID, @DateTime, @ActionID)";
+                                    VALUES (@ProductID, @DateTime, @ActionID)";
 
             var cmd = new MySqlCommand(cmdText, connection);
 
@@ -414,6 +447,30 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             int r = cmd.ExecuteNonQuery();
             connection.Close();
         }
+
+        /*public static int NumberOfItemsLentToCustomer(Users user)
+        {
+            int count = 0;
+
+            var sql = $@"SELECT ProductId, UserId
+                                FROM History
+                                WHERE UserId = @User.Id;";
+
+            var products = new List<Products>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                products = connection.Query<Products>(sql).ToList();
+                foreach(var item in products) { count++; }
+            }
+            return count;
+
+
+
+        }*/
+
         #endregion
+
+       
     }
 }

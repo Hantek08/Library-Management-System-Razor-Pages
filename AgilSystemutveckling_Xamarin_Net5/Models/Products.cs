@@ -16,6 +16,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
         public string? CategoryName { get; set; }
         [Required]
         public string? SubCategoryName { get; set; }
+
         // Non-required field, since product can also be a seminar(?). Display alert if number in stock is not added?
         public int UnitsInStock { get; set; }
         [Required]
