@@ -7,5 +7,6 @@
         public string AuthorName { get; set; }
         public string CategoryName { get; set; }
         public string SubCategoryName { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

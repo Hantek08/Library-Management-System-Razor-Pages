@@ -29,7 +29,25 @@
 
   @foreach (var item in SearchPageModel.BookName)
   {
-    <div id="info_box">
+<div class="container">
+    <div class="row">
+        <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
+        <img class="imgSize" src="@item.ImgUrl"/>
+
+        </div>
+         <div class="col-10" style="margin-bottom:20px; margin-left:90px; background-color: white">
+         <h4>@item.Title</h4>
+         <ul>
+             <li>By @item.AuthorName</li>
+             <li>Available</li>
+             <li></li>
+             <li></li>
+         </ul>
+        </div>
+    </div>
+</div>
+
+@*    <div id="info_box">
         <table id="myTable">
             <tr>
                 <td>
@@ -52,7 +70,7 @@
                 </td>
             </tr>
         </table>
-    </div>
+    </div>*@
   }
 
 <style>
