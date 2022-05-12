@@ -37,11 +37,12 @@
         </div>
          <div class="col-10" style="margin-bottom:20px; margin-left:90px; background-color: white">
          <h4>@item.Title</h4>
-         <ul>
+         <ul style="list-style-type: none;">
              <li>By @item.AuthorName</li>
-             <li>Available</li>
-             <li></li>
-             <li></li>
+             <li>@item.CategoryName</li>
+             <li>Available</li> <li><a asp-page="DescriptionPage" asp-route-id="@item.Id">Info</a></li>
+             
+
          </ul>
         </div>
     </div>
