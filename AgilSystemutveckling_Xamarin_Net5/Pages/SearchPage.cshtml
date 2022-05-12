@@ -29,10 +29,10 @@
 
   @foreach (var item in SearchPageModel.BookName)
   {
-<div class="container">
-    <div class="row">
-        <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
-        <img class="imgSize" src="@item.ImgUrl"/>
+    <div class="container">
+        <div class="row">
+            <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
+            <img class="imgSize" src="@item.ImgUrl"/>
 
         </div>
          <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
@@ -43,34 +43,10 @@
              <li>Available</li> <li><a asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
              
 
-         </ul>
+             </ul>
+            </div>
         </div>
     </div>
-</div>
-
-@*    <div id="info_box">
-        <table id="myTable">
-            <tr>
-                <td>
-                    <p class="BookTitle" href=/index>@item.Title</p>
-                    <img src="https://image.bokus.com/images/9789129657333_200x_gullivers-resor_kartonnage"/>
-                </td>
-                <td>
-                    <table>
-                        <tr>
-                            <td>
-                            
-                                <p><strong>Author:</strong> @item.AuthorName</p>
-                                <p><strong>Category:</strong> @item.SubCategoryName</p>
-                                <p>@item.CategoryName</p>
-                                <a id="link_to_Info" asp-page="DescriptionPage" asp-route-id="@item.Id">Info</a>
-                             
-                            </td>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>*@
   }
 
 <style>
