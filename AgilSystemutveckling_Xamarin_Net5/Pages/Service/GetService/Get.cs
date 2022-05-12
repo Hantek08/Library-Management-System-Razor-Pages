@@ -6,23 +6,46 @@ using System.Linq;
 
 using MySqlConnector;
 using AgilSystemutveckling_Xamarin_Net5.Models;
+using AgilSystemutveckling_Xamarin_Net5.Constants;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
 {
     public class Get
     {
 
-        #region Connection string
-        static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321";
-        #endregion
-
         #region Category related
-        public static async Task<List<Categories>?> GetAllCategories()
+        /// <summary>
+        /// Get all categories.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Categories> GetAllCategories()
+        {
+            var sql = @$"SELECT Id, CategoryName 
+                                FROM Categories";
+
+            using (var connection = new MySqlConnection(Constant.connectionString))
+            {
+                List<Categories> categories = new List<Categories>();
+                connection.Open();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    categories = connection.Query<Categories>(sql).ToList();
+                    return categories;
+                }
+                return categories;
+            }
+        }
+
+        /// <summary>
+        /// Get all categories asynchronously.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Categories>?> GetAllCategoriesAsync()
         {
             var sql = @$"SELECT Id, CategoryName 
                                 FROM Categories";
             
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 await connection.OpenAsync();
                 if (connection.State == System.Data.ConnectionState.Open) 
@@ -39,7 +62,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             var sql = @$"SELECT Id, CategoryName 
                                 FROM Categories";
             var subCategories = new List<SubCategories>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 subCategories = connection.Query<SubCategories>(sql).ToList();
@@ -67,7 +90,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id";
             var name = new List<Products>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 name = connection.Query<Products>(sql).ToList();
@@ -88,7 +111,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
                             where Products.Id = {id}";
             var name = new Products();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 name = connection.QuerySingle<Products>(sql);
@@ -98,7 +121,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             return name;
         }
 
-        // En lista med bara categories
         /// <summary>
         /// Gets all products sorted by category A-Ö.
         /// </summary>
@@ -115,7 +137,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             ORDER BY Products.Category.Id";
 
             var name = new List<Products>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 name = connection.Query<Products>(sql).ToList();
@@ -140,7 +162,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             ORDER BY Products.Category.Id desc";
 
             var name = new List<Products>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 name = connection.Query<Products>(sql).ToList();
@@ -160,7 +182,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             WHERE Categories='Book'";
 
             var name = new List<Products>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 name = connection.Query<Products>(sql).ToList();
@@ -180,7 +202,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             WHERE Categories='E-Book'";
 
             var name = new List<Products>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 name = connection.Query<Products>(sql).ToList();
@@ -201,7 +223,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             WHERE Categories='Movie'";
 
             var name = new List<Products>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 name = connection.Query<Products>(sql).ToList();
@@ -221,7 +243,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             WHERE Categories='Seminarium'";
 
             var name = new List<Products>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 name = connection.Query<Products>(sql).ToList();
@@ -247,7 +269,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                         inner join LastNames on FullNames.LastNameId = LastNames.Id
                         inner join Access on Users.AccessId = Access.Id";
             var user = new List<Users>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 user = connection.Query<Users>(sql).ToList();
@@ -265,7 +287,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             FROM Users
                             ORDER BY Username";
             var user = new List<Users>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 user = connection.Query<Users>(sql).ToList();
@@ -283,7 +305,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                                 FROM Users 
                                 ORDER BY Username desc";
             var user = new List<Users>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 user = connection.Query<Users>(sql).ToList();
@@ -304,7 +326,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                                WHERE Username = '{a}%'
                                ORDER BY Username";
             var user = new List<Users>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 user = connection.Query<Users>(sql).ToList();
@@ -322,7 +344,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             var sql = @$"Select Id, AuthorName 
                                 From Authors";
             var author = new List<Models.Authors>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 author = connection.Query<Models.Authors>(sql).ToList();
@@ -338,7 +360,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             where AuthorName = '{letter}%' 
                             ORDER BY AuthorName";
             var author = new List<Authors>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 author = connection.Query<Authors>(sql).ToList();
@@ -352,7 +374,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                              from Authors 
                              ORDER BY AuthorName";
             var author = new List<Authors>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 author = connection.Query<Authors>(sql).ToList();
@@ -367,7 +389,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             from Authors 
                             ORDER BY AuthorName desc";
             var author = new List<Authors>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 author = connection.Query<Authors>(sql).ToList();
@@ -382,7 +404,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                              from Authors
                              ORDER BY Id";
             var author = new List<Authors>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 author = connection.Query<Authors>(sql).ToList();
@@ -397,7 +419,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                             from Authors
                             ORDER BY Id desc";
             var author = new List<Authors>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 author = connection.Query<Authors>(sql).ToList();
@@ -422,7 +444,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             var sql = @$"SELECT FirstName
                                 FROM FirstNames";
             var firstName = new List<FirstNames>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 firstName = connection.Query<FirstNames>(sql).ToList();
@@ -441,7 +463,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             var sql = @$"Select LastName
                                 From LastNames";
             var lastName = new List<LastNames>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 lastName = connection.Query<LastNames>(sql).ToList();
@@ -455,7 +477,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
         #region Loan related
         public static void UserAction (int userID, int productID,int actionID) 
         {
-            MySqlConnection connection = new MySqlConnection(connString);
+            MySqlConnection connection = new MySqlConnection(Constant.connectionString);
 
             var cmdText = @$"INSERT INTO History (UserId, ProductId, DateTime, ActionId)
                                     VALUES (@UserId, @ProductId, @DateTime, @ActionId)";
@@ -483,7 +505,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                                 WHERE History.UserId = @Users.Id;";
 
             var products = new List<Products>();
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 products = connection.Query<Products>(sql).ToList();
