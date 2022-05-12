@@ -10,7 +10,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
 
         #region User related
         // Needs editing.
-        public static User AddUser(User user)
+        public static User AddUsers(User user)
         {
             
             MySqlConnection connection = new MySqlConnection(connString);
@@ -31,7 +31,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
             int r = cmd.ExecuteNonQuery();
             connection.Close();
 
-            return user;
+            return user; 
         }
         #endregion
 
@@ -58,7 +58,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService.CreateService
         }
         #endregion
 
-        public static Product AddProduct(Product product)
+        public static Product AddProducts(Product product)
         {
 
             MySqlConnection connection = new MySqlConnection(connString);

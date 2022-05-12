@@ -302,7 +302,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         #region Loan 
         public static void UserAction (int userID, int productID,int actionID) //vilken siffra ska det stå här för actionID när man lånar bok?
-
         {
             MySqlConnection connection = new MySqlConnection(connString);
 
@@ -320,7 +319,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             int r = cmd.ExecuteNonQuery();
             connection.Close();
         }
-
         #endregion
     }
 }
