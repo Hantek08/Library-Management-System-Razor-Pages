@@ -13,11 +13,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             history.ActionId = 1;
             history.ProductId = 1;
             history.Time = DateTime.Now;
-            history.UserId = 1;
+            history.UserId = 0;
 
-            Get.UserAction(1,1,1);
-            
-
+            Get.UserAction(0,1,1);
         }
     }
 }
