@@ -11,9 +11,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         [BindProperty]
         public string Password { get; set; }
 
-        public static string username;
-        public static string password;
-
         public void OnGet()
         {
 
@@ -22,22 +19,20 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         public IActionResult OnPost()
         {
-            Username = Request.Form["username"];
-            Password = Request.Form["password"];
-            username = Username;
-            password = Password;
 
-            if (Username.Equals("abc") && Password.Equals("123"))
+            List<TestModels.User> users = TestService.GetService.Get.GetAllUsers();
+
+            foreach (var item in users)
             {
-                /*HttpContext.Session.SetString("username", Username);
-                HttpContext.Session.SetString(Username, username);*/
-                return RedirectToPage("/UserPage");
+                if (Username.Equals(item.Username) && Password.Equals(item.Password))
+                {
+                    /*HttpContext.Session.SetString("username", Username);
+                    HttpContext.Session.SetString(Username, username);*/
+                    Globals.LoggedInUser = item;
+                    return RedirectToPage("/SearchPage");
+                }
             }
-            else
-            {
- 
-                return Page();
-            }
+            return Page();
         }
     }
 }

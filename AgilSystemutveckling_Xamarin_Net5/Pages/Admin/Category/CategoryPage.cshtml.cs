@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages
+namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Category
 {
-    public class UserPageModel : PageModel
+    public class IndexModel : PageModel
     {
-        
         public void OnGet()
         {
         }

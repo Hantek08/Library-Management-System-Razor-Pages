@@ -6,51 +6,77 @@
 
 
 
-<header class="Menu">
-    <div class="Title">
-        <h1 class="SearchPageTitle">Stan AB</h1>
-        <h1 class="SearchPageTitle">Biblioteken</h1>
-    </div>
-    <!--
-    <div id="Buttons">
-        <input class="Books" type="submit" asp-page="/LoginPage" value="Books">
-        <input class="Movies" type="submit" asp-page="/LoginPage" value="Movies">
-    </div>
-    -->
+<header class="Menu"> 
+
+    <ul class="nav nav-pills nav-fill">
+        @if (Globals.LoggedInUser.Level > 1)
+        {
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/Admin/User/UserListPage">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">Disabled</a>
+          </li>
+        }
+    </ul>
+   
 </header>
 
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+<input type="text" id="my_input" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
 
-<table id="myTable">
-  <tr class="header">
-    <th style="width:50%;">Name</th>
-    <th style="width:50%;">Author</th>
-    <th style="width:50%;">Category</th>
-    <th style="width:50%;">SubCategory</th>
-
-
-  </tr>
   @foreach (var item in SearchPageModel.BookName)
   {
-        <tr>
-            <td><a href="/index">@item.Title</a></td>
-            <td><a href="/index">@item.AuthorName</a></td>
-            <td><a href="/index">@item.CategoryName</a></td>
-            <td><a href="/index">@item.SubCategoryName</a></td>
-        </tr>
+    <div class="container">
+        <div class="row">
+            <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
+            <img class="imgSize" src="@item.ImgUrl"/>
+
+            </div>
+             <div class="col-10" style="margin-bottom:20px; margin-left:90px; background-color: white">
+             <h4>@item.Title</h4>
+             <ul style="list-style-type: none;">
+                 <li>By @item.AuthorName</li>
+                 <li>@item.CategoryName</li>
+                 <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
+             
+
+             </ul>
+            </div>
+        </div>
+    </div>
   }
-</table>
 
 <style>
+    .BookTitle{
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
 
-    .body-container {
-            /*remove the container default padding attribute*/
-            padding-left: 0px !important;
-            padding-right: 0px !important;
-            /*increase width as per your need*/
-            max-width: 100%;
-        } 
+    #my_input{
+        width: 800px;
+        height: 40px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    #info_box{
+            background-color:white;
+            padding-right: 500px;
+            border-width:100px;
+            border-right-color: black;
+            margin-bottom: 35px;
+            border-radius: 10px;
+    }
+
+    #link_to_Info{
+        color: black;
+    }
 </style>
+
 
 <script>
 function myFunction() {
@@ -60,7 +86,7 @@ function myFunction() {
   table = document.getElementById("myTable");
   tr = table.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
+    td = tr[i].getElementsByTagName("td")[1];
     if (td) {
       txtValue = td.textContent || td.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {

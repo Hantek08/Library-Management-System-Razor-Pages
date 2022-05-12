@@ -1,0 +1,88 @@
+﻿@page
+@model AgilSystemutveckling_Xamarin_Net5.Pages.DescriptionPageModel
+@{
+}
+
+<style>
+    .containerDesc{
+        position: absolute;
+        width: 800px;
+        height: 450px;
+        margin-left: 26%;
+        top: 401px;
+        background: #FFFFFF;
+        border-radius: 79px;
+        margin-top: -90px;
+    }
+
+    .descTitle{
+         margin-left: 200px;
+         margin-top: 60px;
+         text-decoration-line: underline;
+    }
+
+    .body-container {
+            /*remove the container default padding attribute*/
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+            /*increase width as per your need*/
+            max-width: 100%;
+
+    }
+
+    #backToSearch {
+        font-size: 24px;
+        background-color: #6FC767;
+        color: white;
+        border: none;
+        width: 100px;
+        height: 46px;
+        margin-top: 650px;
+        margin-left: 40px;
+    }
+
+    #EditDesc {
+        font-size: 19px;
+        background-color: #6FC767;
+        color: white;
+        border: none;
+        width: 60px;
+        height: 30px;
+        margin-left: 85%;
+        margin-top: 5%;
+    }
+
+    #imageDesc{
+        width: 100px;
+        margin-left: 50px;
+        margin-top: -80px;
+    }
+    .descHolder{
+        width: 600px;
+        text-align: center;
+        margin-left: 90px;
+        margin-top: 30px;
+    }
+
+    .descAuthor{
+        margin-left: 200px;
+        margin-top: 20px;
+    }
+
+</style>
+
+
+
+<div class="containerDesc">
+    <h3 class ="descTitle">@DescriptionPageModel.title</h3>
+    <h5 class="descAuthor">Author: @DescriptionPageModel.author</h5>
+    <img id="imageDesc" src="@DescriptionPageModel.imgUrl"/>
+   <p class="descHolder">@DescriptionPageModel.description</p>
+    <input id="EditDesc" class="Buttons" type="submit" value="Edit">
+</div>
+
+<form action="/SearchPage">
+    <input id="backToSearch" class="Buttons" type="submit" value="Back">
+</form> 
+
+

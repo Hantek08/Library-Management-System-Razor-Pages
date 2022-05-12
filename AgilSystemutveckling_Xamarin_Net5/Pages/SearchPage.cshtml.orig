@@ -1,0 +1,101 @@
+﻿@page
+@model AgilSystemutveckling_Xamarin_Net5.Pages.SearchPageModel
+@{
+    ViewData["Title"] = "Search page";
+}
+
+
+
+<header class="Menu"> 
+    <div class="Title">
+        <h1 class="SearchPageTitle">Stan AB</h1>
+        <h1 class="SearchPageTitle">Biblioteken</h1>
+    </div>
+
+<<<<<<< HEAD
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#myTable" role="tab" aria-controls="home" aria-selected="true">Home</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#myTable" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+</div>
+
+=======
+    <div id="Buttons">
+        <input class="Books" type="submit" asp-page="/LoginPage" value="Books">
+        <input class="Movies" type="submit" asp-page="/LoginPage" value="Movies">
+    </div> 
+    -->
+>>>>>>> 3fed1dfee7f55d24b5a666d65cd2ea2e770d57c5
+</header>
+
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+
+
+  
+  @foreach (var item in SearchPageModel.BookName)
+  {
+    <table id="myTable">
+        <tr>
+            <td>
+                <p class="BookTitle" href=/index>@item.Title</p>
+                <img src="https://image.bokus.com/images/9789129657333_200x_gullivers-resor_kartonnage"/>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <a href="/index">@item.Title</a>
+                            <p>by @item.AuthorName</p>
+                            <p>@item.SubCategoryName</p>
+                            <p>@item.CategoryName</p>
+
+                        </td>
+                </table>
+            </td>
+        </tr>
+    </table>
+  }
+
+
+<style>
+
+    .BookTitle{
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+</style>
+
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>
+
