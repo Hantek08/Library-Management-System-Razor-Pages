@@ -7,7 +7,7 @@ using System.Linq;
 using MySqlConnector;
 using AgilSystemutveckling_Xamarin_Net5.Models;
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
+namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
 {
     public class Get
     {
@@ -396,16 +396,16 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         #endregion
 
         #region Loan related
-        public static void UserAction (int userID, int productID,int actionID) //vilken siffra ska det stå här för actionID när man lånar bok?
+        public static void UserAction (int userID, int productID,int actionID) 
         {
             MySqlConnection connection = new MySqlConnection(connString);
 
-            var cmdText = @$"INSERT INTO History (UserID, ProductID, DateTime, ActionID)
-                                VALUES (@UserID, @ProductID, @DateTime, @ActionID)";
+            var cmdText = @$"INSERT INTO History (ProductID, DateTime, ActionID)
+                                VALUES (@ProductID, @DateTime, @ActionID)";
 
             var cmd = new MySqlCommand(cmdText, connection);
 
-            cmd.Parameters.AddWithValue($"@UserID", userID);
+            //cmd.Parameters.AddWithValue($"@UserID", userID);
             cmd.Parameters.AddWithValue($"@ProductID", productID);
             cmd.Parameters.AddWithValue($"@DateTime", DateTime.Now);
             cmd.Parameters.AddWithValue($"@ActionID", actionID);
