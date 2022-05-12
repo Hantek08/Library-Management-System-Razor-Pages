@@ -142,24 +142,149 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
         }
         #endregion
 
-        public static Products AddProduct(Products product)
+        public static void AddProduct(Products product)
         {
+            static List<Models.Categories> GetAllCategories()
+            {
+                var sql = @$"Select Id, CategoryName 
+                                From Categories";
+                var categories = new List<Models.Categories>();
+                using (var connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+                    categories = connection.Query<Models.Categories>(sql).ToList();
+                }
 
-            MySqlConnection connection = new MySqlConnection(connString);
+                return categories;
+            }
 
-            var cmdText = @$"INSERT INTO Products (Title, AuthorName, CategoryName, SubCategoryName)
-                                VALUES (@Title, @AuthorName, @CategoryName, @SubCategoryName)";
+            static List<Models.SubCategories> GetAllSubCategories()
+            {
+                var sql = @$"Select Id, SubCategoryName 
+                                From SubCategories";
+                var subCategories = new List<Models.SubCategories>();
+                using (var connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+                    subCategories = connection.Query<Models.SubCategories>(sql).ToList();
+                }
 
-            var cmd = new MySqlCommand(cmdText, connection);
-            cmd.Parameters.AddWithValue($"@Title", product.Title);
-            cmd.Parameters.AddWithValue($"@AuthorName", product.AuthorName);
-            cmd.Parameters.AddWithValue($"@CategoryName", product.CategoryName);
-            cmd.Parameters.AddWithValue($"@SubCategoryName", product.SubCategoryName);
-            connection.Open();
-            int r = cmd.ExecuteNonQuery();
-            connection.Close();
+                return subCategories;
+            }
 
-            return product;
+            int AuthorId = 0;
+            int CategoryId = 0;
+            int SubCategoryId = 0;
+
+            bool AuthorExists = false;
+            bool CategoryExists = false;
+            bool SubCategoryExists = false;
+
+            List<Models.Authors> authors = GetService.Get.GetAllAuthors();
+            foreach (var author in authors) 
+            {
+                if (author.AuthorName == product.AuthorName) 
+                {
+                    AuthorId = author.Id;
+                    AuthorExists = true;
+                    break;
+                }
+            }
+
+            if (AuthorExists == false)
+            {
+                var sql = @$"insert into Authors (AuthorName) 
+                        values ('{product.AuthorName}')";
+                using (var connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+                    connection.Execute(sql);
+                }
+
+                var sql2 = @$"SELECT Id
+                                FROM Authors
+                                where AuthorName = '{product.AuthorName}'";
+
+                using (var connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+                    AuthorId = connection.QuerySingle<int>(sql2);
+                }
+            }
+
+            List<Models.Categories> categories = GetAllCategories();
+            foreach (var category in categories)
+            {
+                if (category.CategoryName == product.CategoryName)
+                {
+                    CategoryId = category.Id;
+                    CategoryExists = true;
+                    break;
+                }
+            }
+
+            if (CategoryExists == false)
+            {
+                var sql = @$"insert into Categories (CategoryName) 
+                        values ('{product.CategoryName}')";
+                using (var connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+                    connection.Execute(sql);
+                }
+
+                var sql2 = @$"SELECT Id
+                                FROM Categories
+                                where CategoryName = '{product.CategoryName}'";
+
+                using (var connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+                    CategoryId = connection.QuerySingle<int>(sql2);
+                }
+            }
+
+            List<Models.SubCategories> subCategories = GetAllSubCategories();
+            foreach (var subCategory in subCategories)
+            {
+                if (subCategory.SubCategoryName == product.SubCategoryName)
+                {
+                    SubCategoryId = subCategory.Id;
+                    SubCategoryExists = true;
+                    break;
+                }
+            }
+
+            if (SubCategoryExists == false)
+            {
+                var sql = @$"insert into SubCategories (SubCategoryName) 
+                        values ('{product.SubCategoryName}')";
+                using (var connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+                    connection.Execute(sql);
+                }
+
+                var sql2 = @$"SELECT Id
+                                FROM SubCategories
+                                where SubCategoryName = '{product.SubCategoryName}'";
+
+                using (var connection = new MySqlConnection(connString))
+                {
+                    connection.Open();
+                    SubCategoryId = connection.QuerySingle<int>(sql2);
+                }
+            }
+
+            var sqlMain = @$"insert into Products (Title, Description, AuthorId, CategoryId,
+                                                    SubCategoryId, UnitsInStock, ImgUrl) 
+                        values ('{product.Title}', '{product.Description}', {AuthorId}, {CategoryId}, {SubCategoryId},
+                                {product.UnitsInStock}, '{product.ImgUrl}')";
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                connection.Execute(sqlMain);
+            }
         }
 
         #region Category related

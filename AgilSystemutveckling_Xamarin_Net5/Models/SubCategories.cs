@@ -2,6 +2,14 @@
 
 namespace AgilSystemutveckling_Xamarin_Net5.Models
 {
+    public enum SubCategoryNames
+    {
+        Fiction,
+
+        [Display(Name = "Non-fiction")]
+        NonFiction
+    }
+
     public class SubCategories
     {
         [Key]
