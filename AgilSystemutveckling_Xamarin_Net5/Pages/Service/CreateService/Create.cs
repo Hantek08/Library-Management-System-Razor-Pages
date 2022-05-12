@@ -222,7 +222,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
             bool CategoryExists = false;
             bool SubCategoryExists = false;
 
-            List<Models.Authors> authors = GetAllAuthors();
+            List<Models.Authors> authors = GetService.Get.GetAllAuthors();
             foreach (var author in authors) 
             {
                 if (author.AuthorName == product.AuthorName)
@@ -426,8 +426,5 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
             return subcategory;
         }
         #endregion
-
-
-
     }
 }

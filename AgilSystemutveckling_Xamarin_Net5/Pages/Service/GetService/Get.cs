@@ -77,6 +77,27 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             return name;
         }
 
+        public static Products GetProductById(int id)
+        {
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                            FROM Products
+                            inner join Authors on Products.AuthorId = Authors.Id
+                            inner join Categories on Products.CategoryId = Categories.Id
+                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id
+                            where Products.Id = {id}";
+            var name = new Products();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                name = connection.QuerySingle<Products>(sql);
+                connection.Close();
+            }
+
+            return name;
+        }
+
         // En lista med bara categories
         /// <summary>
         /// Gets all products sorted by category A-Ö.
