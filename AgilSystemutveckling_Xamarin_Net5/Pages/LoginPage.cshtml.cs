@@ -10,7 +10,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         [BindProperty]
         public string Password { get; set; }
-       
+
         public void OnGet()
         {
 
@@ -28,7 +28,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
                 {
                     /*HttpContext.Session.SetString("username", Username);
                     HttpContext.Session.SetString(Username, username);*/
-                    return RedirectToPage("/UserPage");
+                    Globals.LoggedInUser = item;
+                    return RedirectToPage("/SearchPage");
                 }
             }
             return Page();

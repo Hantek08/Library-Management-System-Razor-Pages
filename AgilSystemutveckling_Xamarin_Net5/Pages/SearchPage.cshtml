@@ -9,15 +9,18 @@
 <header class="Menu"> 
 
     <ul class="nav nav-pills nav-fill">
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Products</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/Admin/User/UserListPage">Users</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled">Disabled</a>
-      </li>
+        @if (Globals.LoggedInUser.Level > 1)
+        {
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/Admin/User/UserListPage">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">Disabled</a>
+          </li>
+        }
     </ul>
    
 </header>
@@ -42,6 +45,7 @@
                                 <p><strong>Category:</strong> @item.SubCategoryName</p>
                                 <p>@item.CategoryName</p>
                                 <a id="link_to_Info" href="/DescriptionPage">Info</a>
+                                <button id="testtesttest">Hej</button>
                              
                             </td>
                     </table>
