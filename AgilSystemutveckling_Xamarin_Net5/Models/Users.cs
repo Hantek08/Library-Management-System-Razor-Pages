@@ -18,7 +18,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
         [Required]
         public string? Password { get; set; }
         public string? Address { get; set; }
-        public bool Blocked { get; set; } = false;
+        public bool Blocked { get; set; } // changed default value in database to 0.
         // INNER JOIN with database Access table
         [Required]
         public int AccessId { get; set; }
