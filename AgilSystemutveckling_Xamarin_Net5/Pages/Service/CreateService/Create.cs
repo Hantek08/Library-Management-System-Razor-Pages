@@ -1,13 +1,15 @@
 ﻿using AgilSystemutveckling_Xamarin_Net5.Models;
+using AgilSystemutveckling_Xamarin_Net5.Constants;
 using Dapper;
 using MySqlConnector;
 using System.Xml;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
 {
     public class Create
-    {
-        static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321; AllowUserVariables=True;";
+    { 
+        static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321;";
 
         #region User related
         public static void AddUser(Users user)
@@ -115,28 +117,48 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
         #endregion
 
         #region Author related
-        public static Models.Authors AddAuthor(Models.Authors author)
+        /// <summary>
+        /// Adds an author to the database.
+        /// </summary>
+        /// <param name="author"></param>
+        /// <returns></returns>
+        public static void AddAuthor(Authors author)
         {
-            // author.Id = "<input from user>" - if auto_increment cant be used.
 
-            MySqlConnection connection = new MySqlConnection(connString);
+            var sql = @$"INSERT INTO Authors (AuthorName)
+                                VALUES (@{author.AuthorName})";
 
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                if(connection.State == System.Data.ConnectionState.Open)
+                    connection.Execute(sql);
+            }
+        }
 
-            var cmdText = @$"INSERT INTO Authors (AuthorName)
-                                VALUES (@AuthorName)";
+        /// <summary>
+        /// Adds an author asynchronously to the database.
+        /// </summary>
+        /// <param name="author"></param>
+        /// <returns></returns>
+        public static async Task<Authors> AddAuthorAsync(Authors author)
+        {
 
+            var sql = @$"INSERT INTO Authors (AuthorName)
+                                VALUES (@{author.AuthorName})";
 
-            var cmd = new MySqlCommand(cmdText, connection);
-            // cmd.Parameters.AddWithValue($"@Id", author.Id); - same as above comment.
-            cmd.Parameters.AddWithValue($"@AuthorName", author.AuthorName);
-            connection.Open();
-            cmd.ExecuteNonQuery();
-            connection.Close();
+            using (var connection = new MySqlConnection(connString))
+            {
+                await connection.OpenAsync();
+                await connection.ExecuteAsync(sql);
+                await connection.CloseAsync();
+            }
 
             return author;
         }
         #endregion
 
+        #region Product related
         public static void AddProduct(Products product)
         {
             static List<Authors> GetAllAuthors()
@@ -156,27 +178,29 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
 
             static List<Models.Categories> GetAllCategories()
             {
-                var sql = @$"Select Id, CategoryName 
-                                From Categories";
-                var categories = new List<Models.Categories>();
+                var sql = @$"SELECT Id, CategoryName 
+                                    FROM Categories";
+                var categories = new List<Categories>();
                 using (var connection = new MySqlConnection(connString))
                 {
                     connection.Open();
-                    categories = connection.Query<Models.Categories>(sql).ToList();
+                    if (connection.State == System.Data.ConnectionState.Open)
+                        categories = connection.Query<Categories>(sql).ToList();
                 }
 
                 return categories;
             }
 
-            static List<Models.SubCategories> GetAllSubCategories()
+            static List<SubCategories> GetAllSubCategories()
             {
-                var sql = @$"Select Id, SubCategoryName 
-                                From SubCategories";
-                var subCategories = new List<Models.SubCategories>();
+                var sql = @$"SELECT Id, SubCategoryName 
+                                    FROM SubCategories";
+                var subCategories = new List<SubCategories>();
                 using (var connection = new MySqlConnection(connString))
                 {
                     connection.Open();
-                    subCategories = connection.Query<Models.SubCategories>(sql).ToList();
+                    if (connection.State == System.Data.ConnectionState.Open)
+                        subCategories = connection.Query<SubCategories>(sql).ToList();
                 }
 
                 return subCategories;
@@ -193,7 +217,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
             List<Models.Authors> authors = GetAllAuthors();
             foreach (var author in authors) 
             {
-                if (author.AuthorName == product.AuthorName) 
+                if (author.AuthorName == product.AuthorName)
                 {
                     AuthorId = author.Id;
                     AuthorExists = true;
@@ -203,26 +227,28 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
 
             if (AuthorExists == false)
             {
-                var sql = @$"insert into Authors (AuthorName) 
-                        values ('{product.AuthorName}')";
+                var sql = @$"INSERT INTO Authors (AuthorName) 
+                                    VALUES ('{product.AuthorName}')";
                 using (var connection = new MySqlConnection(connString))
                 {
                     connection.Open();
-                    connection.Execute(sql);
+                    if (connection.State == System.Data.ConnectionState.Open)
+                        connection.Execute(sql);
                 }
 
                 var sql2 = @$"SELECT Id
-                                FROM Authors
-                                where AuthorName = '{product.AuthorName}'";
+                                    FROM Authors
+                                    WHERE AuthorName = '{product.AuthorName}'";
 
                 using (var connection = new MySqlConnection(connString))
                 {
                     connection.Open();
-                    AuthorId = connection.QuerySingle<int>(sql2);
+                    if (connection.State == System.Data.ConnectionState.Open)
+                        AuthorId = connection.QuerySingle<int>(sql2);
                 }
             }
 
-            List<Models.Categories> categories = GetAllCategories();
+            List<Categories> categories = GetAllCategories();
             foreach (var category in categories)
             {
                 if (category.CategoryName == product.CategoryName)
@@ -235,26 +261,29 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
 
             if (CategoryExists == false)
             {
-                var sql = @$"insert into Categories (CategoryName) 
-                        values ('{product.CategoryName}')";
+                var sql = @$"INSERT INTO Categories (CategoryName) 
+                                    VALUES ('{product.CategoryName}')";
                 using (var connection = new MySqlConnection(connString))
                 {
                     connection.Open();
-                    connection.Execute(sql);
+                    if (connection.State == System.Data.ConnectionState.Open)
+                        connection.Execute(sql);
                 }
 
                 var sql2 = @$"SELECT Id
-                                FROM Categories
-                                where CategoryName = '{product.CategoryName}'";
+                                    FROM Categories
+                                    WHERE CategoryName = '{product.CategoryName}'";
 
                 using (var connection = new MySqlConnection(connString))
                 {
+
                     connection.Open();
-                    CategoryId = connection.QuerySingle<int>(sql2);
+                    if (connection.State == System.Data.ConnectionState.Open)
+                        CategoryId = connection.QuerySingle<int>(sql2);
                 }
             }
 
-            List<Models.SubCategories> subCategories = GetAllSubCategories();
+            List<SubCategories> subCategories = GetAllSubCategories();
             foreach (var subCategory in subCategories)
             {
                 if (subCategory.SubCategoryName == product.SubCategoryName)
@@ -272,7 +301,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
                 using (var connection = new MySqlConnection(connString))
                 {
                     connection.Open();
-                    connection.Execute(sql);
+                    if (connection.State == System.Data.ConnectionState.Open)
+                        connection.Execute(sql);
                 }
 
                 var sql2 = @$"SELECT Id
@@ -282,63 +312,107 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
                 using (var connection = new MySqlConnection(connString))
                 {
                     connection.Open();
-                    SubCategoryId = connection.QuerySingle<int>(sql2);
+                    if (connection.State == System.Data.ConnectionState.Open)
+                        SubCategoryId = connection.QuerySingle<int>(sql2);
                 }
             }
 
-            var sqlMain = @$"insert into Products (Title, Description, AuthorId, CategoryId,
-                                                    SubCategoryId, UnitsInStock, ImgUrl) 
-                        values ('{product.Title}', '{product.Description}', {AuthorId}, {CategoryId}, {SubCategoryId},
-                                {product.UnitsInStock}, '{product.ImgUrl}')";
+            var sqlMain = @$"INSERT INTO Products (Title, Description, AuthorId, CategoryId,
+                                    SubCategoryId, UnitsInStock, ImgUrl) 
+                                    VALUES ('{product.Title}', '{product.Description}', {AuthorId}, {CategoryId}, 
+                                    {SubCategoryId}, {product.UnitsInStock}, '{product.ImgUrl}')";
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
-                connection.Execute(sqlMain);
+                if (connection.State == System.Data.ConnectionState.Open)
+                    connection.Execute(sqlMain);
             }
         }
 
+        #endregion
+
         #region Category related
-        public static Models.Categories AddCategory(Categories category)
+        /// <summary>
+        /// Adds new category to the database.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public static void AddCategory(Categories category)
         {
-
-            MySqlConnection connection = new MySqlConnection(connString);
-
             var cmdText = @$"INSERT INTO Categories (CategoryName)
                                 VALUES (@CategoryName)";
 
-            var cmd = new MySqlCommand(cmdText, connection);
-            cmd.Parameters.AddWithValue($"@CategoryName", category.CategoryName);
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                if (connection.State == System.Data.ConnectionState.Open)
+                    connection.Execute(cmdText);
+            }
+        }
 
-            connection.Open();
-            int r = cmd.ExecuteNonQuery();
-            connection.Close();
+        /// <summary>
+        /// Adds new category asynchronously to the database.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public static async Task<Categories> AddCategoryAsync(Categories category)
+        {
+            var cmdText = @$"INSERT INTO Categories (CategoryName)
+                                VALUES (@CategoryName)";
 
+            using (var connection = new MySqlConnection(connString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == System.Data.ConnectionState.Open)
+                    await connection.ExecuteAsync(cmdText);
+            }
 
             return category;
         }
         #endregion
 
         #region Subcategory related
-        public static Models.SubCategories AddSubCategory(Models.SubCategories subcategory)
+        /// <summary>
+        /// Adds new subcategory to the database.
+        /// </summary>
+        /// <param name="subcategory"></param>
+        /// <returns></returns>
+        public static void AddSubCategory(SubCategories subcategory)
         {
-
-            MySqlConnection connection = new MySqlConnection(connString);
 
             var cmdText = @$"INSERT INTO SubCategory (SubCategoryName)
                                 VALUES (@SubCategoryName)";
 
-            var cmd = new MySqlCommand(cmdText, connection);
-            cmd.Parameters.AddWithValue($"@SubCategoryName", subcategory.SubCategoryName);
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                if (connection.State == System.Data.ConnectionState.Open)
+                    connection.Execute(cmdText);
+            }
+        }
 
-            connection.Open();
-            int r = cmd.ExecuteNonQuery();
-            connection.Close();
+        /// <summary>
+        /// Adds new subcategory asynchronously to the database.
+        /// </summary>
+        /// <param name="subcategory"></param>
+        /// <returns></returns>
+        public static async Task<SubCategories> AddSubCategoryAsync(SubCategories subcategory)
+        {
 
+            var cmdText = @$"INSERT INTO SubCategory (SubCategoryName)
+                                VALUES (@SubCategoryName)";
+
+            using (var connection = new MySqlConnection(connString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == System.Data.ConnectionState.Open)
+                    await connection.ExecuteAsync(cmdText);
+            }
             return subcategory;
         }
         #endregion
 
-        
+
 
     }
 }
