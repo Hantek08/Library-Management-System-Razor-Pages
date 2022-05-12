@@ -17,21 +17,24 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
         #endregion
 
         #region Category related
-        static List<Categories> GetAllCategories()
+        public static async Task<List<Categories>?> GetAllCategories()
         {
             var sql = @$"SELECT Id, CategoryName 
                                 FROM Categories";
-            var categories = new List<Categories>();
+            
             using (var connection = new MySqlConnection(connString))
             {
-                connection.Open();
-                categories = connection.Query<Categories>(sql).ToList();
+                await connection.OpenAsync();
+                if (connection.State == System.Data.ConnectionState.Open) 
+                {
+                    var results = await connection.QueryAsync<Categories>(sql);
+                    return results.ToList();
+                }
+                return null;
             }
-
-            return categories;
         }
 
-        static List<SubCategories> GetAllSubCategories()
+        public static List<SubCategories> GetAllSubCategories()
         {
             var sql = @$"SELECT Id, CategoryName 
                                 FROM Categories";
@@ -447,11 +450,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             int r = cmd.ExecuteNonQuery();
             connection.Close();
         }
-
+        /// <summary>
+        /// Returns number of loans a customer has made.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public static int NumberOfItemsLentToCustomer(Users user)
-        {
-            int count = 0;
-
+        { 
             var sql = $@"SELECT *
                                 FROM History
                                 WHERE History.UserId = @Users.Id;";
@@ -461,16 +466,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             {
                 connection.Open();
                 products = connection.Query<Products>(sql).ToList();
-                foreach(var item in products) { count++; }
             }
-            return count;
 
-
-
+            return products.Count();
         }
 
         #endregion
 
-       
+
     }
 }
