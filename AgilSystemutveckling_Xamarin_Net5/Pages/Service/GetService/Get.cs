@@ -18,7 +18,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         #region Product related methods
 
-
+        /// <summary>
+        /// Gets all products.
+        /// </summary>
+        /// <returns></returns>
         public static List<Products> GetAllProducts()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
@@ -39,12 +42,22 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             return name;
         }
 
-        public static List<Products> GetBook()
+        // En lista med bara categories
+        /// <summary>
+        /// Gets all products sorted by category A-Ö.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Products> GetAllProductsSortedByCategoryAsc()
         {
-            string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
                             FROM Products
-                            WHERE Categories='Book'";
-                        
+                            inner join Authors on Products.AuthorId = Authors.Id
+                            inner join Categories on Products.CategoryId = Categories.Id
+                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id
+                            ORDER BY Products.Category.Id";
+
             var name = new List<Products>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -55,7 +68,55 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return name;
         }
+        /// <summary>
+        /// Gets all products sorted Ö-A.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Products> GetAllProductsSortedByCategoryDesc()
+        {
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                            FROM Products
+                            inner join Authors on Products.AuthorId = Authors.Id
+                            inner join Categories on Products.CategoryId = Categories.Id
+                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id
+                            ORDER BY Products.Category.Id desc";
 
+            var name = new List<Products>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                name = connection.Query<Products>(sql).ToList();
+                connection.Close();
+            }
+
+            return name;
+        }
+        /// <summary>
+        /// Gets a specific book.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Products> GetBook()
+        {
+            string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
+                            FROM Products
+                            WHERE Categories='Book'";
+
+            var name = new List<Products>();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                name = connection.Query<Products>(sql).ToList();
+                connection.Close();
+            }
+
+            return name;
+        }
+        /// <summary>
+        /// Gets a specifik ebook.
+        /// </summary>
+        /// <returns></returns>
         public static List<Products> GetEbook()
         {
             string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
@@ -72,6 +133,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return name;
         }
+
+        /// <summary>
+        /// Gets a specific movie.
+        /// </summary>
+        /// <returns></returns>
         public static List<Products> GetMovie()
         {
             string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
@@ -88,8 +154,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
             return name;
         }
-
-        public static List<Products> BookSeminarium()
+        /// <summary>
+        /// Gets a specific book seminar.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Products> BookSeminar()
         {
             string? sql = @$"SELECT Title
                             FROM Products
