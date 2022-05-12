@@ -40,10 +40,7 @@
          <ul style="list-style-type: none;">
              <li>By @item.AuthorName</li>
              <li>@item.CategoryName</li>
-             <li>Available</li> 
-             <li>
-                 <a id="link_to_Info" asp-page="DescriptionPage" asp-route-id="@item.Id">Info</a>
-            </li>
+             <li>Available</li> <li><a asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
              
 
          </ul>
