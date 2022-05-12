@@ -44,8 +44,7 @@
                                 <p><strong>Author:</strong> @item.AuthorName</p>
                                 <p><strong>Category:</strong> @item.SubCategoryName</p>
                                 <p>@item.CategoryName</p>
-                                <a id="link_to_Info" href="/DescriptionPage">Info</a>
-                                <button id="testtesttest">Hej</button>
+                                <a id="link_to_Info" asp-page="DescriptionPage" asp-route-id="@item.Id">Info</a>
                              
                             </td>
                     </table>
