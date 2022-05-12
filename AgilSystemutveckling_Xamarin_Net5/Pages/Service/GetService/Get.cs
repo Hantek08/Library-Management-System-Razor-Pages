@@ -433,12 +433,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
         {
             MySqlConnection connection = new MySqlConnection(connString);
 
-            var cmdText = @$"INSERT INTO History (ProductID, DateTime, ActionID)
-                                    VALUES (@ProductID, @DateTime, @ActionID)";
+            var cmdText = @$"INSERT INTO History (UserId, ProductId, DateTime, ActionId)
+                                    VALUES (@UserId, @ProductId, @DateTime, @ActionId)";
 
             var cmd = new MySqlCommand(cmdText, connection);
 
-            //cmd.Parameters.AddWithValue($"@UserID", userID);
+            cmd.Parameters.AddWithValue($"@UserID", userID);
             cmd.Parameters.AddWithValue($"@ProductID", productID);
             cmd.Parameters.AddWithValue($"@DateTime", DateTime.Now);
             cmd.Parameters.AddWithValue($"@ActionID", actionID);
@@ -448,13 +448,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             connection.Close();
         }
 
-        /*public static int NumberOfItemsLentToCustomer(Users user)
+        public static int NumberOfItemsLentToCustomer(Users user)
         {
             int count = 0;
 
-            var sql = $@"SELECT ProductId, UserId
+            var sql = $@"SELECT *
                                 FROM History
-                                WHERE UserId = @User.Id;";
+                                WHERE History.UserId = @Users.Id;";
 
             var products = new List<Products>();
             using (var connection = new MySqlConnection(connString))
@@ -467,7 +467,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
 
 
 
-        }*/
+        }
 
         #endregion
 
