@@ -69,7 +69,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
             return name;
         }
         /// <summary>
-        /// Gets all products sorted Ö-A.
+        /// Gets all products sorted by category Ö-A.
         /// </summary>
         /// <returns></returns>
         public static List<Products> GetAllProductsSortedByCategoryDesc()
