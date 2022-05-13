@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using AgilSystemutveckling_Xamarin_Net5.Service.GetService;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
@@ -9,7 +10,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         public void OnGet()
         {
-            products = GetService.Get.GetProductById(1);
+            products = Get.GetProductById(1);
         }
     }
 }

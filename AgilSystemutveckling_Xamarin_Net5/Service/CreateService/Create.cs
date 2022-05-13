@@ -1,15 +1,17 @@
-﻿using AgilSystemutveckling_Xamarin_Net5.Models;
-using AgilSystemutveckling_Xamarin_Net5.Constants;
+﻿using AgilSystemutveckling_Xamarin_Net5.Constants;
+using AgilSystemutveckling_Xamarin_Net5.Models;
+using AgilSystemutveckling_Xamarin_Net5.Service.GetService;
 using Dapper;
 using MySqlConnector;
 using System.Xml;
+
+using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
+namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 {
     public class Create
-    { 
-        static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321;";
+    {
 
         #region User related
         /// <summary>
@@ -17,16 +19,18 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
         /// </summary>
         /// <param name="user"></param>
         /// <exception cref="Exception"></exception>
-        public static void AddUser(Users user)
+        public static void AddUser(Users? user)
         {
+            CheckStringFormat(user.FirstName, user.LastName);
+
             int fullNameId = 0;
             int firstNameId = 0;
             int lastNameId = 0;
 
             bool firstNameExists = false;
             bool lastNameExists = false;
-            
-            List<FirstNames> firstNames = GetService.Get.GetAllFirstNames();
+
+            List<FirstNames> firstNames = Get.GetAllFirstNames();
             foreach (var item in firstNames)
             {
                 if (user.FirstName == item.FirstName)
@@ -37,28 +41,34 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
                 }
             }
 
-            if (firstNameExists == false) 
+            if (firstNameExists == false)
             {
-                var sql = @$"insert into FirstNames (FirstName) 
-                        values ('{user.FirstName}')";
+                var sql = @$"INSERT INTO FirstNames (FirstName) 
+                                    VALUES ('{user.FirstName}')";
+                
+                
                 using (var connection = new MySqlConnection(Constant.connectionString))
                 {
                     connection.Open();
-                    connection.Execute(sql);
+                    if(connection.State == System.Data.ConnectionState.Open)
+                        connection.Execute(sql);
+                    connection.Close();
                 }
 
                 var sql2 = @$"SELECT Id
-                                FROM FirstNames
-                                where FirstName = '{user.FirstName}'";
-
+                                    FROM FirstNames
+                                    WHERE FirstName = '{user.FirstName}'";
+                
                 using (var connection = new MySqlConnection(Constant.connectionString))
                 {
                     connection.Open();
-                    firstNameId = connection.QuerySingle<int>(sql2);
+                    if(connection.State == System.Data.ConnectionState.Open)
+                        firstNameId = connection.QuerySingle<int>(sql2);
+                    connection.Close();
                 }
             }
 
-            List<LastNames> lastNames = GetService.Get.GetAllLastNames();
+            List<LastNames> lastNames = Get.GetAllLastNames();
             foreach (var item in lastNames)
             {
                 if (user.LastName == item.LastName)
@@ -71,59 +81,69 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
 
             if (lastNameExists == false)
             {
-                var sql = @$"insert into LastNames (LastName) 
-                        values ('{user.LastName}')";
+                var sql = @$"INSERT INTO LastNames (LastName) 
+                                    VALUES ('{user.LastName}')";
+                
                 using (var connection = new MySqlConnection(Constant.connectionString))
                 {
                     connection.Open();
-                    connection.Execute(sql);
+                    if(connection.State == System.Data.ConnectionState.Open)
+                        connection.Execute(sql);
+
+                    connection.Close();
                 }
 
                 var sql2 = @$"SELECT Id
-                                FROM LastNames
-                                where LastName = '{user.LastName}'";
-
+                                    FROM LastNames
+                                    WHERE LastName = '{user.LastName}'";
+                
                 using (var connection = new MySqlConnection(Constant.connectionString))
                 {
                     connection.Open();
-                    lastNameId = connection.QuerySingle<int>(sql2);
+                    if(connection.State == System.Data.ConnectionState.Open)
+                        lastNameId = connection.QuerySingle<int>(sql2);
+
+                    connection.Close();
                 }
             }
 
-            var sqlFN = @$"insert into FullNames (FirstNameId, LastNameId) 
-                        values ({firstNameId}, {lastNameId})";
+            var sqlFN = @$"INSERT INTO FullNames (FirstNameId, LastNameId)
+                                    VALUES ({firstNameId}, {lastNameId})";
+            
             using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
-                connection.Execute(sqlFN);
+                if(connection.State == System.Data.ConnectionState.Open)
+                    connection.Execute(sqlFN);
+
+                connection.Close();
             }
 
             var sqlFN2 = @$"SELECT Id
-                            FROM FullNames
-                            where LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
-
+                                FROM FullNames
+                                WHERE LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
+            
             using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
-                fullNameId = connection.QuerySingle<int>(sqlFN2);
-            }
+                if (connection.State == System.Data.ConnectionState.Open)
+                    fullNameId = connection.QuerySingle<int>(sqlFN2);
 
-            var sqlMain = @$"insert into Users (FullNameId, Username, Password, AccessId,
+                connection.Close();
+            }
+            CheckStringFormat(user.Username, user.Password, user.Address);
+            var sqlMain = @$"INSERT INTO Users (FullNameId, Username, Password, AccessId,
                                                     Address, Blocked) 
                         values ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}',
                                 {user.Blocked})";
             using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
-                try
-                {
-                    connection.Execute(sqlMain);
-                }
-                catch (Exception e)
-                {
+                if (connection.State == System.Data.ConnectionState.Open)
+                    try { connection.Execute(sqlMain); } 
+                    catch (Exception e) { throw new Exception("Could not add user.", e);}
 
-                    throw new Exception("Could not add user.", e);
-                }
+                connection.Close();
             }
 
         }
@@ -188,8 +208,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
 
             if (lastNameExists == false)
             {
-                var sql = @$"insert into LastNames (LastName) 
-                        values ('{user.LastName}')";
+                var sql = @$"INSERT INTO LastNames (LastName) 
+                                    VALUES ('{user.LastName}')";
                 using (var connection = new MySqlConnection(Constant.connectionString))
                 {
                     await connection.OpenAsync();
@@ -197,8 +217,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
                 }
 
                 var sql2 = @$"SELECT Id
-                                FROM LastNames
-                                where LastName = '{user.LastName}'";
+                                    FROM LastNames
+                                    WHERE LastName = '{user.LastName}'";
 
                 using (var connection = new MySqlConnection(Constant.connectionString))
                 {
@@ -207,8 +227,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
                 }
             }
 
-            var sqlFN = @$"insert into FullNames (FirstNameId, LastNameId) 
-                        values ({firstNameId}, {lastNameId})";
+            var sqlFN = @$"INSERT INTO FullNames (FirstNameId, LastNameId) 
+                                VALUES ({firstNameId}, {lastNameId})";
             using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 await connection.OpenAsync();
@@ -216,8 +236,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
             }
 
             var sqlFN2 = @$"SELECT Id
-                            FROM FullNames
-                            where LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
+                                FROM FullNames
+                                WHERE LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
 
             using (var connection = new MySqlConnection(Constant.connectionString))
             {
@@ -225,10 +245,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
                 fullNameId = connection.QuerySingleAsync<int>(sqlFN2).Result;
             }
 
-            var sqlMain = @$"insert into Users (FullNameId, Username, Password, AccessId,
-                                                    Address, Blocked) 
-                        values ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}',
-                                {user.Blocked})";
+            var sqlMain = @$"INSERT INTO Users (FullNameId, Username, Password, AccessId, Address, Blocked) 
+                                VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}', {user.Blocked})";
             using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 await connection.OpenAsync();
@@ -262,7 +280,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
             using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
-                if(connection.State == System.Data.ConnectionState.Open)
+                if (connection.State == System.Data.ConnectionState.Open)
                     connection.Execute(sql);
             }
         }
@@ -294,7 +312,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
         {
             static List<Authors> GetAllAuthors()
             {
-                
+
                 var sql = @$"Select Id, AuthorName 
                                 From Authors";
                 var author = new List<Models.Authors>();
@@ -346,7 +364,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
             bool SubCategoryExists = false;
 
             List<Models.Authors> authors = GetService.Get.GetAllAuthors();
-            foreach (var author in authors) 
+            foreach (var author in authors)
             {
                 if (author.AuthorName == product.AuthorName)
                 {
@@ -452,7 +470,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
                                     SubCategoryId, UnitsInStock, ImgUrl) 
                                     VALUES ('{product.Title}', '{product.Description}', {AuthorId}, {CategoryId}, 
                                     {SubCategoryId}, {product.UnitsInStock}, '{product.ImgUrl}')";
-            using (var connection = new MySqlConnection(connString))
+            using (var connection = new MySqlConnection(Constant.connectionString))
             {
                 connection.Open();
                 if (connection.State == System.Data.ConnectionState.Open)

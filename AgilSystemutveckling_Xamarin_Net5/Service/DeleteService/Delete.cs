@@ -2,7 +2,7 @@
 using MySqlConnector;
 using System.Data.SqlClient;
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages.testService
+namespace AgilSystemutveckling_Xamarin_Net5.Service.DeleteService
 {
     public class Delete
     {

@@ -11,7 +11,7 @@ using AgilSystemutveckling_Xamarin_Net5.Models;
 
 
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages.UpdateService
+namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
 { 
 
 public class Update

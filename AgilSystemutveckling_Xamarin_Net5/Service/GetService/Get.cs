@@ -8,7 +8,7 @@ using MySqlConnector;
 using AgilSystemutveckling_Xamarin_Net5.Models;
 using AgilSystemutveckling_Xamarin_Net5.Constants;
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
+namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 {
     public class Get
     {
@@ -317,6 +317,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
                     connection.Close();
                     return books;
                 }
+                return books;
                 
             }
         }
@@ -686,7 +687,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
         #endregion
 
         #region Names related
-        // Might be redundant - front-end, please check if these queries are needed.
 
         /// <summary>
         /// Gets all first names from FirstNames table.
@@ -771,6 +771,29 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
 
         #endregion
 
+        #region History related
+        public static List<History> GetAllHistories()
+        {
+            // !! Must be tested when histories are added.
 
+            string? sql = @$"SELECT History.Id, History.UserId, History.ProductId, History.ActionId, History.Datetime
+                            FROM History
+                            INNER JOIN Users on History.UserId = Users.Id
+                            INNER JOIN Actions on History.ActionId = Actions.Id
+                            INNER JOIN Products on History.ProductId =  Products.Id;";
+
+            var histories = new List<History>();
+            using (var connection = new MySqlConnection(Constant.connectionString))
+            {
+                connection.Open();
+                if(connection.State == System.Data.ConnectionState.Open)
+                    histories = connection.Query<History>(sql).ToList();
+
+                connection.Close();
+            }
+
+            return histories;
+        }
+        #endregion
     }
 }

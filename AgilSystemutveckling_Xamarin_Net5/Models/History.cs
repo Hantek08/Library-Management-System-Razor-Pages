@@ -6,9 +6,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
     {
         [Key]
         public int Id { get; set; }
-        public int UserId { get; set; }
-        public int ProductId { get; set; }
+        [Required]
+        public string User { get; set; }
+        [Required]
+        public string ProductId { get; set; }
+        [Required]
         public DateTime Time { get; set; }
-        public int ActionId { get; set; }
+        [Required]
+        public string Action { get; set; }
     }
 }
