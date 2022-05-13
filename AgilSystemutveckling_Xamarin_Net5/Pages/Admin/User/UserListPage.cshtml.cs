@@ -5,6 +5,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User
 {
     public class UserListPageModel : PageModel
     {
+        //List that is shown to admin and employee
         public static List<TestModels.User> UserList;
         
         [BindProperty]

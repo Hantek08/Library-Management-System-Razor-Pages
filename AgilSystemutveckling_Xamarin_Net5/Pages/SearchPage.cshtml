@@ -25,29 +25,54 @@
    
 </header>
 
-<input type="text" id="my_input" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+<input type="text" id="search" onkeyup="myFunction()" placeholder="Search By Name" title="Type in a name">
 
-  @foreach (var item in SearchPageModel.BookName)
-  {
-    <div class="container">
-        <div class="row">
-            <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
-            <img class="imgSize" src="@item.ImgUrl"/>
 
-        </div>
-         <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
-         <h4>@item.Title</h4>
-         <ul style="list-style-type: none;">
-             <li>By @item.AuthorName</li>
-             <li>@item.CategoryName</li>
-             <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
-             
+<table id="myTable">
+      @foreach (var item in SearchPageModel.BookName)
+      { 
+        <tr>
+            <td>
+                <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
+                    <img class="imgSize" src="@item.ImgUrl"/>
+                </div>
+            </td>
+            <td >
+                <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
+                    <h4>@item.Title</h4>
+                    <ul style="list-style-type: none;">
+                        <li>By @item.AuthorName</li>
+                        <li>@item.CategoryName</li>
+                        <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+      }
+</table>
 
-             </ul>
+
+@*Gammla table funktionen*@
+@*<table id="myTable">
+      @foreach (var item in SearchPageModel.BookName)
+      { 
+         <tr>
+            <div class="row">
+                <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
+                    <img class="imgSize" src="@item.ImgUrl"/>
+                </div>
+                <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
+                    <h4>@item.Title</h4>
+                    <ul style="list-style-type: none;">
+                        <li>By @item.AuthorName</li>
+                        <li>@item.CategoryName</li>
+                        <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </div>
-  }
+        </tr>
+      }
+</table>*@
 
 <style>
     .BookTitle{
@@ -56,7 +81,7 @@
         margin-bottom: 20px;
     }
 
-    #my_input{
+    #search{
         width: 800px;
         height: 40px;
         margin-top: 20px;
@@ -79,12 +104,15 @@
 
 
 <script>
-function myFunction() {
+    function myFunction() {
+  // Declare variables
   var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
+  input = document.getElementById("search");
   filter = input.value.toUpperCase();
   table = document.getElementById("myTable");
   tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[1];
     if (td) {
@@ -94,7 +122,7 @@ function myFunction() {
       } else {
         tr[i].style.display = "none";
       }
-    }       
+    }
   }
 }
 </script>
