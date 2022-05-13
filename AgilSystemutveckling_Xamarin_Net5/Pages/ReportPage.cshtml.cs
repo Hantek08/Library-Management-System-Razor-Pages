@@ -5,8 +5,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
     public class ReportPageModel : PageModel
     {
+
         public void OnGet()
         {
         }
     }
+
 }
