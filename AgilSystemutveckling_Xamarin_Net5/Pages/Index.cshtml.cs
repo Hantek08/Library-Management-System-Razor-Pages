@@ -10,11 +10,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
+
         }
 
         public void OnGet()
         {
-            
+
         }
     }
 }

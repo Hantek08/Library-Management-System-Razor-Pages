@@ -15,8 +15,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<TestModels.Product> GetAllProducts()
         {
-            var sql = @$"SELECT Title, Description, Authors.AuthorName, 
-                        Categories.CategoryName, SubCategories.SubCategoryName
+            var sql = @$"SELECT Products.Id, Title, Description, Authors.AuthorName, 
+                        Categories.CategoryName, SubCategories.SubCategoryName, ImgUrl
                         from Products
                         INNER JOIN Authors ON Products.AuthorId = Authors.Id
                         INNER JOIN Categories ON Products.CategoryId = Categories.Id
@@ -53,12 +53,20 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
         }
         public static TestModels.Product GetProductById(int id)
         {
-            var sql = "SELECT * FROM Products WHERE id = @id";
+            var sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                        Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                        Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                        FROM Products
+                        inner join Authors on Products.AuthorId = Authors.Id
+                        inner join Categories on Products.CategoryId = Categories.Id
+                        inner join SubCategories on Products.SubCategoryId = SubCategories.Id
+                        where Products.Id = {id}";
+
             var product = new TestModels.Product();
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
-                product = connection.Query<TestModels.Product>(sql, new { id = id }).FirstOrDefault();
+                product = connection.QuerySingle<TestModels.Product>(sql);
             }
             return product;
         }
