@@ -5,20 +5,11 @@ using AgilSystemutveckling_Xamarin_Net5.Service.GetService;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
-    public class SearchPageModel : PageModel
+    public class JennyTestModel : PageModel
     {
-        public static List<Products> BookName { get; set; }
-
         public void OnGet()
         {
-            BookName = Get.GetAllProducts();
-        }
 
-        public void OnPost()
-        {
-            ViewData["Books"] = BookName;
         }
     }
-
-
 }
