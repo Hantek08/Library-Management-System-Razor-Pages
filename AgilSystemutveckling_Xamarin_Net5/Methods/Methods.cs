@@ -16,9 +16,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
             for (int i = 0; i < a.Length; i++) 
             {
                 if (a[i] == null) { throw new ArgumentNullException($"{nameof(a)}", $"String value cannot be null. Please try again."); }
-                if (a[i].Contains("'")) {
-                    throw new FormatException($"String in parameter '{nameof(a)}' contains at least one single quote. Please check again and remove any single quotes.");
+                
+                if (a[i].Contains('\'')) {
+                    throw new FormatException(
+                        $"String in parameter '{nameof(a)}' contains at least one single quote. Please check again and remove any single quotes."
+                        );
                 }
+                
                 if (a[i].Length > 250) { throw new FormatException($"String '{nameof(a)}' is too long. Maximum is 250 characters."); }
             }
         }

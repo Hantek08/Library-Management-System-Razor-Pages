@@ -1,51 +1,47 @@
 ﻿
-using System;
+using AgilSystemutveckling_Xamarin_Net5.Models;
 using Dapper;
+using MySqlConnector;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-
-using MySqlConnector;
-using AgilSystemutveckling_Xamarin_Net5.Models;
-
-
-
+using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
-{ 
-
-public class Update
 {
-    #region Connection string
-    static string connString = "Server=xamarindb.c6pefsvvniwb.eu-north-1.rds.amazonaws.com; Database=sys; UID=admin; Password=Xamarin321";
-    #endregion
+    public class Update
+    {
+        #region Stock related
+        /// <summary>
+        /// Updates number of units in stock.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="unitsInStock"></param>
+        public static void UpdateUnitsInStock(int id, int unitsInStock)
+        {
+            //For Admin to update units in Stock
 
-    public static void UpdateUnitsInStock(int id, int unitsInStock)
-    {//For Admin to update units in Stock.
+            MySqlConnection connection = new MySqlConnection(connectionString);
 
-        MySqlConnection connection = new MySqlConnection(connString);
+            var cmdText = @$"UPDATE Products 
+                                    SET UnitsInStock = @UnitsInStock
+                                    WHERE Id = @Id";
 
-        var cmdText = @$"Update Products Set UnitsInStock
-                                = @UnitsInStock
-                      
-                        Where Id = @Id";
+            var cmd = new MySqlCommand(cmdText, connection);
 
+            cmd.Parameters.AddWithValue($"@UnitsInStock", unitsInStock);
+            cmd.Parameters.AddWithValue($"Id", id);
 
-        var cmd = new MySqlCommand(cmdText, connection);
+            connection.Open();
+            if (connection.State == ConnectionState.Open)
+            {
+                connection.Execute(cmdText);
 
-
-
-        cmd.Parameters.AddWithValue($"@UnitsInStock", unitsInStock);
-        cmd.Parameters.AddWithValue($"Id", id);
-
-
-
-        connection.Open();
-        int r = cmd.ExecuteNonQuery();
-        connection.Close();
-
+                connection.Close();
+            }
+        }
+        #endregion
     }
-
-}
-
 }

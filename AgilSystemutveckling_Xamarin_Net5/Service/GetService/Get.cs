@@ -1,12 +1,12 @@
-﻿using System;
+﻿using AgilSystemutveckling_Xamarin_Net5.Models;
 using Dapper;
+using MySqlConnector;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-
-using MySqlConnector;
-using AgilSystemutveckling_Xamarin_Net5.Models;
-using AgilSystemutveckling_Xamarin_Net5.Constants;
+using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 {
@@ -18,22 +18,23 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Get all categories.
         /// </summary>
         /// <returns></returns>
-        public static List<Categories> GetAllCategories()
+        public static List<Categories>? GetAllCategories()
         {
             var sql = @$"SELECT Id, CategoryName 
                                 FROM Categories";
 
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
-                List<Categories> categories = new List<Categories>();
                 connection.Open();
-                if (connection.State == System.Data.ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
-                    categories = connection.Query<Categories>(sql).ToList();
+                    var categories = connection.Query<Categories>(sql).ToList();
+                    connection.Close();
+
                     return categories;
                 }
-                return categories;
             }
+            return null;
         }
 
         /// <summary>
@@ -44,31 +45,37 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         {
             var sql = @$"SELECT Id, CategoryName 
                                 FROM Categories";
-            
-            using (var connection = new MySqlConnection(Constant.connectionString))
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                if (connection.State == System.Data.ConnectionState.Open) 
+                if (connection.State == ConnectionState.Open)
                 {
                     var results = await connection.QueryAsync<Categories>(sql);
+                    await connection.CloseAsync();
+
                     return results.ToList();
                 }
-                return null;
             }
+            return null;
         }
-
-        public static List<SubCategories> GetAllSubCategories()
+        /// <summary>
+        /// Gets all subcategories.
+        /// </summary>
+        /// <returns></returns>
+        public static List<SubCategories>? GetAllSubCategories()
         {
             var sql = @$"SELECT Id, CategoryName 
                                 FROM Categories";
-            var subCategories = new List<SubCategories>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                subCategories = connection.Query<SubCategories>(sql).ToList();
-            }
+                var subCategories = connection.Query<SubCategories>(sql).ToList();
+                connection.Close();
 
-            return subCategories;
+                return subCategories;
+            }
         }
 
         #endregion
@@ -80,7 +87,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all products.
         /// </summary>
         /// <returns></returns>
-        public static List<Products> GetAllProducts()
+        public static List<Products>? GetAllProducts()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -89,22 +96,28 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join Authors on Products.AuthorId = Authors.Id
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id";
-            var name = new List<Products>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                name = connection.Query<Products>(sql).ToList();
-                connection.Close();
+                if(connection.State == ConnectionState.Open)
+                {
+                    var products = connection.Query<Products>(sql).ToList();
+
+                    connection.Close();
+
+                    return products;
+                }
             }
 
-            return name;
+            return null;
         }
 
         /// <summary>
         /// Gets all products async.
         /// </summary>
         /// <returns></returns>
-        public static  async Task<List<Products>> GetAllProductsAsync()
+        public static async Task<List<Products>?> GetAllProductsAsync()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -114,13 +127,20 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id";
 
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                var products = connection.QueryAsync<Products>(sql).Result;
-                await connection.CloseAsync();
-                return products.ToList();
+                if(connection.State == ConnectionState.Open)
+                {
+                    IEnumerable<Products>? products = connection.QueryAsync<Products>(sql).Result;
+
+                    await connection.CloseAsync();
+
+                    return products.ToList();
+                }
+                
             }
+            return null;
         }
 
         /// <summary>
@@ -128,7 +148,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Products GetProductById(int id)
+        public static Products? GetProductById(int id)
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -138,15 +158,20 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
                             where Products.Id = {id}";
-            var products = new Products();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                products = connection.QuerySingle<Products>(sql);
-                connection.Close();
-            }
+                if (connection.State == ConnectionState.Open)
+                {
+                    var product = connection.QuerySingle<Products>(sql);
 
-            return products;
+                    connection.Close();
+
+                    return product;
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -154,8 +179,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static async Task<Products> GetProductByIdAsync(int id)
+        public static async Task<Products>? GetProductByIdAsync(int id)
         {
+
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
                             Products.UnitsInStock, Products.InStock, Products.ImgUrl
@@ -165,24 +191,26 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
                             where Products.Id = {id}";
 
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                if(connection.State == System.Data.ConnectionState.Open) 
+                if (connection.State == ConnectionState.Open)
                 {
                     var product = await connection.QuerySingleAsync<Products>(sql);
+
                     await connection.CloseAsync();
+
                     return product;
                 }
-                return null;
             }
+            return null;
         }
 
         /// <summary>
         /// Gets all products sorted by category A-Ö.
         /// </summary>
         /// <returns></returns>
-        public static List<Products> GetAllProductsSortedByCategoryAsc()
+        public static List<Products>? GetAllProductsSortedByCategoryAsc()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -193,25 +221,27 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
                             ORDER BY Products.Category.Id";
 
-            var products = new List<Products>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                if(connection.State == System.Data.ConnectionState.Open) 
+                if (connection.State == ConnectionState.Open)
                 {
-                    products = connection.Query<Products>(sql).ToList();
+                    var products = connection.Query<Products>(sql).ToList();
+
                     connection.Close();
+
                     return products;
                 }
             }
-            return products;
+            return null;
         }
 
         /// <summary>
         /// Gets all products sorted by category A-Ö async.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>> GetAllProductsSortedByCategoryAscAsync()
+        public static async Task<List<Products>?> GetAllProductsSortedByCategoryAscAsync()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -222,18 +252,20 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
                             ORDER BY Products.Category.Id";
 
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                if(connection.State == System.Data.ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     var products = await connection.QueryAsync<Products>(sql);
+
                     await connection.CloseAsync();
 
                     return products.ToList();
                 }
-                return null;
             }
+
+            return null;
         }
 
 
@@ -241,7 +273,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all products sorted by category Ö-A.
         /// </summary>
         /// <returns></returns>
-        public static List<Products> GetAllProductsSortedByCategoryDesc()
+        public static List<Products>? GetAllProductsSortedByCategoryDesc()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -252,22 +284,24 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
                             ORDER BY Products.Category.Id desc";
 
-            var name = new List<Products>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                name = connection.Query<Products>(sql).ToList();
-                connection.Close();
+                if(connection.State == ConnectionState.Open)
+                {
+                    var products = connection.Query<Products>(sql).ToList();
+                    connection.Close();
+                }
             }
 
-            return name;
+            return null;
         }
 
         /// <summary>
         /// Gets all products sorted by category Ö-A async.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>> GetAllProductsSortedByCategoryDescAsync()
+        public static async Task<List<Products>?> GetAllProductsSortedByCategoryDescAsync()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -278,10 +312,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
                             ORDER BY Products.Category.Id desc";
 
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                if(connection.State == System.Data.ConnectionState.Open) 
+                if (connection.State == ConnectionState.Open)
                 {
                     var name = await connection.QueryAsync<Products>(sql);
                     await connection.CloseAsync();
@@ -296,7 +330,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all books.
         /// </summary>
         /// <returns></returns>
-        public static List<Products> GetAllBooks()
+        public static List<Products>? GetAllBooks()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
 				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -307,26 +341,24 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
                             WHERE CategoryId = '1';";
 
-            var books = new List<Products>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                if(connection.State == System.Data.ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
-                    books = connection.Query<Products>(sql).ToList();
+                    var books = connection.Query<Products>(sql).ToList();
                     connection.Close();
                     return books;
                 }
-                return books;
-                
             }
+            return null;
         }
 
         /// <summary>
         /// Gets all books async.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>> GetAllBooksAsync()
+        public static async Task<List<Products>?> GetAllBooksAsync()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
 				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -337,13 +369,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
                             WHERE CategoryId = '1';";
 
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                if(connection.State == System.Data.ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     var books = connection.Query<Products>(sql).ToList();
                     await connection.CloseAsync();
+
                     return books;
                 }
                 return null;
@@ -355,7 +388,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets a specific book(?)
         /// </summary>
         /// <returns></returns>
-        public static Products GetBook()
+        public static Products? GetBook()
         {
             /*string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products
@@ -365,14 +398,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                               FROM Products
                               WHERE Products.CategoryId = '1';";
 
-            Products book = new Products();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                if(connection.State == System.Data.ConnectionState.Open) 
+                if (connection.State == ConnectionState.Open)
                 {
-                    book = connection.QuerySingle<Products>(sql);
+                    var book = connection.QuerySingle<Products>(sql);
                     connection.Close();
+
                     return book;
                 }
                 return null;
@@ -383,7 +416,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets a specific book async.
         /// </summary>
         /// <returns></returns>
-        public static async Task<Products> GetBookAsync()
+        public static async Task<Products>? GetBookAsync()
         {
             /*string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products
@@ -393,16 +426,62 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
             string? sql = $@"SELECT Title, AuthorId, SubCategoryId
                               FROM Products
-                              WHERE Products.CategoryId = '1';";
+                              WHERE Products.CategoryId = 1;";
 
 
-
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using var connection = new MySqlConnection(connectionString);
             {
                 await connection.OpenAsync();
-                Products book = await connection.QuerySingleAsync<Products>(sql);
+                if (connection.State == ConnectionState.Open)
+                {
+                    Products book = await connection.QuerySingleAsync<Products>(sql);
+                    await connection.CloseAsync();
+                    return book;
+                }
+            }
+            return null;
+        }
+
+        
+
+        /// <summary>
+        /// Gets all ebooks.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Products>? GetAllEbooks()
+        {
+            string? sql = @$"SELECT *
+                            FROM Products
+                            WHERE Categories='E-Book'";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                var ebooks = connection.Query<Products>(sql).ToList();
+                connection.Close();
+
+                return ebooks.ToList();
+            }
+        }
+
+
+        /// <summary>
+        /// Gets all ebooks async.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Products>?> GetAllEbooksAsync()
+        {
+            string? sql = @$"SELECT *
+                            FROM Products
+                            WHERE Categories='E-Book'";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                var ebooks = await connection.QueryAsync<Products>(sql);
                 await connection.CloseAsync();
-                return book;
+
+                return ebooks.ToList();
             }
         }
 
@@ -410,21 +489,24 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets a specific ebook.
         /// </summary>
         /// <returns></returns>
-        public static List<Products> GetEbook()
+        public static Products? GetEbook()
         {
             string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products
                             WHERE Categories='E-Book'";
 
-            var name = new List<Products>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                name = connection.Query<Products>(sql).ToList();
-                connection.Close();
-            }
+                if (connection.State == ConnectionState.Open)
+                {
+                    var eBook = connection.QuerySingle<Products>(sql);
+                    connection.Close();
 
-            return name;
+                    return eBook;
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -437,11 +519,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             FROM Products
                             WHERE Categories='E-Book'";
 
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
                 var ebooks = await connection.QueryAsync<Products>(sql);
                 await connection.CloseAsync();
+
                 return ebooks.ToList();
             }
         }
@@ -449,73 +532,108 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
 
         /// <summary>
-        /// Gets a specific movie.
+        /// Gets all movies.
         /// </summary>
         /// <returns></returns>
-        public static List<Products> GetMovie()
+        public static List<Products> GetAllMovies()
         {
             string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products 
                             WHERE Categories='Movie'";
 
-            var name = new List<Products>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            var movies = new List<Products>();
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                name = connection.Query<Products>(sql).ToList();
-                connection.Close();
-            }
+                if (connection.State == System.Data.ConnectionState.Open)
+                    movies = connection.Query<Products>(sql).ToList();
 
-            return name;
+                connection.Close();
+                return movies;
+            }
         }
 
         /// <summary>
-        /// Gets a specific movie async.
+        /// Gets all movies async.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>> GetMovieAsync()
+        public static async Task<List<Products>> GetAllMoviesAsync()
         {
             string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products 
                             WHERE Categories='Movie'";
 
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                var movies = await connection.QueryAsync<Products>(sql);
-                await connection.CloseAsync();
-                return movies.ToList();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    var movies = await connection.QueryAsync<Products>(sql);
+                    await connection.CloseAsync();
+                    return movies.ToList();
+                }
+
+                return null;
             }
         }
 
         /// <summary>
-        /// Gets a specific book seminar.
+        /// Gets all book seminars.
         /// </summary>
         /// <returns></returns>
-        public static List<Products> BookSeminar()
+        public static List<Products> GetAllBookSeminars()
         {
             string? sql = @$"SELECT Title
                             FROM Products
                             WHERE Categories='Seminarium'";
 
-            var name = new List<Products>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                name = connection.Query<Products>(sql).ToList();
-                connection.Close();
-            }
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    var seminars = connection.Query<Products>(sql).ToList();
 
-            return name;
+                    connection.Close();
+                    return seminars;
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets all book seminars.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Products>> GetAllBookSeminarsAsync()
+        {
+            string? sql = @$"SELECT Title
+                            FROM Products
+                            WHERE Categories='Seminarium'";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    var seminars = await connection.QueryAsync<Products>(sql);
+
+                    await connection.CloseAsync();
+                    return seminars.ToList();
+                }
+
+                return null;
+            }
         }
         #endregion
 
         #region User related methods
         /// <summary>
-        /// Gets all users from Users table.
+        /// Gets all users.
         /// </summary>
         /// <returns></returns>
-        public static List<Users> GetAllUsers()
+        public static List<Users>? GetAllUsers()
         {
             var sql = @$"Select Users.Id, Users.Username, Users.Password, Users.Address, Users.Blocked, 
                         FirstNames.FirstName, LastNames.LastName, Access.Level
@@ -524,56 +642,148 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                         inner join FirstNames on FullNames.FirstNameId = FirstNames.Id
                         inner join LastNames on FullNames.LastNameId = LastNames.Id
                         inner join Access on Users.AccessId = Access.Id";
-            var user = new List<Users>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                user = connection.Query<Users>(sql).ToList();
-            }
+                if (connection.State == ConnectionState.Open)
+                {
+                    var users = connection.Query<Users>(sql).ToList();
+                    connection.Close();
 
-            return user;
+                    return users;
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// Gets all users async.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Users>?> GetAllUsersAsync()
+        {
+            var sql = @$"Select Users.Id, Users.Username, Users.Password, Users.Address, Users.Blocked, 
+                        FirstNames.FirstName, LastNames.LastName, Access.Level
+                        from Users
+                        inner join FullNames on Users.FullNameId = FullNames.Id
+                        inner join FirstNames on FullNames.FirstNameId = FirstNames.Id
+                        inner join LastNames on FullNames.LastNameId = LastNames.Id
+                        inner join Access on Users.AccessId = Access.Id";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    var users = await connection.QueryAsync<Users>(sql);
+                    await connection.CloseAsync();
+
+                    return users.ToList();
+                }
+                return null;
+            }
         }
         /// <summary>
         /// Gets all users sorted A-Ö.
         /// </summary>
         /// <returns></returns>
-        public static List<Users> GetAllUsersOrderedAlphabetically()
+        public static List<Users>? GetAllUsersOrderedAlphabetically()
         {
             var sql = @$"Select Username 
                             FROM Users
                             ORDER BY Username";
-            var user = new List<Users>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                user = connection.Query<Users>(sql).ToList();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    var users = connection.Query<Users>(sql).ToList();
+                    connection.Close();
+                    return users;
+                }
+                return null;
             }
-
-            return user;
         }
+
+        /// <summary>
+        /// Gets all users sorted A-Ö async.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Users>?> GetAllUsersOrderedAlphabeticallyAsync()
+        {
+            var sql = @$"Select Username 
+                            FROM Users
+                            ORDER BY Username";
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    var users = await connection.QueryAsync<Users>(sql);
+                    await connection.CloseAsync();
+
+                    return users.ToList();
+                }
+                return null;
+            }
+        }
+
         /// <summary>
         /// Gets all users sorted Ö-A.
         /// </summary>
         /// <returns></returns>
-        public static List<Users> GetAllUsersReverseOrder()
+        public static List<Users>? GetAllUsersReverseOrder()
         {
             var sql = @$"Select Username 
                                 FROM Users 
                                 ORDER BY Username desc";
-            var user = new List<Users>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                user = connection.Query<Users>(sql).ToList();
-            }
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    var user = connection.Query<Users>(sql).ToList();
+                    connection.Close();
 
-            return user;
+                    return user;
+                }
+
+                return null;
+            }
         }
+
+        /// <summary>
+        /// Gets all users sorted Ö-A async.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Users>?> GetAllUsersReverseOrderAsync()
+        {
+            var sql = @$"Select Username 
+                                FROM Users 
+                                ORDER BY Username desc";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    var users = await connection.QueryAsync<Users>(sql);
+                    await connection.CloseAsync();
+
+                    return users.ToList();
+                }
+
+                return null;
+            }
+        }
+
         /// <summary>
         /// Gets all users sorted depending on a specific character.
         /// </summary>
         /// <returns></returns>
-        public static List<Users> GetAllUsersStartingWithLetter(char a)
+        public static List<Users>? GetAllUsersStartingWithLetter(char a)
         {
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
@@ -581,56 +791,138 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                                FROM Users 
                                WHERE Username = '{a}%'
                                ORDER BY Username";
-            var user = new List<Users>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                user = connection.Query<Users>(sql).ToList();
-            }
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    var users = connection.Query<Users>(sql).ToList();
+                    connection.Close();
+                    return users;
+                }
 
-            return user;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets all users sorted depending on a specific character async.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Users>?> GetAllUsersStartingWithLetterAsync(char a)
+        {
+            // If someone just wants to search for any user starting with a letter, this will
+            // sort based on the first letter of the username.
+            var sql = @$"SELECT Username 
+                               FROM Users 
+                               WHERE Username = '{a}%'
+                               ORDER BY Username";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    var users = await connection.QueryAsync<Users>(sql);
+                    await connection.CloseAsync();
+
+                    return users.ToList();
+                }
+
+                return null;
+            }
         }
         #endregion
 
         #region Author related methods
-        public static List<Authors> GetAllAuthors()
+        /// <summary>
+        /// Get all authors.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Authors>? GetAllAuthors()
         {
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
             var sql = @$"Select Id, AuthorName 
                                 From Authors";
-            var author = new List<Models.Authors>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                author = connection.Query<Models.Authors>(sql).ToList();
-            }
+                if (connection.State == ConnectionState.Open)
+                {
+                    var authors = connection.Query<Authors>(sql).ToList();
+                    connection.Close();
 
-            return author;
+                    return authors;
+
+                }
+
+                return null;
+            }
         }
-        public static List<Authors> GetAllAuthorsStartingWithLetter()
+
+        /// <summary>
+        /// Get all authors async.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Authors>?> GetAllAuthorsAsync()
         {
-            string letter = "<first letter of search query here>";
-            var sql = @$"Select AuthorName 
-                            from Author 
-                            where AuthorName = '{letter}%' 
-                            ORDER BY AuthorName";
-            var author = new List<Authors>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            // If someone just wants to search for any user starting with a letter, this will
+            // sort based on the first letter of the username.
+            var sql = @$"Select Id, AuthorName 
+                                From Authors";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == ConnectionState.Open)
+                {
+                    var authors = await connection.QueryAsync<Authors>(sql);
+
+                    await connection.CloseAsync();
+
+                    return authors.ToList();
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets all authors starting with a specific letter
+        /// </summary>
+        /// <returns></returns>
+        public static List<Authors>? GetAllAuthorsStartingWithLetter(string letter)
+        {
+
+            var sql = @$"Select AuthorName
+                                FROM Author
+                                WHERE AuthorName = '{letter}%'
+                                ORDER BY AuthorName";
+
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                author = connection.Query<Authors>(sql).ToList();
-            }
+                if (connection.State == ConnectionState.Open)
+                {
+                    var authors = connection.Query<Authors>(sql).ToList();
+                    connection.Close();
 
-            return author;
+                    return authors;
+                }
+                return null;
+            }
         }
-        public static List<Authors> GetAllAuthorsOrderedAlphabetically()
+        public static List<Authors>? GetAllAuthorsOrderedAlphabetically()
         {
             var sql = @$"Select Id, AuthorName 
                              from Authors 
                              ORDER BY AuthorName";
             var author = new List<Authors>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 author = connection.Query<Authors>(sql).ToList();
@@ -639,13 +931,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return author;
         }
 
-        public static List<Authors> GetAllAuthorsReverseOrder()
+        public static List<Authors>? GetAllAuthorsReverseOrder()
         {
             var sql = @$"Select Id, AuthorName 
                             from Authors 
                             ORDER BY AuthorName desc";
             var author = new List<Authors>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 author = connection.Query<Authors>(sql).ToList();
@@ -654,13 +946,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return author;
         }
 
-        public static List<Authors> GetAllAuthorsOrderedById()
+        public static List<Authors>? GetAllAuthorsOrderedById()
         {
             var sql = @$"Select Id, AuthorName 
                              from Authors
                              ORDER BY Id";
             var author = new List<Authors>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 author = connection.Query<Authors>(sql).ToList();
@@ -669,13 +961,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return author;
         }
 
-        public static List<Authors> GetAllAuthorsReverseOrderId()
+        public static List<Authors>? GetAllAuthorsReverseOrderId()
         {
             var sql = @$"Select Id, AuthorName 
                             from Authors
                             ORDER BY Id desc";
             var author = new List<Authors>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 author = connection.Query<Authors>(sql).ToList();
@@ -692,14 +984,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all first names from FirstNames table.
         /// </summary>
         /// <returns></returns>
-        public static List<FirstNames> GetAllFirstNames()
+        public static List<FirstNames>? GetAllFirstNames()
         {
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
             var sql = @$"SELECT FirstName
                                 FROM FirstNames";
             var firstName = new List<FirstNames>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 firstName = connection.Query<FirstNames>(sql).ToList();
@@ -711,14 +1003,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all last names from LastNames table.
         /// </summary>
         /// <returns></returns>
-        public static List<LastNames> GetAllLastNames()
+        public static List<LastNames>? GetAllLastNames()
         {
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
             var sql = @$"Select LastName
                                 From LastNames";
             var lastName = new List<LastNames>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 lastName = connection.Query<LastNames>(sql).ToList();
@@ -730,9 +1022,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         #endregion
 
         #region Loan related
-        public static void UserAction (int userID, int productID,int actionID) 
+        public static void UserAction(int userID, int productID, int actionID)
         {
-            MySqlConnection connection = new MySqlConnection(Constant.connectionString);
+            MySqlConnection connection = new MySqlConnection(connectionString);
 
             var cmdText = @$"INSERT INTO History (UserId, ProductId, DateTime, ActionId)
                                     VALUES (@UserId, @ProductId, @DateTime, @ActionId)";
@@ -745,7 +1037,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             cmd.Parameters.AddWithValue($"@ActionID", actionID);
 
             connection.Open();
-            int r = cmd.ExecuteNonQuery();
+            if (connection.State == ConnectionState.Open)
+                connection.Execute(cmdText);
+
             connection.Close();
         }
         /// <summary>
@@ -753,26 +1047,35 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static int NumberOfItemsLentToCustomer(Users user)
-        { 
+        public static int NumberOfItemsLentToCustomer(Users? user)
+        {
             var sql = $@"SELECT *
                                 FROM History
                                 WHERE History.UserId = @Users.Id;";
 
-            var products = new List<Products>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                products = connection.Query<Products>(sql).ToList();
-            }
+                if (connection.State == ConnectionState.Open)
+                {
+                    var products = connection.Query<Products>(sql).ToList();
+                    connection.Close();
 
-            return products.Count();
+                    return products.Count;
+                }
+
+                return 0;
+            }
         }
 
         #endregion
 
         #region History related
-        public static List<History> GetAllHistories()
+        /// <summary>
+        /// Gets all histories.
+        /// </summary>
+        /// <returns></returns>
+        public static List<History>? GetAllHistories()
         {
             // !! Must be tested when histories are added.
 
@@ -782,17 +1085,19 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             INNER JOIN Actions on History.ActionId = Actions.Id
                             INNER JOIN Products on History.ProductId =  Products.Id;";
 
-            var histories = new List<History>();
-            using (var connection = new MySqlConnection(Constant.connectionString))
+
+            using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                if(connection.State == System.Data.ConnectionState.Open)
-                    histories = connection.Query<History>(sql).ToList();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    var histories = connection.Query<History>(sql).ToList();
+                    connection.Close();
 
-                connection.Close();
+                    return histories;
+                }
             }
-
-            return histories;
+            return null;
         }
         #endregion
     }
