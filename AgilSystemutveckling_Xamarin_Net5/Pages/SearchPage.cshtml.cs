@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using AgilSystemutveckling_Xamarin_Net5.Models;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
@@ -15,6 +16,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         public void OnPost()
         {
             ViewData["Books"] = BookName;
+            // git test
         }
     }
 

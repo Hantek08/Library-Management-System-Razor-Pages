@@ -1,12 +1,19 @@
-﻿namespace AgilSystemutveckling_Xamarin_Net5.TestModels
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
+namespace AgilSystemutveckling_Xamarin_Net5.TestModels
 {
     public class User
     {
         public int Id { get; set; }
-        public FullName FullName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public Access Access { get; set; }
+        public int Level { get; set; }
         public string Address { get; set; }
         public bool Blocked { get; set; } = false;
 

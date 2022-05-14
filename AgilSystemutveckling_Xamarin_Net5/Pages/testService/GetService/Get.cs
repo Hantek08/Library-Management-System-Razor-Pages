@@ -15,10 +15,15 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<TestModels.Product> GetAllProducts()
         {
-            var sql = @$"SELECT Title, Authors.Name
+            var sql = @$"SELECT Products.Id, Title, Description, Authors.AuthorName, 
+                        Categories.CategoryName, SubCategories.SubCategoryName, ImgUrl
                         from Products
-                        INNER JOIN Authors ON Products.Author = Authors.Id";
+                        INNER JOIN Authors ON Products.AuthorId = Authors.Id
+                        INNER JOIN Categories ON Products.CategoryId = Categories.Id
+                        INNER JOIN SubCategories ON Products.SubCategoryId = SubCategories.Id";
+
             var name = new List<TestModels.Product>();
+
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
@@ -30,7 +35,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
 
         public static List<TestModels.User> GetAllUsers()
         {
-            var sql = @$"Select Username, Password from Users";
+            var sql = @$"Select Users.Id, Users.Username, Users.Password, Users.Address, Users.Blocked, 
+                        FirstNames.FirstName, LastNames.LastName, Access.Level
+                        from Users
+                        inner join FullNames on Users.FullNameId = FullNames.Id
+                        inner join FirstNames on FullNames.FirstNameId = FirstNames.Id
+                        inner join LastNames on FullNames.LastNameId = LastNames.Id
+                        inner join Access on Users.AccessId = Access.Id";
             var user = new List<TestModels.User>();
             using (var connection = new MySqlConnection(connString))
             {
@@ -39,6 +50,25 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.TestService.GetService
             }
 
             return user;
+        }
+        public static TestModels.Product GetProductById(int id)
+        {
+            var sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                        Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                        Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                        FROM Products
+                        inner join Authors on Products.AuthorId = Authors.Id
+                        inner join Categories on Products.CategoryId = Categories.Id
+                        inner join SubCategories on Products.SubCategoryId = SubCategories.Id
+                        where Products.Id = {id}";
+
+            var product = new TestModels.Product();
+            using (var connection = new MySqlConnection(connString))
+            {
+                connection.Open();
+                product = connection.QuerySingle<TestModels.Product>(sql);
+            }
+            return product;
         }
 
 

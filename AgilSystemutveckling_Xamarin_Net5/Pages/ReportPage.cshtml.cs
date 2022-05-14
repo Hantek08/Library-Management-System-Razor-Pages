@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
-    public class UserPageModel : PageModel
+    public class ReportPageModel : PageModel
     {
-        
+
         public void OnGet()
         {
         }
     }
+
 }
