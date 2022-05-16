@@ -612,5 +612,25 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             return subcategory;
         }
         #endregion
+
+        #region Loan related
+
+        public static void AddLoan(int UserId, int ProductId, int ActionId) 
+        {
+            var sqlMain = @$"INSERT INTO History (UserId, ProductId, Datetime, ActionId) 
+                                    VALUES ({UserId}, {ProductId}, {DateTime.Today}, {ActionId}";
+
+            using (var connection = new MySqlConnection(Constant.connectionString))
+            {
+                connection.Open();
+                if (connection.State == System.Data.ConnectionState.Open)
+                    try { connection.Execute(sqlMain); }
+                    catch (Exception e) { throw new Exception("Could not add History.", e); }
+
+                connection.Close();
+            }
+        }
+
+        #endregion
     }
 }

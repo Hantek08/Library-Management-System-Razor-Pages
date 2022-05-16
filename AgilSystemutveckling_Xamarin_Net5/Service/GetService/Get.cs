@@ -101,7 +101,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                if(connection.State == ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     var products = connection.Query<Products>(sql).ToList();
 
@@ -131,7 +131,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                if(connection.State == ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     IEnumerable<Products>? products = connection.QueryAsync<Products>(sql).Result;
 
@@ -139,7 +139,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
                     return products.ToList();
                 }
-                
+
             }
             return null;
         }
@@ -288,7 +288,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                if(connection.State == ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     var products = connection.Query<Products>(sql).ToList();
                     connection.Close();
@@ -569,7 +569,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             }
         }
 
-        public static List<Products> RecentlyAddedByCategory(string CategoryName, int limitProductsBy) 
+        public static List<Products> RecentlyAddedByCategory(string CategoryName, int limitProductsBy)
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
 				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -990,26 +990,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         #endregion
 
         #region Loan related
-        public static void UserAction(int userID, int productID, int actionID)
-        {
-            MySqlConnection connection = new MySqlConnection(connectionString);
-
-            var cmdText = @$"INSERT INTO History (UserId, ProductId, DateTime, ActionId)
-                                    VALUES (@UserId, @ProductId, @DateTime, @ActionId)";
-
-            var cmd = new MySqlCommand(cmdText, connection);
-
-            cmd.Parameters.AddWithValue($"@UserID", userID);
-            cmd.Parameters.AddWithValue($"@ProductID", productID);
-            cmd.Parameters.AddWithValue($"@DateTime", DateTime.Now);
-            cmd.Parameters.AddWithValue($"@ActionID", actionID);
-
-            connection.Open();
-            if (connection.State == ConnectionState.Open)
-                connection.Execute(cmdText);
-
-            connection.Close();
-        }
         /// <summary>
         /// Returns number of loans a customer has made.
         /// </summary>
@@ -1047,11 +1027,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         {
             // !! Must be tested when histories are added.
 
-            string? sql = @$"SELECT History.Id, History.UserId, History.ProductId, History.ActionId, History.Datetime
+            string? sql = @$"SELECT History.Id, FirstNames.FirstName, LastNames.LastName, Products.Title, Actions.Action, History.Datetime
                             FROM History
                             INNER JOIN Users on History.UserId = Users.Id
                             INNER JOIN Actions on History.ActionId = Actions.Id
-                            INNER JOIN Products on History.ProductId =  Products.Id;";
+                            INNER JOIN Products on History.ProductId =  Products.Id
+                            inner join FullNames on Users.FullNameId = FullNames.Id
+                            inner join FirstNames on FullNames.FirstNameId = FirstNames.Id
+                            inner join LastNames on FullNames.LastNameId = LastNames.Id;";
 
 
             using (var connection = new MySqlConnection(connectionString))
@@ -1066,6 +1049,22 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 }
             }
             return null;
+        }
+
+        public static List<History> LateReturns()
+        {
+            var allHistories = GetAllHistories();
+            List<History> late = new List<History>();
+
+            foreach (var hist in allHistories) 
+            {
+                if (hist.Time == DateTime.Today.AddMonths(-1))
+                {
+                    late.Add(hist);
+                }
+            }
+
+            return late;
         }
         #endregion
     }
