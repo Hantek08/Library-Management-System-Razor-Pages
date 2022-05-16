@@ -79,6 +79,25 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             }
         }
 
+        /// <summary>
+        /// Gets all subcategories async.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<SubCategories>?> GetAllSubCategoriesAsync()
+        {
+            var sql = @$"SELECT Id, CategoryName 
+                                FROM Categories";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                var subCategories = await connection.QueryAsync<SubCategories>(sql);
+                await connection.CloseAsync();
+
+                return subCategories.ToList();
+            }
+        }
+
         #endregion
 
 
@@ -211,7 +230,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all products sorted by category A-Ö.
         /// </summary>
         /// <returns></returns>
-        public static List<Products>? GetAllProductsSortedByCategoryAsc()
+        public static List<Products>? GetAllProductsSortedByCategoryAscending()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -242,7 +261,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all products sorted by category A-Ö async.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>?> GetAllProductsSortedByCategoryAscAsync()
+        public static async Task<List<Products>?> GetAllProductsSortedByCategoryAscendingAsync()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -274,7 +293,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all products sorted by category Ö-A.
         /// </summary>
         /// <returns></returns>
-        public static List<Products>? GetAllProductsSortedByCategoryDesc()
+        public static List<Products>? GetAllProductsSortedByCategoryDescending()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
@@ -302,7 +321,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all products sorted by category Ö-A async.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>?> GetAllProductsSortedByCategoryDescAsync()
+        public static async Task<List<Products>?> GetAllProductsSortedByCategoryDescendingAsync()
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
