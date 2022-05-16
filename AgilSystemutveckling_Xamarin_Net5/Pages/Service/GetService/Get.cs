@@ -7,7 +7,7 @@ using System.Linq;
 using MySqlConnector;
 using AgilSystemutveckling_Xamarin_Net5.Models;
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
+namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.GetService
 {
     public class Get
     {
@@ -49,7 +49,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
         }
 
         #endregion
-
 
         #region Product related methods
 
@@ -493,7 +492,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.GetService
         }
 
         #endregion
-
 
     }
 }
