@@ -7,11 +7,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
     public class FransTestModel : PageModel
     {
-        public static Products products;
-
         public void OnGet()
         {
-            products = Get.GetProductById(1);
+            
         }
     }
 }
