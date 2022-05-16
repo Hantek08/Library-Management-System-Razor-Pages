@@ -43,63 +43,68 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.DeleteService
 
 
         #region Product related
-        public static void DeleteProduct(int id)
-        {
-            var sql = @$"DELETE FROM Product
-                                WHERE id = @id";
 
-            using (MySqlConnection connection = new MySqlConnection(connString))
-            {
-                connection.Open();
+        //needs to be fixed
 
-                if ((connection != null) || (connection.State == System.Data.ConnectionState.Open))
-                {
-                    try
-                    {
-                        connection.Execute(sql, new { id = id });
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-                else
-                {
-                    // display to user that connection could not be made
-                }
-            }
-        }
+        //public static void DeleteProduct(int id)
+        //{
+        //    var sql = @$"DELETE FROM Product
+        //                        WHERE id = @id";
+
+        //    using (MySqlConnection connection = new MySqlConnection(connString))
+        //    {
+        //        connection.Open();
+
+        //        if ((connection != null) || (connection.State == System.Data.ConnectionState.Open))
+        //        {
+        //            try
+        //            {
+        //                connection.Execute(sql, new { id = id });
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                Console.WriteLine(e.Message);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            // display to user that connection could not be made
+        //        }
+        //    }
+        //}
 
         #endregion
 
 
         #region User related
-        public static void DeleteUser(int id)
-        {
-            var sql = @$"DELETE FROM User
-                               WHERE id = @id";
+        //funkar ej
 
-            using (MySqlConnection connection = new MySqlConnection(connString))
-            {
-                connection.Open();
+        //public static void DeleteUser(int id)
+        //{
+        //    var sql = @$"DELETE FROM User
+        //                       WHERE id = @id";
 
-                if ((connection != null) || (connection.State == System.Data.ConnectionState.Open))
-                {
-                    try
-                    {
-                        connection.Execute(sql, new { id = id });
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-                else
-                {
-                    // display to user that connection could not be made
-                }
-            }
-        }
+        //    using (MySqlConnection connection = new MySqlConnection(connString))
+        //    {
+        //        connection.Open();
+
+        //        if ((connection != null) || (connection.State == System.Data.ConnectionState.Open))
+        //        {
+        //            try
+        //            {
+        //                connection.Execute(sql, new { id = id });
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                Console.WriteLine(e.Message);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            // display to user that connection could not be made
+        //        }
+        //    }
+        //}
         #endregion
     }
 }

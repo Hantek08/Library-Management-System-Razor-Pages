@@ -388,7 +388,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             bool CategoryExists = false;
             bool SubCategoryExists = false;
 
-            List<Models.Authors> authors = GetService.Get.GetAllAuthors();
+            List<Models.Authors> authors = GetAllAuthors();
             foreach (var author in authors)
             {
                 if (author.AuthorName == product.AuthorName)
@@ -611,6 +611,30 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             }
             return subcategory;
         }
+        #endregion
+
+        #region Loan related
+
+        public static void AddLoan(int UserId, int ProductId, int ActionId) 
+        {
+            var sqlMain = @$"INSERT INTO History (UserId, ProductId, Datetime, ActionId) 
+                                    VALUES ({UserId}, {ProductId}, {DateTime.Today}, {ActionId}";
+
+            using (var connection = new MySqlConnection(Constant.connectionString))
+            {
+                connection.Open();
+                if (connection.State == System.Data.ConnectionState.Open)
+                    try { connection.Execute(sqlMain); }
+                    catch (Exception e) { throw new Exception("Could not add History.", e); }
+
+                connection.Close();
+            }
+
+            Products product = GetProductById(ProductId);
+            int unitsInStock = product.UnitsInStock - 1;
+            UpdateService.Update.UpdateUnitsInStock(ProductId, unitsInStock);
+        }
+
         #endregion
     }
 }

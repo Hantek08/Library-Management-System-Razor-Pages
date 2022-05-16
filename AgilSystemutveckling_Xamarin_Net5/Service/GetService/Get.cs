@@ -120,7 +120,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                if(connection.State == ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     var products = connection.Query<Products>(sql).ToList();
 
@@ -150,7 +150,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                if(connection.State == ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     IEnumerable<Products>? products = connection.QueryAsync<Products>(sql).Result;
 
@@ -309,7 +309,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                if(connection.State == ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     var products = connection.Query<Products>(sql).ToList();
                     connection.Close();
@@ -473,64 +473,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         }
 
         /// <summary>
-        /// Gets all books.
-        /// </summary>
-        /// <returns></returns>
-        public static List<Products>? GetAllBooks()
-        {
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
-				            FROM Products
-                            INNER JOIN Authors on Products.AuthorId = Authors.Id
-                            INNER JOIN Categories on Products.CategoryId = Categories.Id
-                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
-                            WHERE CategoryId = '1';";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-                if (connection.State == ConnectionState.Open)
-                {
-                    var books = connection.Query<Products>(sql).ToList();
-                    connection.Close();
-                    return books;
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Gets all books async.
-        /// </summary>
-        /// <returns></returns>
-        public static async Task<List<Products>?> GetAllBooksAsync()
-        {
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
-				            FROM Products
-                            INNER JOIN Authors on Products.AuthorId = Authors.Id
-                            INNER JOIN Categories on Products.CategoryId = Categories.Id
-                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
-                            WHERE CategoryId = '1';";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-                if (connection.State == ConnectionState.Open)
-                {
-                    var books = connection.Query<Products>(sql).ToList();
-                    await connection.CloseAsync();
-
-                    return books;
-                }
-                return null;
-            }
-        }
-
-
-        /// <summary>
         /// Gets a specific book(?)
         /// </summary>
         /// <returns></returns>
@@ -589,79 +531,49 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         }
 
         /// <summary>
-        /// Gets all ebooks.
+        /// Gets all by category.
         /// </summary>
         /// <returns></returns>
-        public static List<Products>? GetAllEbooks()
+        public static List<Products> GetAllByCategory(string CategoryName)
         {
-            string? sql = @$"SELECT *
-                            FROM Products
-                            WHERE Categories='E-Book'";
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+				            FROM Products
+                            INNER JOIN Authors on Products.AuthorId = Authors.Id
+                            INNER JOIN Categories on Products.CategoryId = Categories.Id
+                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
+                            WHERE Categories.CategoryName = '{CategoryName}';";
 
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                var ebooks = connection.Query<Products>(sql).ToList();
-                connection.Close();
-
-                return ebooks.ToList();
-            }
-        }
-
-
-        /// <summary>
-        /// Gets all ebooks async.
-        /// </summary>
-        /// <returns></returns>
-        public static async Task<List<Products>?> GetAllEbooksAsync()
-        {
-            string? sql = @$"SELECT *
-                            FROM Products
-                            WHERE Categories='E-Book'";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-                var ebooks = await connection.QueryAsync<Products>(sql);
-                await connection.CloseAsync();
-
-                return ebooks.ToList();
-            }
-        }
-
-        /// <summary>
-        /// Gets a specific ebook.
-        /// </summary>
-        /// <returns></returns>
-        public static Products? GetEbook()
-        {
-            string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
-                            FROM Products
-                            WHERE Categories='E-Book'";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-                if (connection.State == ConnectionState.Open)
+                if (connection.State == System.Data.ConnectionState.Open)
                 {
-                    var eBook = connection.QuerySingle<Products>(sql);
-                    connection.Close();
+                    var seminars = connection.Query<Products>(sql).ToList();
 
-                    return eBook;
+                    connection.Close();
+                    return seminars;
                 }
+
+                return null;
             }
-            return null;
         }
 
         /// <summary>
-        /// Gets a specific ebook async.
+        /// Gets all book seminars.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>> GetEbookAsync()
+        public static async Task<List<Products>> GetAllByCategoryAsync(string CategoryName)
         {
-            string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
-                            FROM Products
-                            WHERE Categories='E-Book'";
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+				            FROM Products
+                            INNER JOIN Authors on Products.AuthorId = Authors.Id
+                            INNER JOIN Categories on Products.CategoryId = Categories.Id
+                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
+                            WHERE Categories.CategoryName = '{CategoryName}';";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -679,7 +591,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all movies.
         /// </summary>
         /// <returns></returns>
-        public static List<Products>? GetAllMovies()
+        public static List<Products> GetAllMovies()
         {
             string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products 
@@ -701,20 +613,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all movies async.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>?> GetAllMoviesAsync()
+        public static async Task<List<Products>> GetAllMoviesAsync()
         {
             string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products 
                             WHERE Categories='Movie'";
 
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    var movies = await connection.QueryAsync<Products>(sql);
                     await connection.CloseAsync();
-                    return movies.ToList();
+                    return seminars.ToList();
                 }
 
                 return null;
@@ -725,19 +631,26 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all book seminars.
         /// </summary>
         /// <returns></returns>
-        public static List<Products>? GetAllBookSeminars()
+        public static List<Products> GetAllBookSeminars()
         {
-            string? sql = @$"SELECT Title
-                            FROM Products
-                            WHERE Categories='Seminarium'";
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+				            FROM Products
+                            INNER JOIN Authors on Products.AuthorId = Authors.Id
+                            INNER JOIN Categories on Products.CategoryId = Categories.Id
+                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
+                            WHERE Categories.CategoryName = '{CategoryName}'
+                            order by Id desc limit {limitProductsBy};";
+
+            var books = new List<Products>();
 
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                if (connection.State == System.Data.ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
-                    var seminars = connection.Query<Products>(sql).ToList();
-
+                    books = connection.Query<Products>(sql).ToList();
                     connection.Close();
                     return seminars;
                 }
@@ -750,7 +663,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all book seminars.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>?> GetAllBookSeminarsAsync()
+        public static async Task<List<Products>> GetAllBookSeminarsAsync()
         {
             string? sql = @$"SELECT Title
                             FROM Products
@@ -766,9 +679,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                     await connection.CloseAsync();
                     return seminars.ToList();
                 }
-
-                return null;
             }
+            return books;
         }
         #endregion
 
@@ -1132,7 +1044,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         {
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
-            var sql = @$"SELECT FirstName
+            var sql = @$"SELECT Id, FirstName
                                 FROM FirstNames";
             var firstName = new List<FirstNames>();
             using (var connection = new MySqlConnection(connectionString))
@@ -1151,7 +1063,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         {
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
-            var sql = @$"Select LastName
+            var sql = @$"Select Id, LastName
                                 From LastNames";
             var lastName = new List<LastNames>();
             using (var connection = new MySqlConnection(connectionString))
@@ -1166,26 +1078,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         #endregion
 
         #region Loan related
-        public static void UserAction(int userID, int productID, int actionID)
-        {
-            MySqlConnection connection = new MySqlConnection(connectionString);
-
-            var cmdText = @$"INSERT INTO History (UserId, ProductId, DateTime, ActionId)
-                                    VALUES (@UserId, @ProductId, @DateTime, @ActionId)";
-
-            var cmd = new MySqlCommand(cmdText, connection);
-
-            cmd.Parameters.AddWithValue($"@UserID", userID);
-            cmd.Parameters.AddWithValue($"@ProductID", productID);
-            cmd.Parameters.AddWithValue($"@DateTime", DateTime.Now);
-            cmd.Parameters.AddWithValue($"@ActionID", actionID);
-
-            connection.Open();
-            if (connection.State == ConnectionState.Open)
-                connection.Execute(cmdText);
-
-            connection.Close();
-        }
         /// <summary>
         /// Returns number of loans a customer has made.
         /// </summary>
@@ -1223,11 +1115,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         {
             // !! Must be tested when histories are added.
 
-            string? sql = @$"SELECT History.Id, History.UserId, History.ProductId, History.ActionId, History.Datetime
+            string? sql = @$"SELECT History.Id, FirstNames.FirstName, LastNames.LastName, Products.Title, Actions.Action, History.Datetime
                             FROM History
                             INNER JOIN Users on History.UserId = Users.Id
                             INNER JOIN Actions on History.ActionId = Actions.Id
-                            INNER JOIN Products on History.ProductId =  Products.Id;";
+                            INNER JOIN Products on History.ProductId =  Products.Id
+                            inner join FullNames on Users.FullNameId = FullNames.Id
+                            inner join FirstNames on FullNames.FirstNameId = FirstNames.Id
+                            inner join LastNames on FullNames.LastNameId = LastNames.Id;";
 
 
             using (var connection = new MySqlConnection(connectionString))
@@ -1242,6 +1137,22 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 }
             }
             return null;
+        }
+
+        public static List<History> LateReturns()
+        {
+            var allHistories = GetAllHistories();
+            List<History> late = new List<History>();
+
+            foreach (var hist in allHistories) 
+            {
+                if (hist.Time == DateTime.Today.AddMonths(-1))
+                {
+                    late.Add(hist);
+                }
+            }
+
+            return late;
         }
         #endregion
     }
