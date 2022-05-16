@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+
 using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
@@ -325,6 +326,135 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 return null;
             }
         }
+        /// <summary>
+        /// Gets all products that are marked as active/non-hidden.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Products>? GetAllActiveProducts()
+        {
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                            FROM Products
+                            inner join Authors on Products.AuthorId = Authors.Id
+                            inner join Categories on Products.CategoryId = Categories.Id
+                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id
+                            WHERE Products.Active = 1";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    var products = connection.Query<Products>(sql).ToList();
+
+                    connection.Close();
+
+                    return products;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets all products that are marked as active/non-hidden async.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Products>?> GetAllActiveProductsAsync()
+        {
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                            FROM Products
+                            inner join Authors on Products.AuthorId = Authors.Id
+                            inner join Categories on Products.CategoryId = Categories.Id
+                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id
+                            WHERE Products.Active = 1";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == ConnectionState.Open)
+                {
+                    var products = await connection.QueryAsync<Products>(sql);
+
+                    await connection.CloseAsync();
+
+                    return products.ToList();
+                }
+            }
+
+            return null;
+        }
+
+
+        /// <summary>
+        /// Gets all products that are marked as inactive/hidden.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Products>? GetAllInActiveProducts()
+        {
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                            FROM Products
+                            inner join Authors on Products.AuthorId = Authors.Id
+                            inner join Categories on Products.CategoryId = Categories.Id
+                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id
+                            WHERE Products.Active = 0";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    var products = connection.Query<Products>(sql).ToList();
+
+                    connection.Close();
+
+                    return products;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets all products that are marked as inactive/hidden async.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Products>?> GetAllInActiveProductsAsync()
+        {
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                            FROM Products
+                            inner join Authors on Products.AuthorId = Authors.Id
+                            inner join Categories on Products.CategoryId = Categories.Id
+                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id
+                            WHERE Products.Active = 0";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == ConnectionState.Open)
+                {
+                    var products = await connection.QueryAsync<Products>(sql);
+
+                    await connection.CloseAsync();
+
+                    return products.ToList();
+                }
+            }
+
+            return null;
+        }
+
+
+
+
+
 
         /// <summary>
         /// Gets all books.

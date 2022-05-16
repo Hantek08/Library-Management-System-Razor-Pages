@@ -21,5 +21,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
         public int UnitsInStock { get; set; }
         [Required]
         public string? ImgUrl { get; set; }
+        [Required]
+        public int Active { get; set; } = 1;
     }
 }

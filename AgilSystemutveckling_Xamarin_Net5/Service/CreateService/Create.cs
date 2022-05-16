@@ -4,6 +4,7 @@ using Dapper;
 using MySqlConnector;
 using System.Data;
 using System.Xml;
+
 using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
 using static AgilSystemutveckling_Xamarin_Net5.Service.GetService.Get;
@@ -136,6 +137,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             }
 
             CheckStringFormat(user.Username, user.Password, user.Address);
+
             var sqlMain = @$"INSERT INTO Users (FullNameId, Username, Password, AccessId, Address, Blocked) 
                                     VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}',
                                     {user.Blocked})";
