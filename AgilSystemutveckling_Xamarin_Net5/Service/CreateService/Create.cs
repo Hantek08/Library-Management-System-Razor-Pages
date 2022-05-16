@@ -629,6 +629,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
                 connection.Close();
             }
+
+            Products product = GetProductById(ProductId);
+            int unitsInStock = product.UnitsInStock - 1;
+            UpdateService.Update.UpdateUnitsInStock(ProductId, unitsInStock);
         }
 
         #endregion
