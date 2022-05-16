@@ -23,7 +23,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
         {
             //For Admin to update units in Stock
 
-            MySqlConnection connection = new MySqlConnection(connectionString);
+            MySqlConnection connection = new MySqlConnection(ConnectionString);
 
             var cmdText = @$"UPDATE Products 
                                     SET UnitsInStock = @UnitsInStock
