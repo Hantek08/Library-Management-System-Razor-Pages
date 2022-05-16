@@ -756,6 +756,32 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 return null;
             }
         }
+
+        public static List<Products> RecentlyAddedByCategory(string CategoryName, int limitProductsBy) 
+        {
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+				            FROM Products
+                            INNER JOIN Authors on Products.AuthorId = Authors.Id
+                            INNER JOIN Categories on Products.CategoryId = Categories.Id
+                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
+                            WHERE Categories.CategoryName = '{CategoryName}'
+                            order by Id desc limit {limitProductsBy};";
+
+            var books = new List<Products>();
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    books = connection.Query<Products>(sql).ToList();
+                    connection.Close();
+                }
+            }
+            return books;
+        }
         #endregion
 
         #region User related methods

@@ -388,7 +388,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             bool CategoryExists = false;
             bool SubCategoryExists = false;
 
-            List<Models.Authors> authors = GetService.Get.GetAllAuthors();
+            List<Models.Authors> authors = GetAllAuthors();
             foreach (var author in authors)
             {
                 if (author.AuthorName == product.AuthorName)
