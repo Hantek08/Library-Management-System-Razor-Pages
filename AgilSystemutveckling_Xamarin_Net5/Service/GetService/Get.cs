@@ -158,8 +158,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
                     return products.ToList();
                 }
-                
             }
+
             return null;
         }
 
@@ -191,6 +191,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                     return product;
                 }
             }
+
             return null;
         }
 
@@ -223,6 +224,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                     return product;
                 }
             }
+
             return null;
         }
 
@@ -358,7 +360,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join Authors on Products.AuthorId = Authors.Id
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
-                            WHERE Products.Active = 1";
+                            WHERE Products.Active = '1';";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -389,7 +391,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join Authors on Products.AuthorId = Authors.Id
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
-                            WHERE Products.Active = 1";
+                            WHERE Products.Active = '1';";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -421,7 +423,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join Authors on Products.AuthorId = Authors.Id
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
-                            WHERE Products.Active = 0";
+                            WHERE Products.Active = '0';";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -452,7 +454,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join Authors on Products.AuthorId = Authors.Id
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
-                            WHERE Products.Active = 0";
+                            WHERE Products.Active = '0';";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -469,11 +471,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
             return null;
         }
-
-
-
-
-
 
         /// <summary>
         /// Gets all books.
@@ -591,8 +588,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return null;
         }
 
-        
-
         /// <summary>
         /// Gets all ebooks.
         /// </summary>
@@ -684,7 +679,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all movies.
         /// </summary>
         /// <returns></returns>
-        public static List<Products> GetAllMovies()
+        public static List<Products>? GetAllMovies()
         {
             string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products 
@@ -706,7 +701,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all movies async.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>> GetAllMoviesAsync()
+        public static async Task<List<Products>?> GetAllMoviesAsync()
         {
             string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
                             FROM Products 
@@ -730,7 +725,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all book seminars.
         /// </summary>
         /// <returns></returns>
-        public static List<Products> GetAllBookSeminars()
+        public static List<Products>? GetAllBookSeminars()
         {
             string? sql = @$"SELECT Title
                             FROM Products
@@ -755,7 +750,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all book seminars.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>> GetAllBookSeminarsAsync()
+        public static async Task<List<Products>?> GetAllBookSeminarsAsync()
         {
             string? sql = @$"SELECT Title
                             FROM Products
