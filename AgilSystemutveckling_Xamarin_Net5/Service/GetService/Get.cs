@@ -451,69 +451,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return null;
         }
 
-
-
-
-
-
-        /// <summary>
-        /// Gets all books.
-        /// </summary>
-        /// <returns></returns>
-        public static List<Products>? GetAllBooks()
-        {
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
-				            FROM Products
-                            INNER JOIN Authors on Products.AuthorId = Authors.Id
-                            INNER JOIN Categories on Products.CategoryId = Categories.Id
-                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
-                            WHERE CategoryId = '1';";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-                if (connection.State == ConnectionState.Open)
-                {
-                    var books = connection.Query<Products>(sql).ToList();
-                    connection.Close();
-                    return books;
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Gets all books async.
-        /// </summary>
-        /// <returns></returns>
-        public static async Task<List<Products>?> GetAllBooksAsync()
-        {
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
-				            FROM Products
-                            INNER JOIN Authors on Products.AuthorId = Authors.Id
-                            INNER JOIN Categories on Products.CategoryId = Categories.Id
-                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
-                            WHERE CategoryId = '1';";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-                if (connection.State == ConnectionState.Open)
-                {
-                    var books = connection.Query<Products>(sql).ToList();
-                    await connection.CloseAsync();
-
-                    return books;
-                }
-                return null;
-            }
-        }
-
-
         /// <summary>
         /// Gets a specific book(?)
         /// </summary>
@@ -572,150 +509,20 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return null;
         }
 
-        
-
         /// <summary>
-        /// Gets all ebooks.
+        /// Gets all by category.
         /// </summary>
         /// <returns></returns>
-        public static List<Products>? GetAllEbooks()
+        public static List<Products> GetAllByCategory(string CategoryName)
         {
-            string? sql = @$"SELECT *
-                            FROM Products
-                            WHERE Categories='E-Book'";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-                var ebooks = connection.Query<Products>(sql).ToList();
-                connection.Close();
-
-                return ebooks.ToList();
-            }
-        }
-
-
-        /// <summary>
-        /// Gets all ebooks async.
-        /// </summary>
-        /// <returns></returns>
-        public static async Task<List<Products>?> GetAllEbooksAsync()
-        {
-            string? sql = @$"SELECT *
-                            FROM Products
-                            WHERE Categories='E-Book'";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-                var ebooks = await connection.QueryAsync<Products>(sql);
-                await connection.CloseAsync();
-
-                return ebooks.ToList();
-            }
-        }
-
-        /// <summary>
-        /// Gets a specific ebook.
-        /// </summary>
-        /// <returns></returns>
-        public static Products? GetEbook()
-        {
-            string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
-                            FROM Products
-                            WHERE Categories='E-Book'";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-                if (connection.State == ConnectionState.Open)
-                {
-                    var eBook = connection.QuerySingle<Products>(sql);
-                    connection.Close();
-
-                    return eBook;
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Gets a specific ebook async.
-        /// </summary>
-        /// <returns></returns>
-        public static async Task<List<Products>> GetEbookAsync()
-        {
-            string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
-                            FROM Products
-                            WHERE Categories='E-Book'";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-                var ebooks = await connection.QueryAsync<Products>(sql);
-                await connection.CloseAsync();
-
-                return ebooks.ToList();
-            }
-        }
-
-
-
-        /// <summary>
-        /// Gets all movies.
-        /// </summary>
-        /// <returns></returns>
-        public static List<Products> GetAllMovies()
-        {
-            string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
-                            FROM Products 
-                            WHERE Categories='Movie'";
-
-            var movies = new List<Products>();
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-                if (connection.State == System.Data.ConnectionState.Open)
-                    movies = connection.Query<Products>(sql).ToList();
-
-                connection.Close();
-                return movies;
-            }
-        }
-
-        /// <summary>
-        /// Gets all movies async.
-        /// </summary>
-        /// <returns></returns>
-        public static async Task<List<Products>> GetAllMoviesAsync()
-        {
-            string? sql = @$"SELECT Title, Authors.AuthorName, SubCategories.SubCategoryName
-                            FROM Products 
-                            WHERE Categories='Movie'";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    var movies = await connection.QueryAsync<Products>(sql);
-                    await connection.CloseAsync();
-                    return movies.ToList();
-                }
-
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Gets all book seminars.
-        /// </summary>
-        /// <returns></returns>
-        public static List<Products> GetAllBookSeminars()
-        {
-            string? sql = @$"SELECT Title
-                            FROM Products
-                            WHERE Categories='Seminarium'";
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+				            FROM Products
+                            INNER JOIN Authors on Products.AuthorId = Authors.Id
+                            INNER JOIN Categories on Products.CategoryId = Categories.Id
+                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
+                            WHERE Categories.CategoryName = '{CategoryName}';";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -736,11 +543,16 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets all book seminars.
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<Products>> GetAllBookSeminarsAsync()
+        public static async Task<List<Products>> GetAllByCategoryAsync(string CategoryName)
         {
-            string? sql = @$"SELECT Title
-                            FROM Products
-                            WHERE Categories='Seminarium'";
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+				            FROM Products
+                            INNER JOIN Authors on Products.AuthorId = Authors.Id
+                            INNER JOIN Categories on Products.CategoryId = Categories.Id
+                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
+                            WHERE Categories.CategoryName = '{CategoryName}';";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -1144,7 +956,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         {
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
-            var sql = @$"SELECT FirstName
+            var sql = @$"SELECT Id, FirstName
                                 FROM FirstNames";
             var firstName = new List<FirstNames>();
             using (var connection = new MySqlConnection(connectionString))
@@ -1163,7 +975,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         {
             // If someone just wants to search for any user starting with a letter, this will
             // sort based on the first letter of the username.
-            var sql = @$"Select LastName
+            var sql = @$"Select Id, LastName
                                 From LastNames";
             var lastName = new List<LastNames>();
             using (var connection = new MySqlConnection(connectionString))
