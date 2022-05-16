@@ -55,7 +55,7 @@
 </table>
 
 
-@*Gammla table funktionen*@
+@*Gammla table*@
 @*<table id="myTable">
       @foreach (var item in SearchPageModel.BookName)
       { 
@@ -136,7 +136,7 @@
 
 
     <!-- Modal HTML -->
-    <form method="post" asp-page-handler="Add">
+    <form method="post" >
     <div id="myModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -146,22 +146,12 @@
                 </div>
 
                 <div class="modal-body">
-                      <div class="row">
+                    <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label asp-for="bookName.Title" class="form-label">Title</label>
-                                <input asp-for="bookName.Title" type="text" class="form-control">
-                                <span asp-validation-for="bookName.Title" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                      <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label asp-for="bookName.AuthorName" class="form-label">Author</label>
-                                <input asp-for="bookName.AuthorName" type="text" class="form-control">
-                                <span asp-validation-for="bookName.AuthorName" class="text-danger"></span>
+                                <label asp-for="newBook.Title" class="form-label">Title</label>
+                                <input asp-for="newBook.Title" type="text" class="form-control">
+                                <span asp-validation-for="newBook.Title" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -169,14 +159,34 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label asp-for="bookName.CategoryName" class="form-label">Category</label>
-                                 <select asp-for="bookName.CategoryName" class="form-control"> 
+                                <label asp-for="newBook.AuthorName" class="form-label">Author</label>
+                                <input asp-for="newBook.AuthorName" type="text" class="form-control">
+                                <span asp-validation-for="newBook.AuthorName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                      <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label asp-for="newBook.ImgUrl" class="form-label">Image URL</label>
+                                <input asp-for="newBook.ImgUrl" type="text" class="form-control">
+                                <span asp-validation-for="newBook.ImgUrl" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label asp-for="newBook.CategoryName" class="form-label">Category</label>
+                                 <select asp-for="newBook.CategoryName" class="form-control"> 
                                     <option value="">-- Select Level --</option>  
                                     <option value="1">Book</option> 
                                     <option value="2">E-Book</option> 
                                     <option value="3">Movie</option> 
                                 </select>
-                            <span asp-validation-for="bookName.CategoryName" class="text-danger"></span>
+                            <span asp-validation-for="newBook.CategoryName" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -184,13 +194,13 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label asp-for="bookName.SubCategoryName" class="form-label">SubCategory</label>
-                                 <select asp-for="bookName.SubCategoryName" class="form-control"> 
+                                <label asp-for="newBook.SubCategoryName" class="form-label">SubCategory</label>
+                                 <select asp-for="newBook.SubCategoryName" class="form-control"> 
                                     <option value="">-- Select Level --</option>  
                                     <option value="1">Fiction</option> 
                                     <option value="2">Non-Fiction</option> 
                                 </select>
-                            <span asp-validation-for="bookName.SubCategoryName" class="text-danger"></span>
+                            <span asp-validation-for="newBook.SubCategoryName" class="text-danger"></span>
                             </div>
                         </div>
                     </div>   
@@ -198,16 +208,15 @@
                       <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label asp-for="bookName.Description" class="form-label">Description</label>
-                                <input asp-for="bookName.Description" type="text" class="form-control">
-                                <span asp-validation-for="bookName.Description" class="text-danger"></span>
+                                <label asp-for="newBook.Description" class="form-label">Description</label>
+                                <input asp-for="newBook.Description" type="text" class="form-control">
+                                <span asp-validation-for="newBook.Description" class="text-danger"></span>
                             </div>
                         </div>
                      </div>
-
                         <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button  class="btn btn-primary" asp-page-handler="Add" >Save</button>
                         </div>
                     </div>
                 </div>

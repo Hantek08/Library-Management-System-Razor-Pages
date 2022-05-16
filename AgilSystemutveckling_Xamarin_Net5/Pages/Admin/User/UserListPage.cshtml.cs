@@ -23,11 +23,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User
         }
 
         public IActionResult OnPostAdd()
-        {   /*
+        {   
             if (!ModelState.IsValid)
             {
                return Page();
-            }*/
+            }
 
             Service.CreateService.Create.AddUser(newUser);
             return RedirectToPage("/Admin/User/UserListPage");
