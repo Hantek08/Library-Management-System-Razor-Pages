@@ -6,17 +6,29 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
     public class SearchPageModel : PageModel
     {
-        public static List<TestModels.Product> BookName;
-
+        public static List<Products> BookName;
+        [BindProperty]
+        public Products newBook { get; set; }
         public void OnGet()
         {
-            BookName = TestService.GetService.Get.GetAllProducts();
+            BookName = Service.GetService.Get.GetAllProducts();
         }
 
         public void OnPost()
         {
             ViewData["Books"] = BookName;
             // git test
+        }
+
+        public IActionResult OnPostAdd()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            Service.CreateService.Create.AddProduct(newBook);
+            return RedirectToPage("/SearchPage");
         }
     }
 

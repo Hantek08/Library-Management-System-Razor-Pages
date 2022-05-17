@@ -6,14 +6,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User
     public class UserListPageModel : PageModel
     {
         //List that is shown to admin and employee
-        public static List<TestModels.User> UserList;
+        public static List<Models.Users> UserList;
         
         [BindProperty]
-        public TestModels.User newUser { get; set; }
+        public Models.Users newUser { get; set; }
 
         public void OnGet()
         {
-            UserList = TestService.GetService.Get.GetAllUsers();
+            UserList = Service.GetService.Get.GetAllUsers();
         }
 
         public void OnPost()
@@ -22,15 +22,17 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User
             // git test
         }
 
-        public ActionResult OnPostAdd()
-        {
+        public IActionResult OnPostAdd()
+        {   
             if (!ModelState.IsValid)
             {
-                return Page();
+               return Page();
             }
-          /*  TestService.CreateService.Create.AddUser(newUser);*/
+
+            Service.CreateService.Create.AddUser(newUser);
             return RedirectToPage("/Admin/User/UserListPage");
         }
+
 
     }
 }
