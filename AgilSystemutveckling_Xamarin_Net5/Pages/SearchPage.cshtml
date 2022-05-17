@@ -25,22 +25,47 @@
    
 </header>
 
-<div>
-    <input type="text" id="search" onkeyup="myFunction()" placeholder="Search By Name" title="Type in a name">
+@*<div>
+    <input type="text" id="filter" placeholder="Search By Name" title="Type in a name">
     <a id="addbutton" href="#myModal" role="button" class="btn user-add" data-bs-toggle="modal">Add Product</a>
+</div>*@
+
+
+                <div class="container">
+                         <div class="row">
+                            
+                               <div class="col-2">
+                                <div class="mt-3 mb-3">
+                                  <a id="addbutton11" href="#myModal" role="button" class="btn product-add" data-bs-toggle="modal">Add Product</a>
+                                </div>
+                            </div>
+                            <div class="col-10">
+                                <div class="mt-3 mb-3">
+                                 <input class="form-control" id="filter" type="search" placeholder="Search" aria-label="Search" autocomplete="off" style="border-radius:12px; width:60%;margin-left:-32px
+"> 
+                                </div>
+                            </div>
+
+        
+                        </div>
+
 </div>
 
 
-<table id="myTable">
+
+
+
+
       @foreach (var item in SearchPageModel.BookName)
       { 
-        <tr>
-            <td>
+          <div class="container">
+          <div id="mycard" class="row">
+           <div class="row">
                 <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
                     <img class="imgSize" src="@item.ImgUrl"/>
                 </div>
-            </td>
-            <td >
+            
+            
                 <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
                     <h4>@item.Title</h4>
                     <ul style="list-style-type: none;">
@@ -49,10 +74,12 @@
                         <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
                     </ul>
                 </div>
-            </td>
-        </tr>
+        </div>
+          </div>
+      </div>
+        
       }
-</table>
+
 
 
 @*Gammla table*@
@@ -110,28 +137,17 @@
 </style>
 
 
-<script>
-    function myFunction() {
-  // Declare variables
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("search");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
 
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }
-  }
-}
+
+  <script>
+$(document).ready(function(){
+  $("#filter").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#mycard > div").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
 </script>
 
 
