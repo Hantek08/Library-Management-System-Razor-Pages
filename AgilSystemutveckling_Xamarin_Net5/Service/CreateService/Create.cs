@@ -580,7 +580,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
-                if (connection.State == System.Data.ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                     connection.Execute(cmdText);
 
                 connection.Close();
@@ -619,13 +619,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         public static void AddSubCategory(SubCategories subcategory)
         {
 
+
             var cmdText = @$"INSERT INTO SubCategory (SubCategoryName)
                                 VALUES (@SubCategoryName)";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
-                if (connection.State == System.Data.ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                     connection.Execute(cmdText);
             }
         }
