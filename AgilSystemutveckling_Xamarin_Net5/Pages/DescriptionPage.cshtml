@@ -67,15 +67,16 @@
     }
     #makealoan{
         font-size: 20px;
-        background-color: #F2F2F2;
-        color: black;
-        border-style: ridge;
-        border-color: #202020;
-        width: 145px;
-        height: 45px;
+        width: 150px;
+        height:40px;
+        color:white;
+        font-weight:bold;
+        background-color:#6FC767;
         margin-top: 81px;
         margin-left:55px;
-        border-radius:11px;
+        border-radius:10px;
+        border:0px;
+        padding-right: 105px;
     }
     .descHolder{
         width: 600px;
@@ -160,11 +161,14 @@
                     </div>
                 </div>
                 <div class="col-4 col-sm-6">
-                    <button type="submit" class="btn btn-primary" id="makealoan" asp-page-handler="AddToCart" >Lend</button>
-                    <div class="popup" onclick="myFunction()">
-                    @*<input id="makealoan" class="buttons" type="submit" value="Loan Product">*@
-                        <span class="popuptext" id="myPopup">A Simple Popup!</span>
-                    </div>
+                    @if (Globals.LoggedInUser.Level == 1 )
+                        {
+                            <button type="submit" class="btn btn-primary" id="makealoan" asp-page-handler="AddToCart" >Lend</button>
+                            <div class="popup" onclick="myFunction()">
+                                @*<input id="makealoan" class="buttons" type="submit" value="Loan Product">*@
+                                <span class="popuptext" id="myPopup">A Simple Popup!</span>
+                            </div>
+                        }
                 </div>
             </div>
         </div>
