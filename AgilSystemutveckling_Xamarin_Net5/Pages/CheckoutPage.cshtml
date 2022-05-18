@@ -20,23 +20,34 @@
    
 </header>
 <div class="users">
-    <table id="myTable" class="user-list">
+    
+        <table id="myTable" class="user-list">
+        <tr>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th></th>
+        </tr>
+        
+        @foreach (var item in Globals.CartList)
+        {
             <tr>
-                <th>Product</th>
-                <th>Category</th>
-                <th>Subcategory</th>
-                <th></th>
+                <td>@item.Title </td>
+                <td>@item.CategoryName</td>
+                <td>@item.SubCategoryName</td>
+                <td>
+                    <form method="post">
+                        <input
+                            type="image"                       
+                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjxzdmcgd2lkdGg9IjFlbSIgaGVpZ2h0PSIxZW0iIHZpZXdCb3g9IjAgMCAxNiAxNiIgY2xhc3M9ImJpIGJpLXRyYXNoLWZpbGwiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMi41IDFhMSAxIDAgMCAwLTEgMXYxYTEgMSAwIDAgMCAxIDFIM3Y5YTIgMiAwIDAgMCAyIDJoNmEyIDIgMCAwIDAgMi0yVjRoLjVhMSAxIDAgMCAwIDEtMVYyYTEgMSAwIDAgMC0xLTFIMTBhMSAxIDAgMCAwLTEtMUg3YTEgMSAwIDAgMC0xIDFIMi41em0zIDRhLjUuNSAwIDAgMSAuNS41djdhLjUuNSAwIDAgMS0xIDB2LTdhLjUuNSAwIDAgMSAuNS0uNXpNOCA1YS41LjUgMCAwIDEgLjUuNXY3YS41LjUgMCAwIDEtMSAwdi03QS41LjUgMCAwIDEgOCA1em0zIC41YS41LjUgMCAwIDAtMSAwdjdhLjUuNSAwIDAgMCAxIDB2LTd6Ii8+DQo8L3N2Zz4="
+                            asp-page-handler="DeliteFromCart" 
+                            asp-route-id="@item.Id"
+                            /> 
+                    </form>
+                </td>
             </tr>
-            @foreach (var item in Service.GetService.Get.GetAllProducts())
-            {
-                <tr>
-                    <td>@item.Title </td>
-                    <td>@item.CategoryName</td>
-                    <td>@item.SubCategoryName</td>
-                    <td><img alt="Delete"
-                            src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjxzdmcgd2lkdGg9IjFlbSIgaGVpZ2h0PSIxZW0iIHZpZXdCb3g9IjAgMCAxNiAxNiIgY2xhc3M9ImJpIGJpLXRyYXNoLWZpbGwiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMi41IDFhMSAxIDAgMCAwLTEgMXYxYTEgMSAwIDAgMCAxIDFIM3Y5YTIgMiAwIDAgMCAyIDJoNmEyIDIgMCAwIDAgMi0yVjRoLjVhMSAxIDAgMCAwIDEtMVYyYTEgMSAwIDAgMC0xLTFIMTBhMSAxIDAgMCAwLTEtMUg3YTEgMSAwIDAgMC0xIDFIMi41em0zIDRhLjUuNSAwIDAgMSAuNS41djdhLjUuNSAwIDAgMS0xIDB2LTdhLjUuNSAwIDAgMSAuNS0uNXpNOCA1YS41LjUgMCAwIDEgLjUuNXY3YS41LjUgMCAwIDEtMSAwdi03QS41LjUgMCAwIDEgOCA1em0zIC41YS41LjUgMCAwIDAtMSAwdjdhLjUuNSAwIDAgMCAxIDB2LTd6Ii8+DQo8L3N2Zz4=">
-                    </td>
-                </tr>
-            }
+        }
     </table>
+    
+    
 </div>

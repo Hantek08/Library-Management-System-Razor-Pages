@@ -64,7 +64,7 @@
                 <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
                     <img class="imgSize" src="@item.ImgUrl"/>
                 </div>
-            
+
                 <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
                     <h4>@item.Title</h4>
                     <ul style="list-style-type: none;">
@@ -73,11 +73,11 @@
                         <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
                     </ul>
                     <form method="post">
-                         @if (Globals.LoggedInUser.Level == 1)
+                        @if (Globals.LoggedInUser.Level == 1)
                             {
-                                <input id="make_a_loan" class="btn btn-default" type="submit" value="Loan Product"  asp-page-handler="AddToCart" asp-route-data="@item" >
+                                <button id="make_a_loan" class="btn btn-default" asp-page-handler="AddToCart" asp-route-id="@item.Id" >Loan Product</button>
                             }
-                        </form>
+                    </form>
                 </div>
             </div>
         </div>

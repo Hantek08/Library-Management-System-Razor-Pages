@@ -31,13 +31,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             return RedirectToPage("/SearchPage");
         }
 
-        public IActionResult OnPostAddToCart(Products product)
+        public void OnPostAddToCart(int id)
         {
-            
-            return RedirectToPage("/SearchPage");
+            BookName = Service.GetService.Get.GetAllProducts();
+            var product = BookName.Where(c => c.Id == id).ToList();
+            Globals.CartList.Add(product[0]);
         }
-            
     }
-
-
 }
