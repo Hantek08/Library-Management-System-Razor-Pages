@@ -9,88 +9,58 @@
 <header class="Menu"> 
 
     <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#">Products</a>
+        </li>
+
+        @if (Globals.LoggedInUser.Level == 1)
+        {
+            <li class="nav-item">
+            <a class="nav-link" href="CheckoutPage">Cart</a>
+            </li>
+        }
+
         @if (Globals.LoggedInUser.Level > 1)
         {
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Products</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="/Admin/User/UserListPage">Users</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
           </li>
         }
     </ul>
    
 </header>
 
-@*<div>
-    <input type="text" id="filter" placeholder="Search By Name" title="Type in a name">
-    <a id="addbutton" href="#myModal" role="button" class="btn user-add" data-bs-toggle="modal">Add Product</a>
-</div>*@
+    
 
-
-                <div class="container">
-                         <div class="row">
+<div class="container">
+    <div class="row">
                             
-                               <div class="col-2">
-                                <div class="mt-3 mb-3">
-                                  <a id="addbutton11" href="#myModal" role="button" class="btn product-add" data-bs-toggle="modal">Add Product</a>
-                                </div>
-                            </div>
-                            <div class="col-10">
-                                <div class="mt-3 mb-3">
-                                 <input class="form-control" id="filter" type="search" placeholder="Search" aria-label="Search" autocomplete="off" style="border-radius:12px; width:60%;margin-left:-32px
-"> 
-                                </div>
-                            </div>
-
-        
-                        </div>
+        <div class="col-2">
+            <div class="mt-3 mb-3">
+                @if (Globals.LoggedInUser.Level > 1)
+                {
+                    <a id="addbutton11" href="#myModal" role="button" class="btn product-add" data-bs-toggle="modal">Add Product</a>
+                }
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="mt-3 mb-3">
+                <input class="form-control" id="filter" type="search" placeholder="Search" aria-label="Search" autocomplete="off" style="border-radius:12px; width:60%;margin-left:-32px"> 
+            </div>
+        </div>
+    </div>
 
 </div>
 
-
-
-
-
-
-      @foreach (var item in SearchPageModel.BookName)
-      { 
-          <div class="container">
-          <div id="mycard" class="row">
-           <div class="row">
-                <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
-                    <img class="imgSize" src="@item.ImgUrl"/>
-                </div>
-            
-            
-                <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
-                    <h4>@item.Title</h4>
-                    <ul style="list-style-type: none;">
-                        <li>By @item.AuthorName</li>
-                        <li>@item.CategoryName</li>
-                        <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
-                    </ul>
-                </div>
-        </div>
-          </div>
-      </div>
-        
-      }
-
-
-
-@*Gammla table*@
-@*<table id="myTable">
-      @foreach (var item in SearchPageModel.BookName)
-      { 
-         <tr>
+@foreach (var item in SearchPageModel.BookName)
+{ 
+    <div class="container">
+        <div id="mycard" class="row">
             <div class="row">
                 <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
                     <img class="imgSize" src="@item.ImgUrl"/>
                 </div>
+            
                 <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
                     <h4>@item.Title</h4>
                     <ul style="list-style-type: none;">
@@ -100,9 +70,9 @@
                     </ul>
                 </div>
             </div>
-        </tr>
-      }
-</table>*@
+        </div>
+</div>
+}
 
 <style>
     .BookTitle{
@@ -198,9 +168,9 @@ $(document).ready(function(){
                                 <label asp-for="newBook.CategoryName" class="form-label">Category</label>
                                  <select asp-for="newBook.CategoryName" class="form-control"> 
                                     <option value="">-- Select Level --</option>  
-                                    <option value="1">Book</option> 
-                                    <option value="2">E-Book</option> 
-                                    <option value="3">Movie</option> 
+                                    <option value="Book">Book</option> 
+                                    <option value="E-Book">E-Book</option> 
+                                    <option value="Movie">Movie</option> 
                                 </select>
                             <span asp-validation-for="newBook.CategoryName" class="text-danger"></span>
                             </div>
@@ -213,8 +183,8 @@ $(document).ready(function(){
                                 <label asp-for="newBook.SubCategoryName" class="form-label">SubCategory</label>
                                  <select asp-for="newBook.SubCategoryName" class="form-control"> 
                                     <option value="">-- Select Level --</option>  
-                                    <option value="1">Fiction</option> 
-                                    <option value="2">Non-Fiction</option> 
+                                    <option value="Fiction">Fiction</option> 
+                                    <option value="Non-Fiction">Non-Fiction</option> 
                                 </select>
                             <span asp-validation-for="newBook.SubCategoryName" class="text-danger"></span>
                             </div>

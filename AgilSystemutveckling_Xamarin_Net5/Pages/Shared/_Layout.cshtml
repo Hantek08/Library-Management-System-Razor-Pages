@@ -48,7 +48,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy"><img src="/image/infoIcon.png" class="info" /></a>
                         </li>
 
-                        @if(Globals.LoggedInUser.Level < 2){
+                        @if(Globals.LoggedInUser.Level == 0){
                             <li class="nav-item" style="font-weight: bold">
                                 <a class="nav-link text-dark" asp-area="" asp-page="LoginPage">Login</a>
                             </li>
