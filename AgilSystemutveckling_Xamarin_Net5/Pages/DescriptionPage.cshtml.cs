@@ -25,10 +25,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             ViewData["Books"] = description;
             // git test
         }
-        public IActionResult OnPostAddToCart()
+        public void OnPostAddToCart()
         {
+
             Globals.ChosenProduct.Add(product);
-            return RedirectToPage("/DescriptionPage", new { id = product.Id });
+            Thread.Sleep(3000);
+            //return RedirectToPage("/DescriptionPage", new { id = product.Id });
         }
 
     }
