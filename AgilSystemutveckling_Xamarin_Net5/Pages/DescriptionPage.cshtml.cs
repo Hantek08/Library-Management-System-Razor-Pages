@@ -28,7 +28,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         public IActionResult OnPostAddToCart()
         {
             Globals.ChosenProduct.Add(product);
-            return RedirectToPage("/SearchPage");
+            return RedirectToPage("/DescriptionPage", new { id = product.Id });
         }
 
     }

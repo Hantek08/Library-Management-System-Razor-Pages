@@ -30,6 +30,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             Service.CreateService.Create.AddProduct(newBook);
             return RedirectToPage("/SearchPage");
         }
+
+        public IActionResult OnPostAddToCart(Products product)
+        {
+            
+            return RedirectToPage("/SearchPage");
+        }
+            
     }
 
 

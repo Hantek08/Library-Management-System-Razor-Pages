@@ -9,9 +9,13 @@
 <header class="Menu"> 
 
     <ul class="nav nav-pills nav-fill">
-        <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Products</a>
-        </li>
+        
+        @if (Globals.LoggedInUser.Level > 0)
+        {
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Products</a>
+            </li>
+        }
 
         @if (Globals.LoggedInUser.Level == 1)
         {
@@ -68,6 +72,12 @@
                         <li>@item.CategoryName</li>
                         <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
                     </ul>
+                    <form method="post">
+                     @if (Globals.LoggedInUser.Level > 0)
+                        {
+                            <input id="make_a_loan" class="btn btn-default" type="submit" value="Loan Product"  asp-page-handler="AddToCart" asp-route-data="@item" >
+                        }
+                    </form>
                 </div>
             </div>
         </div>
@@ -103,6 +113,22 @@
 
     #addbutton{
         margin-left: 100px;
+    }
+
+     #make_a_loan{
+        float: right;
+        margin-top: 30px;
+        width: 150px;
+        height:40px;
+        color:white;
+        font-weight:bold;
+        background-color:#6FC767;
+        border-radius: 10px;
+        border:0px;
+    }
+
+    #make_a_loan:hover{
+        background-color:#4FC157;
     }
 </style>
 
