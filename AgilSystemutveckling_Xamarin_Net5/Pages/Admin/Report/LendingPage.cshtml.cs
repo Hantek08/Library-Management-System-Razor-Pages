@@ -5,14 +5,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Report
 {
     public class LendingPageModel : PageModel
     {
-        public static List<TestModels.User> UserLists;
+        public static List<Models.Users> UserLists;
 
         [BindProperty]
-        public TestModels.User newUser { get; set; }
+        public Models.Users newUser { get; set; }
 
         public void OnGet()
         {
-            UserLists = TestService.GetService.Get.GetAllUsers();
+            UserLists = Service.GetService.Get.GetAllUsers();
         }
 
         public void OnPost()

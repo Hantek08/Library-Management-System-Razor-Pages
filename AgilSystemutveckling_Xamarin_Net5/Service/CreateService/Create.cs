@@ -678,7 +678,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         public static void AddLoan(int UserId, int ProductId, int ActionId)
         {
             var sqlMain = @$"INSERT INTO History (UserId, ProductId, Datetime, ActionId) 
-                                    VALUES ({UserId}, {ProductId}, {DateTime.Today}, {ActionId}";
+                                    VALUES ({UserId}, {ProductId}, {DateTime.Now}, {ActionId}";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {

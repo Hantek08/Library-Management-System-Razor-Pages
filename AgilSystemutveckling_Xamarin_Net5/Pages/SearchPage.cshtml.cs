@@ -7,7 +7,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
     public class SearchPageModel : PageModel
     {
-        public static List<Products> BookName;
+        public static List<Products?> BookName;
         [BindProperty]
         public Products newBook { get; set; }
         public void OnGet()
@@ -34,7 +34,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         public void OnPostAddToCart(int id)
         {
-            BookName = Service.GetService.Get.GetAllProducts();
+            BookName =  Service.GetService.Get.GetAllProducts();
             var product = BookName.Where(c => c.Id == id).ToList();
             Globals.CartList.Add(product[0]);
         }

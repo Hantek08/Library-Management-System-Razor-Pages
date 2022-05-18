@@ -125,7 +125,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static List<Products?> GetAllProducts()
         {
-            string? sql = @$"SELECT *
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
                             FROM Products
                             INNER JOIN Authors on Products.AuthorId = Authors.Id
                             INNER JOIN Categories on Products.CategoryId = Categories.Id
@@ -348,37 +350,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 return null;
             }
         }
-
-        /// <summary>
-        /// Gets all products sorted by author ascending.
-        /// </summary>
-        /// <returns></returns>
-        public static async Task<List<Products?>> GetAllProductsSortedByAuthorAscAsync()
-        {
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
-                            FROM Products
-                            inner join Authors on Products.AuthorId = Authors.Id
-                            inner join Categories on Products.CategoryId = Categories.Id
-                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id
-                            ORDER BY AuthorName";
-
-            using (var connection = new MySqlConnection(ConnectionString))
-            {
-                await connection.OpenAsync();
-                if (connection.State == ConnectionState.Open)
-                {
-                    var name = await connection.QueryAsync<Products?>(sql);
-                    await connection.CloseAsync();
-
-                    return name.ToList();
-                }
-                return null;
-            }
-        }
-
-
+      
 
         /// <summary>
         /// Gets all products sorted by author ascending async.
