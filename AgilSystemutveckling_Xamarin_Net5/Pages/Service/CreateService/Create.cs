@@ -171,7 +171,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
         public static void AddProduct(Products? product)
         {
             if (product == null) { throw new ArgumentNullException(nameof(product)); }
-            CheckStringFormat(product.Description, product.CategoryName, product.SubCategoryName);
+            Methods.CheckStringFormat(product.Description, product.CategoryName, product.SubCategoryName);
 
             static List<Authors?> GetAllAuthors()
             {
@@ -367,7 +367,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
                     }
                 }
 
-                CheckStringFormat(product.Title, product.Description, product.ImgUrl);
+                Methods.CheckStringFormat(product.Title, product.Description, product.ImgUrl);
 
                 var sqlMain = @$"INSERT INTO Products (Title, Description, AuthorId, CategoryId, SubCategoryId, UnitsInStock, ImgUrl) 
                                         VALUES ('{product.Title}', '{product.Description}', {AuthorId}, {CategoryId}, {SubCategoryId}, {product.UnitsInStock}, '{product.ImgUrl}')";
@@ -473,5 +473,37 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Service.CreateService
             return subcategory;
         }
         #endregion
+    }
+
+    public class Methods
+    {
+        /// <summary>
+        /// Method that checks if a variable number of strings are correctly formatted.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="FormatException"></exception>
+        public static void CheckStringFormat(params string?[] a)
+        {
+            for (int i = 0; i < a.Length; i++)
+            {
+                if (a[i] == null) { throw new ArgumentNullException($"{nameof(a)}", $"String value cannot be null. Please try again."); }
+
+                if (a[i].Contains('\''))
+                {
+                    throw new FormatException(
+                        $"String in parameter '{nameof(a)}' contains at least one single quote. Please check again and remove any single quotes."
+                        );
+                }
+
+                if (a[i].Length > 250) { throw new FormatException($"String '{nameof(a)}' is too long. Maximum is 250 characters."); }
+            }
+        }
+
+        public static bool CheckIfExists(string s)
+        {
+            return false;
+        }
+
     }
 }
