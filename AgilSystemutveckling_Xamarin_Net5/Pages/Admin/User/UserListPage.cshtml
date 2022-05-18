@@ -13,10 +13,6 @@
       <li class="nav-item">
         <a class="nav-link active" href="#">Users</a>
       </li>
-      
-      <li class="nav-item">
-        <a class="nav-link disabled">Disabled</a>
-      </li>
     </ul>
    
 </header>
@@ -110,8 +106,11 @@
                                     <select asp-for="newUser.Level" class="form-control"> 
                                         <option value="">-- Select Level --</option>  
                                         <option value="1">Customer</option> 
-                                        <option value="2">Employee</option> 
-                                        <option value="3">Admin</option> 
+                                        @if(Globals.LoggedInUser.Level > 2)
+                                        {
+                                            <option value="2">Employee</option> 
+                                            <option value="3">Admin</option> 
+                                        }
                                     </select>
                                     <span asp-validation-for="newUser.Level" class="text-danger"></span>
                                 </div>
