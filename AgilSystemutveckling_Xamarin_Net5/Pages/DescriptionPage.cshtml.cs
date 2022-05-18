@@ -25,6 +25,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             ViewData["Books"] = description;
             // git test
         }
+        public IActionResult OnPostAddToCart()
+        {
+            Globals.ChosenProduct.Add(product);
+            return RedirectToPage("/SearchPage");
+        }
 
     }
 }
