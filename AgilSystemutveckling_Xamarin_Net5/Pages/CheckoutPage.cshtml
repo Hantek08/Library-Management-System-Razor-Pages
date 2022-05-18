@@ -51,3 +51,20 @@
     
     
 </div>
+
+@if(Globals.CartList.Count != 0)
+{
+    <form method="post">
+        <button id="check_out_button" class="btn btn-default" asp-page-handler="CheckOut" >Check out</button>
+    </form>
+}
+
+<style>
+    #check_out_button{
+        margin-top:0px;
+        float:right;
+        width: 155px;
+        height: 45px;
+        margin-bottom: 30px;
+    }
+</style>

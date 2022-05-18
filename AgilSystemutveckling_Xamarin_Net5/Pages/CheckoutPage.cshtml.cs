@@ -20,5 +20,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
                 }
             }           
         }
+
+        public void OnPostCheckOut()
+        {
+
+        }
     }
 }
