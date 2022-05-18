@@ -7,6 +7,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
+
+using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
 using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
@@ -15,13 +17,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
     {
 
         #region Category related
+        
         /// <summary>
         /// Get all categories.
         /// </summary>
         /// <returns></returns>
         public static List<Categories?> GetAllCategories()
         {
-            var sql = @$"SELECT Id, CategoryName 
+            var sql = @$"SELECT *
                                 FROM Categories";
 
             using (var connection = new MySqlConnection(ConnectionString))
@@ -44,7 +47,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static async Task<List<Categories?>> GetAllCategoriesAsync()
         {
-            var sql = @$"SELECT Id, CategoryName 
+            var sql = @$"SELECT *
                                 FROM Categories";
 
             using (var connection = new MySqlConnection(ConnectionString))
@@ -60,24 +63,56 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             }
             return null;
         }
+
+        #region Subcategory related
         /// <summary>
         /// Gets all subcategories.
         /// </summary>
         /// <returns></returns>
         public static List<SubCategories?> GetAllSubCategories()
         {
-            var sql = @$"SELECT Id, CategoryName 
-                                FROM Categories";
+            var sql = @$"SELECT * 
+                                FROM SubCategories";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
-                var subCategories = connection.Query<SubCategories?>(sql).ToList();
-                connection.Close();
+                if(connection.State == ConnectionState.Open)
+                {
+                    var subCategories = connection.Query<SubCategories?>(sql).ToList();
+                    connection.Close();
 
-                return subCategories;
+                    return subCategories;
+                }
+
+                return null;
             }
         }
+
+        /// <summary>
+        /// Get all subcategories async.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<SubCategories?>> GetAllSubCategoriesAsync()
+        {
+            var sql = @$"SELECT * 
+                                FROM SubCategories";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                if(connection.State == ConnectionState.Open)
+                {
+                    var subCategories = await connection.QueryAsync<SubCategories?>(sql);
+                    await connection.CloseAsync();
+
+                    return subCategories.ToList();
+                }
+                
+                return null;
+            }
+        }
+        #endregion
 
         #endregion
 
@@ -90,13 +125,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static List<Products?> GetAllProducts()
         {
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+            string? sql = @$"SELECT *
                             FROM Products
-                            inner join Authors on Products.AuthorId = Authors.Id
-                            inner join Categories on Products.CategoryId = Categories.Id
-                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id";
+                            INNER JOIN Authors on Products.AuthorId = Authors.Id
+                            INNER JOIN Categories on Products.CategoryId = Categories.Id
+                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -120,13 +153,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static async Task<List<Products?>> GetAllProductsAsync()
         {
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+            string? sql = @$"SELECT *
                             FROM Products
-                            inner join Authors on Products.AuthorId = Authors.Id
-                            inner join Categories on Products.CategoryId = Categories.Id
-                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id";
+                            INNER JOIN Authors on Products.AuthorId = Authors.Id
+                            INNER JOIN Categories on Products.CategoryId = Categories.Id
+                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -151,14 +182,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static Products? GetProductById(int id)
         {
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+            string? sql = @$"SELECT *
                             FROM Products
-                            inner join Authors on Products.AuthorId = Authors.Id
-                            inner join Categories on Products.CategoryId = Categories.Id
-                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id
-                            where Products.Id = {id}";
+                            INNER JOIN Authors on Products.AuthorId = Authors.Id
+                            INNER JOIN Categories on Products.CategoryId = Categories.Id
+                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
+                            WHERE Products.Id = {id}";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -183,9 +212,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         public static async Task<Products?> GetProductByIdAsync(int id)
         {
 
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+            string? sql = @$"SELECT *
                             FROM Products
                             inner join Authors on Products.AuthorId = Authors.Id
                             inner join Categories on Products.CategoryId = Categories.Id
@@ -213,14 +240,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static List<Products?> GetAllProductsSortedByCategoryAsc()
         {
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+            string? sql = @$"SELECT *
                             FROM Products
                             inner join Authors on Products.AuthorId = Authors.Id
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
-                            ORDER BY Products.Category.Id";
+                            ORDER BY Categories.Id;";
 
 
             using (var connection = new MySqlConnection(ConnectionString))
@@ -235,6 +260,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                     return products;
                 }
             }
+
             return null;
         }
 
@@ -244,14 +270,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static async Task<List<Products?>> GetAllProductsSortedByCategoryAscAsync()
         {
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+            string? sql = @$"SELECT *
                             FROM Products
                             inner join Authors on Products.AuthorId = Authors.Id
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
-                            ORDER BY Products.Category.Id";
+                            ORDER BY Categories.Id";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -276,14 +300,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static List<Products?> GetAllProductsSortedByCategoryDesc()
         {
-            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
-                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+            string? sql = @$"SELECT *
                             FROM Products
                             inner join Authors on Products.AuthorId = Authors.Id
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
-                            ORDER BY Products.Category.Id desc";
+                            ORDER BY Categories.Id desc";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -311,7 +333,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             inner join Authors on Products.AuthorId = Authors.Id
                             inner join Categories on Products.CategoryId = Categories.Id
                             inner join SubCategories on Products.SubCategoryId = SubCategories.Id
-                            ORDER BY Products.Category.Id desc";
+                            ORDER BY Categories.Id desc";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -326,6 +348,68 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 return null;
             }
         }
+
+        /// <summary>
+        /// Gets all products sorted by author ascending.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Products?>> GetAllProductsSortedByAuthorAscAsync()
+        {
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                            FROM Products
+                            inner join Authors on Products.AuthorId = Authors.Id
+                            inner join Categories on Products.CategoryId = Categories.Id
+                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id
+                            ORDER BY AuthorName";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == ConnectionState.Open)
+                {
+                    var name = await connection.QueryAsync<Products?>(sql);
+                    await connection.CloseAsync();
+
+                    return name.ToList();
+                }
+                return null;
+            }
+        }
+
+
+
+        /// <summary>
+        /// Gets all products sorted by author ascending async.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<List<Products?>> GetAllProductsSortedByAuthorAscAsync()
+        {
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                            FROM Products
+                            inner join Authors on Products.AuthorId = Authors.Id
+                            inner join Categories on Products.CategoryId = Categories.Id
+                            inner join SubCategories on Products.SubCategoryId = SubCategories.Id
+                            ORDER BY AuthorName";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == ConnectionState.Open)
+                {
+                    var name = await connection.QueryAsync<Products?>(sql);
+                    await connection.CloseAsync();
+
+                    return name.ToList();
+                }
+                return null;
+            }
+        }
+
+
         /// <summary>
         /// Gets all products that are marked as active/non-hidden.
         /// </summary>
@@ -493,7 +577,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
             string? sql = $@"SELECT Title, AuthorId, SubCategoryId
                               FROM Products
-                              WHERE Products.CategoryId = 1;";
+                              WHERE CategoryId = 1;";
 
 
             using var connection = new MySqlConnection(ConnectionString);
@@ -515,6 +599,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static List<Products?> GetAllByCategory(string CategoryName)
         {
+            CheckStringFormat(CategoryName);
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
 				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
 				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
@@ -539,12 +624,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             }
         }
 
-        /// <summary>
-        /// Gets all book seminars.
-        /// </summary>
-        /// <returns></returns>
         public static async Task<List<Products?>> GetAllByCategoryAsync(string CategoryName)
         {
+            CheckStringFormat(CategoryName);
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
 				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
 				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
@@ -557,7 +639,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 await connection.OpenAsync();
-                if (connection.State == System.Data.ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     var seminars = await connection.QueryAsync<Products?>(sql);
 
@@ -571,6 +653,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         public static List<Products?> RecentlyAddedByCategory(string CategoryName, int limitProductsBy)
         {
+            CheckStringFormat(CategoryName);
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
 				            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
 				            Products.UnitsInStock, Products.InStock, Products.ImgUrl
@@ -1165,9 +1248,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
             string? sql = @$"SELECT History.Id, FirstNames.FirstName, LastNames.LastName, Products.Title, Actions.Action, History.Datetime
                             FROM History
-                            INNER JOIN Users on History.UserId = Users.Id
-                            INNER JOIN Actions on History.ActionId = Actions.Id
-                            INNER JOIN Products on History.ProductId =  Products.Id
+                            INNER JOIN Users on UserId = Users.Id
+                            INNER JOIN Actions on ActionId = Actions.Id
+                            INNER JOIN Products on ProductId =  Products.Id
                             INNER JOIN FullNames on Users.FullNameId = FullNames.Id
                             INNER JOIN FirstNames on FullNames.FirstNameId = FirstNames.Id
                             INNER JOIN LastNames on FullNames.LastNameId = LastNames.Id;";
@@ -1184,6 +1267,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                     return histories.ToList();
                 }
             }
+
             return null;
         }
 
@@ -1198,7 +1282,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             List<History?> late = new List<History?>();
             if (late != null)
             {
-                foreach (var hist in allHistories)
+                foreach (History? hist in allHistories)
                 {
                     if (hist != null)
                     {
@@ -1213,11 +1297,25 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return null;
         }
 
+        /// <summary>
+        /// Gets books sorted by number of loans.
+        /// </summary>
+        /// <returns></returns>
         public static List<History?> MostPopularBooks()
-        { 
+        {
+            string? sql = @$"SELECT Product.Id, AuthorName
+                            FROM History
+                            INNER JOIN Actions on ActionId = Actions.Id
+                            INNER JOIN Products on ProductId =  Products.Id
+                            ORDER BY Actions";
             // in progress
+            return GetAllHistories();
         }
 
         #endregion
     }
 }
+
+/*Products.Id, Products.Title, Products.Description,
+Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+Products.UnitsInStock, Products.InStock, Products.ImgUrl*/

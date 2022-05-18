@@ -1,5 +1,6 @@
 ﻿
 using System.Text;
+using AgilSystemutveckling_Xamarin_Net5.Models;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Methods
 {
@@ -27,6 +28,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
             }
         }
 
+        public static bool CheckIfExists(string s)
+        {
+
+        }
 
     }
 }
