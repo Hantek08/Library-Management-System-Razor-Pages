@@ -7,12 +7,11 @@
     .containerDesc{
         position: absolute;
         width: 800px;
-        height: 450px;
+        height: 372px;
         margin-left: 26%;
-        top: 401px;
         background: #FFFFFF;
         border-radius: 79px;
-        margin-top: -90px;
+        margin-top: 44px;
     }
 
     .descTitle{
@@ -30,14 +29,23 @@
 
     }
 
-    #backToSearch {
+    .backToSearch {
         font-size: 24px;
-        background-color: #6FC767;
         color: white;
         border: none;
         width: 100px;
         height: 46px;
-        margin-top: 650px;
+        margin-top: 300px;
+        margin-left: -10px;
+    }
+
+    #backToSearchimg {
+        font-size: 50px;
+        color: black;
+        border: none;
+        width: 50px;
+        height: 46px;
+        margin-top: -50px;
         margin-left: 40px;
     }
 
@@ -49,13 +57,25 @@
         width: 60px;
         height: 30px;
         margin-left: 85%;
-        margin-top: 5%;
+        margin-top: 50%;
     }
 
     #imageDesc{
         width: 100px;
         margin-left: 50px;
-        margin-top: -80px;
+        margin-top: 45px;
+    }
+    #makealoan{
+        font-size: 20px;
+        background-color: #F2F2F2;
+        color: black;
+        border-style: ridge;
+        border-color: #202020;
+        width: 145px;
+        height: 45px;
+        margin-top: 81px;
+        margin-left:55px;
+        border-radius:11px;
     }
     .descHolder{
         width: 600px;
@@ -65,24 +85,80 @@
     }
 
     .descAuthor{
-        margin-left: 200px;
+        margin-left: 150px;
         margin-top: 20px;
+    }
+    .desctitleauthor{
+        width: 600px;
+        text-align: center;
+        margin-left: -250px;
+        margin-top: 30px;
     }
 
 </style>
 
 
-
 <div class="containerDesc">
-    <h3 class ="descTitle">@DescriptionPageModel.title</h3>
-    <h5 class="descAuthor">Author: @DescriptionPageModel.author</h5>
-    <img id="imageDesc" src="@DescriptionPageModel.imgUrl"/>
-   <p class="descHolder">@DescriptionPageModel.description</p>
-    <input id="EditDesc" class="Buttons" type="submit" value="Edit">
+  <div class="row">
+    <div class="col-sm-3">
+     <img id="imageDesc" src="@DescriptionPageModel.imgUrl"/>
+    </div>
+    <div class="col-sm-9">
+      <div class="row">
+        <div class="col-8 col-sm-6">
+          <div class="desctitleauthor">
+              <h3 class ="descTitle">@DescriptionPageModel.title</h3>
+              <h5 class="descAuthor">Author: @DescriptionPageModel.author</h5>
+          </div>
+        </div>
+        <div class="col-4 col-sm-6">
+          <input id="makealoan" class="buttons" type="submit" value="Loan Product">
+        </div>
+      </div>
+    </div>
+  </div>
+     <div class="row">
+         <div class="col-sm-12">
+             <p class="descHolder">@DescriptionPageModel.description</p>
+         </div>
+     </div>
 </div>
 
+
+@*<div class="containerDesc">
+    <div class="row">
+        <div class"col-sm-3">
+            <img id="imageDesc" src="@DescriptionPageModel.imgUrl"/>
+        </div>
+        <div class"col-sm-3">
+            <h3 class ="descTitle">@DescriptionPageModel.title</h3>
+            <h5 class="descAuthor">Author: @DescriptionPageModel.author</h5>
+        </div>
+        <div class"col-sm-3>
+             <input id="makealoan" class="Buttons" type="submit" value="Loan Product">
+        </div>
+    </div>
+</div>*@
+
+@*<div class="containerDesc">
+    <div class="row">
+        <div class"col-sm-3">
+            <h3 class ="descTitle">@DescriptionPageModel.title</h3>
+            <h5 class="descAuthor">Author: @DescriptionPageModel.author</h5>
+            <img id="imageDesc" src="@DescriptionPageModel.imgUrl"/>
+            <input id="makealoan" class="Buttons" type="submit" value="Loan Product">
+           <p class="descHolder">@DescriptionPageModel.description</p>*@
+        @*    <input id="EditDesc" class="Buttons" type="submit" value="Edit">*@
+            @*<input id="makealoan" class="Buttons" type="submit" value="Loan Product">*@
+@*        </div>
+    </div>
+</div>*@
+
 <form action="/SearchPage">
-    <input id="backToSearch" class="Buttons" type="submit" value="Back">
+    <button class="backToSearch">
+        <i class="bi bi-arrow-left" id="backToSearchimg"></i>
+    </button>
+    @*<input id="backToSearch" class="Buttons" type="submit" value="Back">*@
 </form> 
 
 
