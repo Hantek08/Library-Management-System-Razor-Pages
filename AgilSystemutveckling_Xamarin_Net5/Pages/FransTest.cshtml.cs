@@ -7,11 +7,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
     public class FransTestModel : PageModel
     {
-        public static List<History> histories = new List<History>();
+        public static List<Products> histories = new List<Products>();
 
         public void OnGet()
         {
-            histories = Service.GetService.Get.LateReturns();
+            histories = Service.GetService.Get.MostPopularProducts(1);
         }
     }
 }
