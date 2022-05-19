@@ -10,6 +10,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         public static string title;
         public static string author;
         public static string imgUrl;
+        public static int unitsinstock;
 
         public void OnGet(int id)
         {
@@ -18,6 +19,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             title = product.Title;
             author = product.AuthorName;
             imgUrl = product.ImgUrl;
+            unitsinstock = product.UnitsInStock;
+
         }
 
         public void OnPost()
