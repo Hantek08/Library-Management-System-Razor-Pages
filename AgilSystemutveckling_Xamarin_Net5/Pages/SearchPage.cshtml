@@ -71,9 +71,24 @@
                         <li>By @item.AuthorName</li>
                         <li>@item.CategoryName</li>
                         <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
+                        <li>
+                            @if (item.UnitsInStock < 1)
+                                {
+                                    <p>No units available </p>
+                                }
+                            @if (Globals.LoggedInUser.Level > 1)
+                            {
+
+                                @if(item.UnitsInStock >= 1)
+                                {
+                                    <p>@item.UnitsInStock available</p>
+                                } 
+                            }
+                           
+                        </li>
                     </ul>
                     <form method="post">
-                        @if (Globals.LoggedInUser.Level == 1)
+                        @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0)
                             {
                                 <button id="make_a_loan" class="btn btn-default" asp-page-handler="AddToCart" asp-route-id="@item.Id" >Loan Product</button>
                             }

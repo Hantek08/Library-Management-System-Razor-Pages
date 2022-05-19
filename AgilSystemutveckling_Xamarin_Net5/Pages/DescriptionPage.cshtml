@@ -105,6 +105,9 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  width: 0px;
+  height: 0px;
+
 
 }
 
@@ -169,7 +172,7 @@
                     </div>
                 </div>
                 <div class="col-4 col-sm-6">
-                    @if (Globals.LoggedInUser.Level == 1 )
+                    @if (Globals.LoggedInUser.Level == 1 && @DescriptionPageModel.unitsinstock > 0)
                         { 
 
                              <div class="popup" onclick="myFunction()">
