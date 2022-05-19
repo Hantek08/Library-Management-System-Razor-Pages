@@ -677,8 +677,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
         public static void AddLoan(int UserId, int ProductId, int ActionId)
         {
+            DateTime today = DateTime.Today;
+
+
+
             var sqlMain = @$"INSERT INTO History (UserId, ProductId, Datetime, ActionId) 
-                                    VALUES ({UserId}, {ProductId}, {DateTime.Now}, {ActionId}";
+                                    VALUES ({UserId}, {ProductId}, '{today.Year}-{today.Month}-{today.Day} 00:00:00', {ActionId})";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -691,7 +695,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             }
 
             Products? product = GetProductById(ProductId);
-            if(product == null) { throw new NullReferenceException(); }
+            if (product == null) { throw new NullReferenceException(); }
 
             int unitsInStock = product.UnitsInStock - 1;
             UpdateUnitsInStock(ProductId, unitsInStock);
