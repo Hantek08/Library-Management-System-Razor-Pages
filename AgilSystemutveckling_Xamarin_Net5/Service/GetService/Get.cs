@@ -116,7 +116,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         #endregion
 
-
         #region Product related methods
 
         /// <summary>
@@ -1258,7 +1257,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 {
                     if (hist != null)
                     {
-                        if (hist.Time == DateTime.Today.AddMonths(-1))
+                        if (hist.DateTime == DateTime.Today.AddMonths(-1))
                         {
                             late.Add(hist);
                         }
