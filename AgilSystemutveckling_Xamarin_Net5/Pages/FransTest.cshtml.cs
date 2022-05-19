@@ -11,9 +11,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         public void OnGet()
         {
-            histories = Service.GetService.Get.GetAllHistories();
-
-            
+            histories = Service.GetService.Get.LateReturns();
         }
     }
 }

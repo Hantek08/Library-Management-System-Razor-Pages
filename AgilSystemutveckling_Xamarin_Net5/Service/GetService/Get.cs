@@ -125,7 +125,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static List<Products?> GetAllProducts()
         {
-            string? sql = @$"SELECT *
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
                             FROM Products
                             INNER JOIN Authors on Products.AuthorId = Authors.Id
                             INNER JOIN Categories on Products.CategoryId = Categories.Id
@@ -1251,30 +1253,30 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 {
                     if (hist != null)
                     {
-                        if (hist.DateTime == DateTime.Today.AddMonths(-1))
+                        if (hist.DateTime <= DateTime.Today.AddMonths(-1))
                         {
                             late.Add(hist);
                         }
                     }
                 }
             }
-            return null;
+            return late;
         }
 
         /// <summary>
         /// Gets books sorted by number of loans.
         /// </summary>
         /// <returns></returns>
-        //    public static List<History?> MostPopularBooks()
-        //{
-        //    string? sql = @$"SELECT Product.Id, AuthorName
-        //                    FROM History
-        //                    INNER JOIN Actions on ActionId = Actions.Id
-        //                    INNER JOIN Products on ProductId =  Products.Id
-        //                    ORDER BY Actions";
-        //    // in progress
-        //    return GetAllHistories();
-        //}
+            public static List<History?> MostPopularBooks()
+        {
+            string? sql = @$"SELECT Product.Id, AuthorName
+                            FROM History
+                            INNER JOIN Actions on ActionId = Actions.Id
+                            INNER JOIN Products on ProductId =  Products.Id
+                            ORDER BY Actions";
+            // in progress
+            return GetAllHistories();
+        }
 
         #endregion
     }
