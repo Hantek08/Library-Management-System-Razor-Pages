@@ -71,17 +71,17 @@
                         <li>By @item.AuthorName</li>
                         <li>@item.CategoryName</li>
                         <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
-                        <li>
+                        <li id="unitsav">
                             @if (item.UnitsInStock < 1)
                                 {
-                                    <p>No units available </p>
+                                    <p style="color:red;">No units available </p>
                                 }
                             @if (Globals.LoggedInUser.Level > 1)
                             {
 
                                 @if(item.UnitsInStock >= 1)
                                 {
-                                    <p>@item.UnitsInStock available</p>
+                                    <p style="color:green;">@item.UnitsInStock available</p>
                                 } 
                             }
                            
@@ -144,6 +144,11 @@
 
     #make_a_loan:hover{
         background-color:#4FC157;
+    }
+
+    #unitsav{
+        margin-top: 50px;
+        font-size: 15px;
     }
 </style>
 
