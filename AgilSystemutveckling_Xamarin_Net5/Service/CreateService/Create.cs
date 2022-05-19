@@ -596,7 +596,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         public static void AddCategory(Categories? category)
         {
             var cmdText = @$"INSERT INTO Categories (CategoryName)
-                                VALUES (@CategoryName)";
+                                VALUES ('{category.CategoryName}')";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
