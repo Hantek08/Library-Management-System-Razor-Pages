@@ -9,7 +9,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
     {
         public void OnGet()
         {
-            
+            Service.CreateService.Create.AddLoan(6,1,1);
         }
     }
 }

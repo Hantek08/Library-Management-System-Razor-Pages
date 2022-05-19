@@ -22,25 +22,21 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
         public static void UpdateUnitsInStock(int id, int unitsInStock)
         {
             //For Admin to update units in Stock
-
-            MySqlConnection connection = new MySqlConnection(ConnectionString);
-
             var cmdText = @$"UPDATE Products 
-                                    SET UnitsInStock = @UnitsInStock
-                                    WHERE Id = @Id";
+                            SET UnitsInStock = {unitsInStock}
+                            WHERE Id = {id}";
 
-            var cmd = new MySqlCommand(cmdText, connection);
-
-            cmd.Parameters.AddWithValue($"@UnitsInStock", unitsInStock);
-            cmd.Parameters.AddWithValue($"Id", id);
-
-            connection.Open();
-            if (connection.State == ConnectionState.Open)
+            using (var connection = new MySqlConnection(ConnectionString))
             {
-                connection.Execute(cmdText);
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Execute(cmdText);
 
-                connection.Close();
+                    connection.Close();
+                }
             }
+
         }
         #endregion
     }
