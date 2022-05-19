@@ -1,0 +1,79 @@
+﻿@page
+@model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Report.LendingPageModel
+@{
+}
+<style>
+   .cont{
+       border: 1px;
+       border-color: black;
+   }
+   #printbutton{
+       margin-left: 750px;
+       color: white;
+       background-color: #6FC767;
+       border-radius: 10px;
+       border: 0px;       
+   }
+   #divPrint{
+       margin-top: 20px;
+   }
+</style>
+    
+ <script>
+       function printContent(el){
+        var restorepage = document.body.innerHTML;
+        var printcontent = document.getElementById(el).innerHTML;
+        document.body.innerHTML = printcontent;
+        window.print();
+        document.body.innerHTML = printcontent;
+        history.go(0);
+    }
+	</script>
+
+<header class="Menu"> 
+
+    <ul class="nav nav-pills nav-fill">
+        @if (Globals.LoggedInUser.Level > 1)
+        {
+          <li class="nav-item">
+            <a class="nav-link active" href="/Admin/Report/LendingPage">Lendings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">Delays</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">Most Popular Items</a>
+          </li>
+        }
+    </ul>
+   
+</header>
+
+<div class="users">
+  <div id="divPrint">
+    <table class="user-list">
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Level</th>
+            <th>Address</th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        @foreach (var item in LendingPageModel.UserLists)
+        {
+            <tr>
+                <td><a>@item.FirstName @item.LastName</a></td>
+                <td>@item.Username</td>
+                <td>@item.Level</td>
+                <td>@item.Address</td>
+            </tr>
+
+        }
+     </table>
+   </div>
+    <button id="printbutton" onclick="printContent('divPrint')">Print content</button> 
+</div>
+
+

@@ -20,7 +20,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         public IActionResult OnPost()
         {
 
-            List<TestModels.User> users = TestService.GetService.Get.GetAllUsers();
+            List<Models.Users> users = Service.GetService.Get.GetAllUsers();
 
             foreach (var item in users)
             {

@@ -15,7 +15,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         public void OnGet()
         {
-
+            Globals.LoggedInUser = new Models.Users();
+            Globals.CartList = new List<Models.Products>();
         }
+
     }
 }

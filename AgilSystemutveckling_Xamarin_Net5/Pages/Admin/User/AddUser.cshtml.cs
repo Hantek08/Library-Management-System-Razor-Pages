@@ -6,7 +6,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User
     public class AddUserModel : PageModel
     {
         [BindProperty]
-        public static TestModels.User user { get; set; }
+        public static Models.Users user { get; set; }
         public ActionResult OnPost()
         {
             if(!ModelState.IsValid)
