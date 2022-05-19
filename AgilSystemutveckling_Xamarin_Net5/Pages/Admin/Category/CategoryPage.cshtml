@@ -66,6 +66,8 @@
                                 <div class="mb-3">
                                     <label asp-for="NewCategories.CategoryName" class="form-label">Category</label>
                                     <input asp-for="NewCategories.CategoryName" type="text" class="form-control">
+                                   <span asp-validation-for="NewCategories.CategoryName" class="text-danger"></span>
+
                                 </div>
                             </div>
                         </div>

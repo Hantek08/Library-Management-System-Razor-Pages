@@ -87,7 +87,7 @@
 
                                 @if(item.UnitsInStock >= 1)
                                 {
-                                    <p style="color:green;">@item.UnitsInStock available</p>
+                                    <p style="color:green;">@item.UnitsInStock Available</p>
                                 } 
                             }
                            
@@ -261,3 +261,6 @@ $(document).ready(function(){
             </div>
         </div>
     </form>
+    @section Scripts { 
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 
+}

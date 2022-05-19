@@ -20,6 +20,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
         public string? Address { get; set; }
         // Non-required, value can be default (0 or false).
         public bool Blocked { get; set; }
+        [Required]
         public string? FirstName { get; set; }
         [Required]
         public string? LastName { get; set; }
