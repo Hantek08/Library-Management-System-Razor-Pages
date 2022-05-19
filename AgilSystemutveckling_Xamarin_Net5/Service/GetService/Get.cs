@@ -350,7 +350,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 return null;
             }
         }
-      
 
         /// <summary>
         /// Gets all products sorted by author ascending async.
@@ -519,7 +518,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
             string? sql = $@"SELECT Title, AuthorId, SubCategoryId
                               FROM Products
-                              WHERE Products.CategoryId = '1';";
+                              WHERE Products.CategoryId = 1;";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
