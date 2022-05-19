@@ -691,7 +691,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             }
 
             Products? product = GetProductById(ProductId);
-            if(product == null) { throw new NullReferenceException(); }
+            if (product == null) { throw new NullReferenceException(); }
 
             int unitsInStock = product.UnitsInStock - 1;
             UpdateUnitsInStock(ProductId, unitsInStock);
