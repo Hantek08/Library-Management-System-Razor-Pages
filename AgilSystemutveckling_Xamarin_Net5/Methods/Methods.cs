@@ -24,7 +24,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
                         );
                 }
                 
-                if (a[i].Length > 250) { throw new FormatException($"String '{nameof(a)}' is too long. Maximum is 250 characters."); }
+                if (a[i].Length > 1000) { throw new FormatException($"String '{nameof(a)}' is too long. Maximum is 1000 characters."); }
             }
         }
 

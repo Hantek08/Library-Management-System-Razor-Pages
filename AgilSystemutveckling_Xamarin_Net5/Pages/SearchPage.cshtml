@@ -228,7 +228,6 @@ $(document).ready(function(){
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
@@ -242,6 +241,15 @@ $(document).ready(function(){
                             </div>
                         </div>
                     </div> 
+                       <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label asp-for="newBook.UnitsInStock" class="form-label">Unit In Stock</label>
+                                <input asp-for="newBook.UnitsInStock" type="number" min="1" max="100" class="form-control">
+                                <span asp-validation-for="newBook.UnitsInStock" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                     
                     
                       <div class="row">
