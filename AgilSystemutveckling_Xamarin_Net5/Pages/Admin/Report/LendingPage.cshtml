@@ -61,13 +61,13 @@
             <th></th>
 
         </tr>
-        @foreach (var item in LendingPageModel.UserLists)
+        @foreach (var item in Service.GetService.Get.GetAllHistories())
         {
             <tr>
                 <td><a>@item.FirstName @item.LastName</a></td>
-                <td>@item.Username</td>
-                <td>@item.Level</td>
-                <td>@item.Address</td>
+                <td>@item.Action</td>
+                <td>@item.Title</td>
+                <td>@item.DateTime</td>
             </tr>
 
         }
