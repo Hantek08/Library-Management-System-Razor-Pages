@@ -17,7 +17,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
     {
 
         #region Category related
-        
+
         /// <summary>
         /// Get all categories.
         /// </summary>
@@ -77,7 +77,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
-                if(connection.State == ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     var subCategories = connection.Query<SubCategories?>(sql).ToList();
                     connection.Close();
@@ -101,14 +101,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 await connection.OpenAsync();
-                if(connection.State == ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     var subCategories = await connection.QueryAsync<SubCategories?>(sql);
                     await connection.CloseAsync();
 
                     return subCategories.ToList();
                 }
-                
+
                 return null;
             }
         }
@@ -1181,8 +1181,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static List<History?> GetAllHistories()
         {
-            // !! Must be tested when histories are added.
-
             string? sql = @$"SELECT History.Id, FirstNames.FirstName, LastNames.LastName, Products.Title, Actions.Action, History.Datetime
                             FROM History
                             INNER JOIN Users on History.UserId = Users.Id
@@ -1213,8 +1211,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static async Task<List<History?>> GetAllHistoriesAsync()
         {
-            // !! Must be tested when histories are added.
-
             string? sql = @$"SELECT History.Id, FirstNames.FirstName, LastNames.LastName, Products.Title, Actions.Action, History.Datetime
                             FROM History
                             INNER JOIN Users on UserId = Users.Id
@@ -1255,14 +1251,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 {
                     if (hist != null)
                     {
-                        if (hist.Time == DateTime.Today.AddMonths(-1))
+                        if (hist.DateTime == DateTime.Today.AddMonths(-1))
                         {
                             late.Add(hist);
                         }
                     }
                 }
             }
-
             return null;
         }
 
@@ -1270,16 +1265,16 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// Gets books sorted by number of loans.
         /// </summary>
         /// <returns></returns>
-        public static List<History?> MostPopularBooks()
-        {
-            string? sql = @$"SELECT Product.Id, AuthorName
-                            FROM History
-                            INNER JOIN Actions on ActionId = Actions.Id
-                            INNER JOIN Products on ProductId =  Products.Id
-                            ORDER BY Actions";
-            // in progress
-            return GetAllHistories();
-        }
+        //    public static List<History?> MostPopularBooks()
+        //{
+        //    string? sql = @$"SELECT Product.Id, AuthorName
+        //                    FROM History
+        //                    INNER JOIN Actions on ActionId = Actions.Id
+        //                    INNER JOIN Products on ProductId =  Products.Id
+        //                    ORDER BY Actions";
+        //    // in progress
+        //    return GetAllHistories();
+        //}
 
         #endregion
     }

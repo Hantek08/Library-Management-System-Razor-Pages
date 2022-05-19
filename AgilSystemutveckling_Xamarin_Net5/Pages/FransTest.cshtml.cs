@@ -7,9 +7,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
     public class FransTestModel : PageModel
     {
+        public static List<History> histories = new List<History>();
+
         public void OnGet()
         {
-            Service.CreateService.Create.AddLoan(6,1,1);
+            histories = Service.GetService.Get.GetAllHistories();
+
+            
         }
     }
 }
