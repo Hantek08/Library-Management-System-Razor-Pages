@@ -11,7 +11,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         {
 
             //Update.UpdateUnitsInStock(1, 25);
-            Reports.MostPopularBook();
+            //Reports.MostPopularBook();
         }
 
     }
