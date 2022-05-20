@@ -1,3 +1,5 @@
+using System.Text;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using AgilSystemutveckling_Xamarin_Net5.Methods;
@@ -9,10 +11,11 @@ using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
 
 
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages
+namespace AgilSystemutveckling_Xamarin_Net5.Pages.HectorCrashDummy
 {
     public class HectorCrashDummyModel : PageModel
     {
+        public static List<string> populateList = new List<string>();
         public /*async*/ void OnGet()
         {
             /*List<Products> books = Get.GetAllBooksAsync().Result;
@@ -29,7 +32,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             string quotedString = "Hey ho let's go";
             string tooLongString = "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd";
 
-            CheckStringFormat(correctString, nullString, quotedString, tooLongString);
+            /*CheckStringFormat(correctString*//*, nullString, quotedString, tooLongString*//*);*/
+            
+            StringBuilder sb = new StringBuilder(10);
+            populateList.Add(sb.AppendLine(correctString).ToString());
+            populateList.Add(sb.AppendLine(nullString).ToString());
+            populateList.Add(sb.AppendLine(quotedString).ToString());
+            populateList.Add(sb.AppendLine(tooLongString).ToString());
         }
     }
 }

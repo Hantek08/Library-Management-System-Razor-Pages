@@ -1,4 +1,18 @@
 ﻿@page
-@model AgilSystemutveckling_Xamarin_Net5.Pages.HectorCrashDummyModel
+@model AgilSystemutveckling_Xamarin_Net5.Pages.HectorCrashDummy.HectorCrashDummyModel
+
+
+<div>
+    <h3>Hector Crash Dummy</h3>
+</div>
+<div>
+        @foreach(var item in HectorCrashDummy.HectorCrashDummyModel.populateList)
+        {
+            <p>@item</p>
+        }
+   
+    </div>
+
+
 @{
 }

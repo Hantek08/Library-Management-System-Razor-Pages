@@ -606,7 +606,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         public static void AddCategory(Categories? category)
         {
             var cmdText = @$"INSERT INTO Categories (CategoryName)
-                                VALUES (@CategoryName)";
+                                VALUES ('{category.CategoryName}')";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -625,8 +625,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <returns></returns>
         public static async Task<Categories?> AddCategoryAsync(Categories? category)
         {
+            CheckIfObjectIsNull(category);
+            CheckStringFormat(category.CategoryName);
+
             var cmdText = @$"INSERT INTO Categories (CategoryName)
-                                    VALUES (@CategoryName)";
+                                    VALUES ('{category.CategoryName}')";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -649,10 +652,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <returns></returns>
         public static void AddSubCategory(SubCategories? subcategory)
         {
-
+            CheckIfObjectIsNull(subcategory);
+            CheckStringFormat(subcategory.SubCategoryName);
 
             var cmdText = @$"INSERT INTO SubCategory (SubCategoryName)
-                                VALUES (@SubCategoryName)";
+                                VALUES ({subcategory.SubCategoryName})";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -669,9 +673,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <returns></returns>
         public static async Task<SubCategories?> AddSubCategoryAsync(SubCategories? subcategory)
         {
+            CheckIfObjectIsNull(subcategory);
+            CheckStringFormat(subcategory.SubCategoryName);
 
             var cmdText = @$"INSERT INTO SubCategory (SubCategoryName)
-                                    VALUES (@SubCategoryName)";
+                                    VALUES ({subcategory.SubCategoryName})";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -696,14 +702,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             {
                 connection.Open();
                 if (connection.State == ConnectionState.Open)
-                    try { connection.Execute(sqlMain); }
-                    catch (Exception e) { throw new Exception("Could not add History.", e); }
+                    connection.Execute(sqlMain);
 
                 connection.Close();
             }
 
             Products? product = GetProductById(ProductId);
-            if (product == null) { throw new NullReferenceException(); }
+            CheckIfObjectIsNull(product);
+
 
             int unitsInStock = product.UnitsInStock - 1;
             UpdateUnitsInStock(ProductId, unitsInStock);
