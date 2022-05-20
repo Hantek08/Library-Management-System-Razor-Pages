@@ -4,12 +4,12 @@ using Dapper;
 using MySqlConnector;
 using System.Data;
 using System.Xml;
-
-using static AgilSystemutveckling_Xamarin_Net5.Service.UpdateService.Update;
 using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
 using static AgilSystemutveckling_Xamarin_Net5.Service.GetService.Get;
+using static AgilSystemutveckling_Xamarin_Net5.Service.UpdateService.Update;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using static System.Object;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 {
@@ -24,150 +24,144 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <exception cref="Exception"></exception>
         public static void AddUser(Users? user)
         {
-            if (user != null)
+            CheckIfObjectIsNull(user);
+
+            CheckStringFormat(user.FirstName, user.LastName);
+
+            int firstNameId = 0;
+            int lastNameId = 0;
+            int fullNameId = 0;
+
+            bool firstNameExists = false;
+            bool lastNameExists = false;
+
+            var firstNames = GetAllFirstNames();
+            if (firstNames == null) { throw new NullReferenceException(); }
+
+            foreach (var item in firstNames)
             {
-                CheckStringFormat(user.FirstName, user.LastName);
-
-                int firstNameId = 0;
-                int lastNameId = 0;
-                int fullNameId = 0;
-
-                bool firstNameExists = false;
-                bool lastNameExists = false;
-
-                var firstNames = GetAllFirstNames();
-                if (firstNames != null)
+                if (item != null && user.FirstName == item.FirstName)
                 {
-                    foreach (var item in firstNames)
-                    {
-                        if (item != null && user.FirstName == item.FirstName)
-                        {
-                            firstNameId = item.Id;
-                            firstNameExists = true;
-                            break;
-                        }
-                    }
+                    firstNameId = item.Id;
+                    firstNameExists = true;
+                    break;
                 }
-                else { throw new FormatException("First names cannot be null."); }
+            }
 
-                if (firstNameExists == false)
-                {
+            if (firstNameExists == false)
+            {
 
-                    var sql = @$"INSERT INTO FirstNames (FirstName)
+                var sql = @$"INSERT INTO FirstNames (FirstName)
                                         VALUES ('{user.FirstName}')";
 
 
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        connection.Open();
-                        if (connection.State == ConnectionState.Open)
-                            connection.Execute(sql);
+                using (var connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    if (connection.State == ConnectionState.Open)
+                        connection.Execute(sql);
 
-                        connection.Close();
-                    }
+                    connection.Close();
+                }
 
-                    var sql2 = @$"SELECT Id
+                var sql2 = @$"SELECT Id
                                         FROM FirstNames
                                         WHERE FirstName = '{user.FirstName}'";
 
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        connection.Open();
-                        if (connection.State == ConnectionState.Open)
-                            firstNameId = connection.QuerySingle<int>(sql2);
-
-                        connection.Close();
-                    }
-                }
-
-                var lastNames = GetAllLastNames();
-                if (lastNames != null)
-                {
-                    foreach (var item in lastNames)
-                    {
-                        if (user.LastName == item.LastName)
-                        {
-                            lastNameId = item.Id;
-                            lastNameExists = true;
-                            break;
-                        }
-                    }
-                }
-                else { throw new FormatException("Last names cannot be null."); }
-
-
-                if (lastNameExists == false)
-                {
-                    var sql = @$"INSERT INTO LastNames (LastName) 
-                                        VALUES ('{user.LastName}')";
-
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        connection.Open();
-                        if (connection.State == ConnectionState.Open)
-                            connection.Execute(sql);
-
-                        connection.Close();
-                    }
-
-                    var sql2 = @$"SELECT Id
-                                        FROM LastNames
-                                        WHERE LastName = '{user.LastName}'";
-
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        connection.Open();
-                        if (connection.State == ConnectionState.Open)
-                            lastNameId = connection.QuerySingle<int>(sql2);
-
-                        connection.Close();
-                    }
-                }
-
-                var sqlFN = @$"INSERT INTO FullNames (FirstNameId, LastNameId)
-                                        VALUES ({firstNameId}, {lastNameId})";
-
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
                     connection.Open();
                     if (connection.State == ConnectionState.Open)
-                        connection.Execute(sqlFN);
-
-                    connection.Close();
-                }
-
-                var sqlFN2 = @$"SELECT Id
-                                        FROM FullNames
-                                        WHERE LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
-
-                using (var connection = new MySqlConnection(ConnectionString))
-                {
-                    connection.Open();
-                    if (connection.State == ConnectionState.Open)
-                        fullNameId = connection.QuerySingle<int>(sqlFN2);
-
-                    connection.Close();
-                }
-
-                CheckStringFormat(user.Username, user.Password, user.Address);
-
-                var sqlMain = @$"INSERT INTO Users (FullNameId, Username, Password, AccessId, Address, Blocked) 
-                                        VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}',
-                                        {user.Blocked})";
-
-                using (var connection = new MySqlConnection(ConnectionString))
-                {
-                    connection.Open();
-                    if (connection.State == ConnectionState.Open)
-                        try { connection.Execute(sqlMain); }
-                        catch (Exception e) { throw new Exception("Could not add user.", e); }
+                        firstNameId = connection.QuerySingle<int>(sql2);
 
                     connection.Close();
                 }
             }
-            else { throw new FormatException("Cannot pass null User. Make sure a non-null user is passed."); }
+
+            var lastNames = GetAllLastNames();
+            if (lastNames == null) { throw new NullReferenceException(); }
+
+            foreach (var item in lastNames)
+            {
+                if (item == null) { throw new NullReferenceException(); }
+
+                if (user.LastName == item.LastName)
+                {
+                    lastNameId = item.Id;
+                    lastNameExists = true;
+                    break;
+                }
+            }
 
 
+            if (lastNameExists == false)
+            {
+                var sql = @$"INSERT INTO LastNames (LastName) 
+                                    VALUES ('{user.LastName}')";
+
+                using (var connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    if (connection.State == ConnectionState.Open)
+                        connection.Execute(sql);
+
+                    connection.Close();
+                }
+
+                var sql2 = @$"SELECT Id
+                                    FROM LastNames
+                                    WHERE LastName = '{user.LastName}'";
+
+                using (var connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    if (connection.State == ConnectionState.Open)
+                        lastNameId = connection.QuerySingle<int>(sql2);
+
+                    connection.Close();
+                }
+            }
+
+            var sqlFN = @$"INSERT INTO FullNames (FirstNameId, LastNameId)
+                                  VALUES ({firstNameId}, {lastNameId})";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                    connection.Execute(sqlFN);
+
+                connection.Close();
+            }
+
+            var sqlFN2 = @$"SELECT Id
+                                  FROM FullNames
+                                  WHERE LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                    fullNameId = connection.QuerySingle<int>(sqlFN2);
+
+                connection.Close();
+            }
+
+            CheckStringFormat(user.Username, user.Password, user.Address);
+
+            var sqlMain = @$"INSERT INTO Users (FullNameId, Username, Password, AccessId, Address, Blocked) 
+                                    VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}',
+                                    {user.Blocked})";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                    try { connection.Execute(sqlMain); }
+                    catch (Exception e) { throw new Exception("Could not add user.", e); }
+
+                connection.Close();
+            }
         }
 
         /// <summary>
@@ -178,147 +172,158 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <exception cref="Exception"></exception>
         public static async Task<Users?> AddUserAsync(Users? user)
         {
-            if (user != null)
+            // Performs check if user passed is null.
+            CheckIfObjectIsNull(user);
+
+            // Performs check on strings in user for correct format and null.
+            CheckStringFormat(user.FirstName, user.LastName);
+
+            int fullNameId = 0;
+            int firstNameId = 0;
+            int lastNameId = 0;
+
+            bool firstNameExists = false;
+            bool lastNameExists = false;
+
+            List<FirstNames?> firstNames = GetAllFirstNames();
+
+
+
+            foreach (var item in firstNames)
             {
-                CheckStringFormat(user.FirstName, user.LastName);
+                CheckIfObjectIsNull(item);
+                CheckStringFormat(item.FirstName);
 
-                int fullNameId = 0;
-                int firstNameId = 0;
-                int lastNameId = 0;
-
-                bool firstNameExists = false;
-                bool lastNameExists = false;
-
-                List<FirstNames?> firstNames = GetAllFirstNames();
-                if (firstNames != null)
+                if (user.FirstName == item.FirstName)
                 {
-                    foreach (var item in firstNames)
-                    {
-                        if (user.FirstName == item.FirstName)
-                        {
-                            firstNameId = item.Id;
-                            firstNameExists = true;
-                            break;
-                        }
-                    }
+                    firstNameId = item.Id;
+                    firstNameExists = true;
+                    break;
                 }
+            }
 
 
-                if (firstNameExists == false)
-                {
-                    var sql = @$"INSERT INTO FirstNames (FirstName) 
-                                        VALUES ('{user.FirstName}')";
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        await connection.OpenAsync();
-                        if (connection.State == ConnectionState.Open)
-                            await connection.ExecuteAsync(sql);
 
-                        await connection.CloseAsync();
-                    }
-
-                    var sql2 = @$"SELECT Id
-                                        FROM FirstNames
-                                        where FirstName = '{user.FirstName}'";
-
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        await connection.OpenAsync();
-                        if (connection.State == ConnectionState.Open)
-                            firstNameId = connection.QuerySingleAsync<int>(sql2).Result;
-
-                        await connection.CloseAsync();
-                    }
-                }
-
-                List<LastNames?> lastNames = GetAllLastNames();
-                foreach (var item in lastNames)
-                {
-                    if (user.LastName == item.LastName)
-                    {
-                        lastNameId = item.Id;
-                        lastNameExists = true;
-                        break;
-                    }
-                }
-
-                if (lastNameExists == false)
-                {
-                    var sql = @$"INSERT INTO LastNames (LastName) 
-                                    VALUES ('{user.LastName}')";
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        await connection.OpenAsync();
-                        if(connection.State == ConnectionState.Open)
-                            await connection.ExecuteAsync(sql);
-                        
-                        await connection.CloseAsync();
-                    }
-
-                    var sql2 = @$"SELECT Id
-                                        FROM LastNames
-                                        WHERE LastName = '{user.LastName}'";
-
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        await connection.OpenAsync();
-                        if(connection.State == ConnectionState.Open)
-                        {
-                            lastNameId = connection.QuerySingleAsync<int>(sql2).Result;
-                            await connection.CloseAsync();
-                        }
-                        
-                    }
-                }
-
-                var sqlFN = @$"INSERT INTO FullNames (FirstNameId, LastNameId) 
-                                VALUES ({firstNameId}, {lastNameId})";
+            if (firstNameExists == false)
+            {
+                var sql = @$"INSERT INTO FirstNames (FirstName) 
+                                    VALUES ('{user.FirstName}')";
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
                     await connection.OpenAsync();
                     if (connection.State == ConnectionState.Open)
-                        await connection.ExecuteAsync(sqlFN);
+                        await connection.ExecuteAsync(sql);
 
                     await connection.CloseAsync();
                 }
 
-                var sqlFN2 = @$"SELECT Id
+                var sql2 = @$"SELECT Id
+                                    FROM FirstNames
+                                    WHERE FirstName = '{user.FirstName}'";
+
+                using (var connection = new MySqlConnection(ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    if (connection.State == ConnectionState.Open)
+                        firstNameId = connection.QuerySingleAsync<int>(sql2).Result;
+
+                    await connection.CloseAsync();
+                }
+            }
+
+            List<LastNames?> lastNames = GetAllLastNames();
+            CheckIfObjectIsNull(lastNames);
+            foreach (var item in lastNames)
+            {
+                CheckIfObjectIsNull(item);
+
+                if (user.LastName == item.LastName)
+                {
+                    lastNameId = item.Id;
+                    lastNameExists = true;
+                    break;
+                }
+            }
+
+            if (lastNameExists == false)
+            {
+                var sql = @$"INSERT INTO LastNames (LastName) 
+                                    VALUES ('{user.LastName}')";
+                using (var connection = new MySqlConnection(ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    if (connection.State == ConnectionState.Open)
+                        await connection.ExecuteAsync(sql);
+
+                    await connection.CloseAsync();
+                }
+
+                var sql2 = @$"SELECT Id
+                                    FROM LastNames
+                                    WHERE LastName = '{user.LastName}'";
+
+                using (var connection = new MySqlConnection(ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        lastNameId = connection.QuerySingleAsync<int>(sql2).Result;
+                        await connection.CloseAsync();
+                    }
+
+                }
+            }
+
+            var sqlFN = @$"INSERT INTO FullNames (FirstNameId, LastNameId) 
+                                VALUES ({firstNameId}, {lastNameId})";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == ConnectionState.Open)
+                    await connection.ExecuteAsync(sqlFN);
+
+                await connection.CloseAsync();
+            }
+
+            var sqlFN2 = @$"SELECT Id
                                 FROM FullNames
                                 WHERE LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
 
-                using (var connection = new MySqlConnection(ConnectionString))
-                {
-                    await connection.OpenAsync();
-                    if (connection.State == ConnectionState.Open)
-                        fullNameId = connection.QuerySingleAsync<int>(sqlFN2).Result;
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == ConnectionState.Open)
+                    fullNameId = connection.QuerySingleAsync<int>(sqlFN2).Result;
 
-                    await connection.CloseAsync();
-                }
-
-                CheckStringFormat(user.Username, user.Password, user.Address);
-                var sqlMain = @$"INSERT INTO Users (FullNameId, Username, Password, AccessId, Address, Blocked) 
-                                        VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}', {user.Blocked})";
-
-                using (var connection = new MySqlConnection(ConnectionString))
-                {
-                    await connection.OpenAsync();
-                    if (connection.State == ConnectionState.Open)
-                    {
-                        try
-                        {
-                            await connection.ExecuteAsync(sqlMain);
-                            await connection.CloseAsync();
-                        }
-                        catch (Exception e) { throw new Exception("Could not add user.", e); }
-                    }
-                }
-
-                return user;
-
+                await connection.CloseAsync();
             }
-            else { throw new ArgumentNullException(nameof(user)); }
+
+            CheckStringFormat(user.Username, user.Password, user.Address);
+
+            var sqlMain = @$"INSERT INTO Users (FullNameId, Username, Password, AccessId, Address, Blocked) 
+                                    VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}', {user.Blocked})";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                if (connection.State == ConnectionState.Open)
+                {
+                    // We can either use try for all executes or for none since CheckStringFormat will make sure the correct format is passed.
+                    /*try
+                    {*/
+                    await connection.ExecuteAsync(sqlMain);
+                    await connection.CloseAsync();
+                    /*}
+                    catch (Exception e) { throw new Exception("Could not add user.", e); }*/
+                }
+            }
 
             return user;
+
+
+
+
         }
         #endregion
 
@@ -330,6 +335,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <returns></returns>
         public static void AddAuthor(Authors? author)
         {
+            CheckIfObjectIsNull(author);
             CheckStringFormat(author.AuthorName);
             var sql = @$"INSERT INTO Authors (AuthorName)
                                 VALUES (@{author.AuthorName})";
@@ -351,6 +357,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <returns></returns>
         public static async Task<Authors?> AddAuthorAsync(Authors? author)
         {
+            CheckIfObjectIsNull(author);
             CheckStringFormat(author.AuthorName);
             var sql = @$"INSERT INTO Authors (AuthorName)
                                 VALUES (@{author.AuthorName})";
@@ -370,7 +377,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         #region Product related
         public static void AddProduct(Products? product)
         {
-            if (product == null) { throw new ArgumentNullException(nameof(product)); }
+            CheckIfObjectIsNull(product);
             CheckStringFormat(product.Description, product.CategoryName, product.SubCategoryName);
 
             static List<Authors?> GetAllAuthors()
@@ -397,17 +404,20 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             {
                 var sql = @$"SELECT Id, CategoryName 
                                     FROM Categories";
-                var categories = new List<Categories?>();
+
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
                     connection.Open();
                     if (connection.State == ConnectionState.Open)
-                        categories = connection.Query<Categories?>(sql).ToList();
+                    {
+                        var categories = connection.Query<Categories?>(sql).ToList();
 
-                    connection.Close();
+                        connection.Close();
+
+                        return categories.ToList();
+                    }
                 }
-
-                return categories;
+                return null;
             }
 
             static List<SubCategories?> GetAllSubCategories()
@@ -439,10 +449,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
             List<Authors?> authors = GetAllAuthors();
 
-            if (authors == null) { throw new ArgumentNullException(); }
+            CheckIfObjectIsNull(authors);
 
             foreach (var author in authors)
             {
+                CheckIfObjectIsNull(author);
+
                 if (author.AuthorName == product.AuthorName)
                 {
                     AuthorId = author.Id;
@@ -480,11 +492,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             }
 
             List<Categories?> categories = GetAllCategories();
-            if (categories == null) { throw new ArgumentNullException(); }
+
+            CheckIfObjectIsNull(categories);
 
             foreach (var category in categories)
             {
-                if (category == null) { throw new ArgumentNullException(); }
+                CheckIfObjectIsNull(category);
 
                 if (category.CategoryName == product.CategoryName)
                 {
@@ -525,70 +538,61 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             }
 
             List<SubCategories?> subCategories = GetAllSubCategories();
-            if (subCategories != null)
+            CheckIfObjectIsNull(subCategories);
+            foreach (SubCategories? subCategory in subCategories)
             {
-                foreach (SubCategories? subCategory in subCategories)
+                CheckIfObjectIsNull(subCategory);
+
+                if (subCategory.SubCategoryName == product.SubCategoryName)
                 {
-                    if (subCategory != null)
-                    {
-                        if (subCategory.SubCategoryName == product.SubCategoryName)
-                        {
-                            SubCategoryId = subCategory.Id;
-                            SubCategoryExists = true;
-                            break;
-                        }
-                    }
+                    SubCategoryId = subCategory.Id;
+                    SubCategoryExists = true;
+                    break;
                 }
 
-                if (SubCategoryExists == false)
-                {
-                    var sql = @$"INSERT INTO SubCategories (SubCategoryName) 
+            }
+
+            if (SubCategoryExists == false)
+            {
+                var sql = @$"INSERT INTO SubCategories (SubCategoryName) 
                                         VALUES ('{product.SubCategoryName}')";
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        connection.Open();
-                        if (connection.State == ConnectionState.Open)
-                            connection.Execute(sql);
 
-                        connection.Close();
-                    }
-
-                    var sql2 = @$"SELECT Id
-                                        FROM SubCategories
-                                        where SubCategoryName = '{product.SubCategoryName}'";
-
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        connection.Open();
-                        if (connection.State == ConnectionState.Open)
-                            SubCategoryId = connection.QuerySingle<int>(sql2);
-
-                        connection.Close();
-                    }
-                }
-
-                CheckStringFormat(product.Title, product.Description, product.ImgUrl);
-
-                var sqlMain = @$"INSERT INTO Products (Title, Description, AuthorId, CategoryId, SubCategoryId, UnitsInStock, ImgUrl) 
-                                        VALUES ('{product.Title}', '{product.Description}', {AuthorId}, {CategoryId}, {SubCategoryId}, {product.UnitsInStock}, '{product.ImgUrl}')";
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
                     connection.Open();
                     if (connection.State == ConnectionState.Open)
-                        try
-                        {
-                            connection.Execute(sqlMain);
-                            connection.Close();
-                        }
-                        catch (Exception e)
-                        {
-                            throw new Exception("Could not add Product, check if any inputs have < ' > signs.", e);
-                        }
+                        connection.Execute(sql);
 
+                    connection.Close();
+                }
 
+                var sql2 = @$"SELECT Id
+                                        FROM SubCategories
+                                        where SubCategoryName = '{product.SubCategoryName}'";
+
+                using (var connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    if (connection.State == ConnectionState.Open)
+                        SubCategoryId = connection.QuerySingle<int>(sql2);
+
+                    connection.Close();
                 }
             }
 
+            CheckStringFormat(product.Title, product.Description, product.ImgUrl);
+
+            var sqlMain = @$"INSERT INTO Products (Title, Description, AuthorId, CategoryId, SubCategoryId, UnitsInStock, ImgUrl) 
+                                        VALUES ('{product.Title}', '{product.Description}', {AuthorId}, {CategoryId}, {SubCategoryId}, {product.UnitsInStock}, '{product.ImgUrl}')";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                    connection.Execute(sqlMain);
+
+                connection.Close();
+            }
         }
 
         #endregion
@@ -685,8 +689,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         {
             DateTime today = DateTime.Today;
 
-
-
             var sqlMain = @$"INSERT INTO History (UserId, ProductId, Datetime, ActionId) 
                                     VALUES ({UserId}, {ProductId}, '{today.Year}-{today.Month}-{today.Day} 00:00:00', {ActionId})";
 
@@ -701,7 +703,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             }
 
             Products? product = GetProductById(ProductId);
-            if(product == null) { throw new NullReferenceException(); }
+            if (product == null) { throw new NullReferenceException(); }
 
             int unitsInStock = product.UnitsInStock - 1;
             UpdateUnitsInStock(ProductId, unitsInStock);
