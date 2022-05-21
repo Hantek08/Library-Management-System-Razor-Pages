@@ -5,7 +5,7 @@
 
 namespace AgilSystemutveckling_Xamarin_Net5.Methods
 {
-    static class Methods
+    public static class Methods
     {
         /// <summary>
         /// Method that checks if a variable number of strings for correct format and null.
