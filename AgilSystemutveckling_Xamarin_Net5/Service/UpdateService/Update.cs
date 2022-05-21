@@ -2,10 +2,8 @@
 using AgilSystemutveckling_Xamarin_Net5.Models;
 using Dapper;
 using MySqlConnector;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 

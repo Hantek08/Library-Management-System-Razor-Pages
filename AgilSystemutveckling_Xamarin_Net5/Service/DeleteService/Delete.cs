@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using MySqlConnector;
-using System.Data.SqlClient;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.DeleteService
 {

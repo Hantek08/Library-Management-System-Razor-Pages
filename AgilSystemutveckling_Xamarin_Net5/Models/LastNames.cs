@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+
+
+
 
 namespace AgilSystemutveckling_Xamarin_Net5.Models
 {
@@ -6,7 +9,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required(ErrorMessage = "You must enter a last name.")]
+        [Required]
         public string? LastName { get; set; }
     }
 }

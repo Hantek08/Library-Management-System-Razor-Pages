@@ -1,15 +1,14 @@
-﻿using AgilSystemutveckling_Xamarin_Net5.Constants;
+﻿
 using AgilSystemutveckling_Xamarin_Net5.Models;
 using Dapper;
 using MySqlConnector;
 using System.Data;
-using System.Xml;
+// using System.Xml;  Consider removing using if xml namespace is not used here
+
 using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
 using static AgilSystemutveckling_Xamarin_Net5.Service.GetService.Get;
 using static AgilSystemutveckling_Xamarin_Net5.Service.UpdateService.Update;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using static System.Object;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 {

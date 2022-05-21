@@ -1,12 +1,7 @@
 ﻿using AgilSystemutveckling_Xamarin_Net5.Models;
 using Dapper;
 using MySqlConnector;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
 using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
@@ -115,7 +110,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         #endregion
 
         #endregion
-
 
         #region Product related methods
 

@@ -1,10 +1,11 @@
 ﻿
-using System.Text;
-using AgilSystemutveckling_Xamarin_Net5.Models;
+
+
+
 
 namespace AgilSystemutveckling_Xamarin_Net5.Methods
 {
-    public class Methods
+    abstract class Methods
     {
         /// <summary>
         /// Method that checks if a variable number of strings for correct format and null.
