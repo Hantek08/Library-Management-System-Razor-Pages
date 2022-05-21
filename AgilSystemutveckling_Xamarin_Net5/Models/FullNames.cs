@@ -14,7 +14,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
         [Required]
         public int LastNameId { get; set; }
         
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
      }
 }

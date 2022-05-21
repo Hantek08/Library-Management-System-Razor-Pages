@@ -13,7 +13,7 @@ using AgilSystemutveckling_Xamarin_Net5.Service.GetService;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.ReportsService
 {
-    public class Reports
+    public static class Reports
     {
 
         /// <summary>

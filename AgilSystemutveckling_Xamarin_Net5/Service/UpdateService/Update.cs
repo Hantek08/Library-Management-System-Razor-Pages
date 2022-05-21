@@ -9,7 +9,7 @@ using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
 {
-    public class Update
+    public static class Update
     {
         #region Stock related
         /// <summary>

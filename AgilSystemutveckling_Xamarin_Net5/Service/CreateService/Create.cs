@@ -3,7 +3,6 @@ using AgilSystemutveckling_Xamarin_Net5.Models;
 using Dapper;
 using MySqlConnector;
 using System.Data;
-// using System.Xml;  Consider removing using if xml namespace is not used here
 
 using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
@@ -12,7 +11,7 @@ using static AgilSystemutveckling_Xamarin_Net5.Service.UpdateService.Update;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 {
-    public class Create
+    public static class Create
     {
 
         #region User related
@@ -51,7 +50,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             {
 
                 var sql = @$"INSERT INTO FirstNames (FirstName)
-                                        VALUES ('{user.FirstName}')";
+                                    VALUES ('{user.FirstName}')";
 
 
                 using (var connection = new MySqlConnection(ConnectionString))
@@ -64,8 +63,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 }
 
                 var sql2 = @$"SELECT Id
-                                        FROM FirstNames
-                                        WHERE FirstName = '{user.FirstName}'";
+                                    FROM FirstNames
+                                    WHERE FirstName = '{user.FirstName}'";
 
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
@@ -377,6 +376,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         public static void AddProduct(Products? product)
         {
             CheckIfObjectIsNull(product);
+
             CheckStringFormat(product.Description, product.CategoryName, product.SubCategoryName);
 
             static List<Authors?> GetAllAuthors()
@@ -554,7 +554,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             if (SubCategoryExists == false)
             {
                 var sql = @$"INSERT INTO SubCategories (SubCategoryName) 
-                                        VALUES ('{product.SubCategoryName}')";
+                                    VALUES ('{product.SubCategoryName}')";
 
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
@@ -566,8 +566,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 }
 
                 var sql2 = @$"SELECT Id
-                                        FROM SubCategories
-                                        where SubCategoryName = '{product.SubCategoryName}'";
+                                    FROM SubCategories
+                                    WHERE SubCategoryName = '{product.SubCategoryName}'";
 
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
@@ -582,7 +582,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             CheckStringFormat(product.Title, product.Description, product.ImgUrl);
 
             var sqlMain = @$"INSERT INTO Products (Title, Description, AuthorId, CategoryId, SubCategoryId, UnitsInStock, ImgUrl) 
-                                        VALUES ('{product.Title}', '{product.Description}', {AuthorId}, {CategoryId}, {SubCategoryId}, {product.UnitsInStock}, '{product.ImgUrl}')";
+                                    VALUES ('{product.Title}', '{product.Description}', {AuthorId}, {CategoryId}, {SubCategoryId}, {product.UnitsInStock}, '{product.ImgUrl}')";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -605,7 +605,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         public static void AddCategory(Categories? category)
         {
             var cmdText = @$"INSERT INTO Categories (CategoryName)
-                                VALUES ('{category.CategoryName}')";
+                                    VALUES ('{category.CategoryName}')";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -655,7 +655,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             CheckStringFormat(subcategory.SubCategoryName);
 
             var cmdText = @$"INSERT INTO SubCategory (SubCategoryName)
-                                VALUES ({subcategory.SubCategoryName})";
+                                    VALUES ({subcategory.SubCategoryName})";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -694,7 +694,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         {
             DateTime today = DateTime.Today;
 
-            var sqlMain = @$"INSERT INTO History (UserId, ProductId, Datetime, ActionId) 
+            var sqlMain = @$"INSERT INTO History (UserId, ProductId, Datetime, ActionId)
                                     VALUES ({UserId}, {ProductId}, '{today.Year}-{today.Month}-{today.Day} 00:00:00', {ActionId})";
 
             using (var connection = new MySqlConnection(ConnectionString))

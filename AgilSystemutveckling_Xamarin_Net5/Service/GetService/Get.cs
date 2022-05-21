@@ -8,7 +8,7 @@ using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 {
-    public class Get
+    public static class Get
     {
 
         #region Category related
