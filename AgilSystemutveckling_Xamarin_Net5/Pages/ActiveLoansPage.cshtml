@@ -1,5 +1,5 @@
 ﻿@page
-@model AgilSystemutveckling_Xamarin_Net5.Pages.CheckoutPageModel
+@model AgilSystemutveckling_Xamarin_Net5.Pages.ActiveLoansPageModel
 @{
 }
 <header class="Menu"> 
@@ -12,11 +12,11 @@
         @if (Globals.LoggedInUser.Level == 1)
         {
             <li class="nav-item">
-            <a class="nav-link active" href="#">Cart</a>
+            <a class="nav-link" href="CheckoutPage">Cart</a>
             </li>
 
             <li class="nav-item">
-            <a class="nav-link" href="ActiveLoansPage">Active Loans</a>
+            <a class="nav-link active" href="#">Active Loans</a>
             </li>
         }
 
@@ -29,7 +29,8 @@
         <tr>
             <th>Product</th>
             <th>Category</th>
-            <th>Subcategory</th>
+            <th>Loand Date</th>
+            <th>Return Date</th>
             <th></th>
         </tr>
         
@@ -37,8 +38,8 @@
         {
             <tr>
                 <td>@item.Title </td>
-                <td>@item.CategoryName</td>
-                <td>@item.SubCategoryName</td>
+                <td></td>
+                <td></td>
                 <td>
                     <form method="post">
                         <input
@@ -55,20 +56,3 @@
     
     
 </div>
-
-@if(Globals.CartList.Count != 0 && Globals.LoggedInUser.Blocked == false)
-{
-    <form method="post">
-        <button id="check_out_button" class="btn btn-default" asp-page-handler="CheckOut" >Check out</button>
-    </form>
-}
-
-<style>
-    #check_out_button{
-        margin-top:0px;
-        float:right;
-        width: 155px;
-        height: 45px;
-        margin-bottom: 30px;
-    }
-</style>

@@ -22,6 +22,10 @@
             <li class="nav-item">
             <a class="nav-link" href="CheckoutPage">Cart</a>
             </li>
+
+            <li class="nav-item">
+            <a class="nav-link" href="ActiveLoansPage">Active Loans</a>
+            </li>
         }
 
         @if (Globals.LoggedInUser.Level > 1)
@@ -47,7 +51,7 @@
                             
         <div class="col-2">
             <div class="mt-3 mb-3">
-                @if (Globals.LoggedInUser.Level > 1)
+                @if (Globals.LoggedInUser.Level > 1 && Globals.LoggedInUser.Blocked == false)
                 {
                     <a id="addbutton11" href="#myModal" role="button" class="btn product-add" data-bs-toggle="modal">Add Product</a>
                 }
