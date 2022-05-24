@@ -857,6 +857,28 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
             return null;
         }
+
+        public static List<Users?> AllBlockedUsers()
+        {
+            var sql = @"SELECT *
+                            FROM Users
+                            Where Blocked = '1';";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    var users = connection.Query<Users?>(sql);
+                    connection.Close();
+
+                    return users.ToList();
+                }
+            }
+
+            return null;
+
+        }
         #endregion
 
         #region Author related methods
