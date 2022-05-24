@@ -13,6 +13,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
     {
         [Key]
         public int Id { get; set; }
+        public int FullNameId { get; set; }
         [Required]
         public string? Username { get; set; }
         [Required]
