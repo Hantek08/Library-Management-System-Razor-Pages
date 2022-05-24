@@ -12,12 +12,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         public Products newBook { get; set; }
         public void OnGet()
         {
-            BookName = Get.GetAllProducts();
-            foreach (var book in BookName)
-            {
-                if(book.CategoryName == "Event")
-                    BookName.Remove(book);
-            }
+            BookName = (List<Products?>)Get.GetAllProducts().Where(c => c.CategoryName != "Event").ToList();
         }
 
         public void OnPost()
