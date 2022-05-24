@@ -690,7 +690,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
         #region Loan related
 
-        public static void AddLoan(int UserId, int ProductId, int ActionId)
+        public static void AddHistory(int UserId, int ProductId, int ActionId)
         {
             DateTime today = DateTime.Today;
 

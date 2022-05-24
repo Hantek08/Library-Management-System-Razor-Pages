@@ -1,10 +1,10 @@
-﻿
-
-
-
-
-namespace AgilSystemutveckling_Xamarin_Net5.Models
+﻿namespace AgilSystemutveckling_Xamarin_Net5.Models
 {
+    public enum Actions 
+    {
+        Loaned = 1, Returned, Created, Hidden, Edited, BookSeminar
+    }
+
     public class History
     {
         [Key]
