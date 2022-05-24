@@ -99,7 +99,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 if (lastNameExists == false)
                 {
                     var sql = @$"INSERT INTO LastNames (LastName) 
-                                    VALUES ('{user.LastName}')";
+                                        VALUES ('{user.LastName}')";
 
                     using (var connection = new MySqlConnection(ConnectionString))
                     {
@@ -111,8 +111,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     }
 
                     var sql2 = @$"SELECT Id
-                                    FROM LastNames
-                                    WHERE LastName = '{user.LastName}'";
+                                        FROM LastNames
+                                        WHERE LastName = '{user.LastName}'";
 
                     using (var connection = new MySqlConnection(ConnectionString))
                     {
@@ -125,7 +125,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 }
 
                 var sqlFN = @$"INSERT INTO FullNames (FirstNameId, LastNameId)
-                                    VALUES ({firstNameId}, {lastNameId})";
+                                        VALUES ({firstNameId}, {lastNameId})";
 
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
@@ -137,8 +137,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 }
 
                 var sqlFN2 = @$"SELECT Id
-                                FROM FullNames
-                                WHERE LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
+                                        FROM FullNames
+                                        WHERE LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
 
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
@@ -152,8 +152,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 CheckStringFormat(user.Username, user.Password, user.Address);
 
                 var sqlMain = @$"INSERT INTO Users (FullNameId, Username, Password, AccessId, Address, Blocked) 
-                                    VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}',
-                                    {user.Blocked})";
+                                        VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}',
+                                        {user.Blocked})";
 
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
@@ -207,7 +207,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 if (firstNameExists == false)
                 {
                     var sql = @$"INSERT INTO FirstNames (FirstName) 
-                                    VALUES ('{user.FirstName}')";
+                                        VALUES ('{user.FirstName}')";
                     using (var connection = new MySqlConnection(ConnectionString))
                     {
                         await connection.OpenAsync();
@@ -218,8 +218,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     }
 
                     var sql2 = @$"SELECT Id
-                                FROM FirstNames
-                                where FirstName = '{user.FirstName}'";
+                                        FROM FirstNames
+                                        where FirstName = '{user.FirstName}'";
 
                     using (var connection = new MySqlConnection(ConnectionString))
                     {
@@ -249,19 +249,25 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     using (var connection = new MySqlConnection(ConnectionString))
                     {
                         await connection.OpenAsync();
-                        await connection.ExecuteAsync(sql);
+                        if(connection.State == ConnectionState.Open)
+                            await connection.ExecuteAsync(sql);
+                        
                         await connection.CloseAsync();
                     }
 
                     var sql2 = @$"SELECT Id
-                                    FROM LastNames
-                                    WHERE LastName = '{user.LastName}'";
+                                        FROM LastNames
+                                        WHERE LastName = '{user.LastName}'";
 
                     using (var connection = new MySqlConnection(ConnectionString))
                     {
                         await connection.OpenAsync();
-                        lastNameId = connection.QuerySingleAsync<int>(sql2).Result;
-                        await connection.CloseAsync();
+                        if(connection.State == ConnectionState.Open)
+                        {
+                            lastNameId = connection.QuerySingleAsync<int>(sql2).Result;
+                            await connection.CloseAsync();
+                        }
+                        
                     }
                 }
 
