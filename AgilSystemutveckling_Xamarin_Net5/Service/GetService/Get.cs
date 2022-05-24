@@ -1,19 +1,14 @@
 ﻿using AgilSystemutveckling_Xamarin_Net5.Models;
 using Dapper;
 using MySqlConnector;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
 using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 {
-    public class Get
+    public static class Get
     {
 
         #region Category related
@@ -862,6 +857,28 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
             return null;
         }
+
+        public static List<Users?> AllBlockedUsers()
+        {
+            var sql = @"SELECT *
+                            FROM Users
+                            Where Blocked = '1';";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    var users = connection.Query<Users?>(sql);
+                    connection.Close();
+
+                    return users.ToList();
+                }
+            }
+
+            return null;
+
+        }
         #endregion
 
         #region Author related methods
@@ -1173,6 +1190,63 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             }
         }
 
+        /// <summary>
+        /// Show Active loans.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public static List<History?> ActiveLoans(int userId)
+        {
+            var sql = $@"Select Title, Categories.CategoryName, Datetime
+                FROM History
+		        INNER JOIN Products on ProductId =  Products.Id
+		        INNER JOIN Actions on ActionId = Actions.Id
+                Inner Join Categories on CategoryId = Categories.Id
+                Inner Join Users on UserId = Users.Id
+
+                Where ActionId = 1 And UserId ={userId}";
+
+            var sql2 = $@"Select Title, Categories.CategoryName, Datetime
+                FROM History
+		        INNER JOIN Products on ProductId =  Products.Id
+		        INNER JOIN Actions on ActionId = Actions.Id
+                Inner Join Categories on CategoryId = Categories.Id
+                Inner Join Users on UserId = Users.Id
+
+                Where ActionId = 2 And UserId ={userId}";
+
+
+            var historiesLoaned = new List<History>();
+
+            var historiesReturned = new List<History>();
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                     historiesLoaned = connection.Query<History?>(sql).ToList();
+
+                    connection.Close();
+
+                    
+                }
+            }
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    historiesReturned = connection.Query<History?>(sql2).ToList();
+
+                    connection.Close();
+
+
+                }
+            }
+            return null;
+        }
         #endregion
 
         #region History related
@@ -1252,7 +1326,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 {
                     if (hist != null)
                     {
-                        if (hist.DateTime <= DateTime.Today.AddMonths(-1))
+                        if (hist.DateTime <= DateTime.Today.AddDays(-14))
                         {
                             late.Add(hist);
                         }
