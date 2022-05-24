@@ -2,7 +2,7 @@ using AgilSystemutveckling_Xamarin_Net5.Models;
 using AgilSystemutveckling_Xamarin_Net5.Service.UpdateService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using AgilSystemutveckling_Xamarin_Net5.Service.ReportsService;
+using AgilSystemutveckling_Xamarin_Net5.Service.GetService;
 namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
     public class SaharsTestModel : PageModel
@@ -12,6 +12,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
             //Update.UpdateUnitsInStock(1, 25);
             //Reports.MostPopularBook();
+            Get.ActiveLoans();
         }
 
     }
