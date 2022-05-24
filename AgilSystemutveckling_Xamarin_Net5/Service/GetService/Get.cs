@@ -1269,7 +1269,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 {
                     if (hist != null)
                     {
-                        if (hist.DateTime <= DateTime.Today.AddMonths(-1))
+                        if (hist.DateTime <= DateTime.Today.AddDays(-14))
                         {
                             late.Add(hist);
                         }
