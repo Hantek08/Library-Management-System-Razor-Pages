@@ -41,7 +41,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
         #endregion
 
         #region user related
-        public static void UpdateUser(Users? user)
+        public static void User(Users? user)
         {
             CheckIfObjectIsNull(user);
 
