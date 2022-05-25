@@ -1,5 +1,5 @@
 ﻿@page
-@model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Report.MostPopularPageModel
+@model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Report.DelayPageModel
 @{
 }
 <style>
@@ -39,10 +39,10 @@
             <a class="nav-link" href="/Admin/Report/LendingPage">Lendings</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/Admin/Report/DelayPage">Delays</a>
+            <a class="nav-link active" href="/Admin/Report/DelayPage">Delays</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/Admin/Report/MostPopularPage">Most Popular Items</a>
+            <a class="nav-link" href="/Admin/Report/MostPopularPage">Most Popular Items</a>
           </li>
         }
     </ul>
@@ -53,18 +53,19 @@
   <div id="divPrint">
     <table class="user-list">
         <tr>
+            <th>Name</th>
             <th>Title</th>
-            <th>Categori</th>
-            <th>Author</th>
+            <th>Date</th>
+            <th></th>
+            <th></th>
         </tr>
-        @foreach (var item in Service.ReportsService.Reports.MostPopularProducts(5))
+        @foreach (var item in Service.GetService.Get.LateReturns())
         {
             <tr>
-                <td><a>@item.Title</a></td>
-                <td>@item.CategoryName</td>
-                <td>@item.AuthorName</td>
+                <td><a>@item.FirstName @item.LastName</a></td>
+                <td>@item.Title</td>
+                <td>@item.DateTime.Date</td>
             </tr>
-
         }
      </table>
    </div>
