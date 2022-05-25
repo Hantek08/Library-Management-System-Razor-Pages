@@ -1198,27 +1198,18 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         public static List<History?> ActiveLoans(int userId)
         {
             var sql = $@"Select Title, Categories.CategoryName, Datetime
-                FROM History
-		        INNER JOIN Products on ProductId =  Products.Id
-		        INNER JOIN Actions on ActionId = Actions.Id
-                Inner Join Categories on CategoryId = Categories.Id
-                Inner Join Users on UserId = Users.Id
+                        FROM History
+		                INNER JOIN Products on ProductId =  Products.Id
+		                INNER JOIN Actions on ActionId = Actions.Id
+                        Inner Join Categories on CategoryId = Categories.Id
+                        Inner Join Users on UserId = Users.Id
 
-                Where ActionId = 1 And UserId ={userId}";
-
-            var sql2 = $@"Select Title, Categories.CategoryName, Datetime
-                FROM History
-		        INNER JOIN Products on ProductId =  Products.Id
-		        INNER JOIN Actions on ActionId = Actions.Id
-                Inner Join Categories on CategoryId = Categories.Id
-                Inner Join Users on UserId = Users.Id
-
-                Where ActionId = 2 And UserId ={userId}";
+                        Where ActionId = 1 And UserId ={userId}";
 
 
-            var historiesLoaned = new List<History>();
 
-            var historiesReturned = new List<History>();
+            var historiesLoaned = new List<History?>();
+
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -1233,6 +1224,17 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 }
             }
 
+            var historiesReturned = new List<History?>();
+
+            var sql2 = $@"Select Title, Categories.CategoryName, Datetime
+                        FROM History
+		                INNER JOIN Products on ProductId =  Products.Id
+		                INNER JOIN Actions on ActionId = Actions.Id
+                        Inner Join Categories on CategoryId = Categories.Id
+                        Inner Join Users on UserId = Users.Id
+
+                        Where ActionId = 2 And UserId ={userId}";
+
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
@@ -1245,7 +1247,30 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
                 }
             }
-            return null;
+
+            var activeLoanes = new List<History?>();
+
+            var isReturned = false;
+
+            foreach (var loaned in historiesLoaned)
+            {
+                isReturned = false;
+
+                foreach (var returned in historiesReturned)
+                {
+                    if (loaned.Title == returned.Title && loaned.DateTime < returned.DateTime)
+                    {
+                        isReturned = true;
+                        break;
+                    }
+                }
+
+                if (!isReturned) 
+                {
+                    activeLoanes.Add(loaned);
+                }
+            }
+            return activeLoanes;
         }
         #endregion
 
@@ -1256,11 +1281,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static List<History?> GetAllHistories()
         {
-            string? sql = @$"SELECT History.Id, FirstNames.FirstName, LastNames.LastName, Products.Title, Actions.Action, History.Datetime
+            string? sql = @$"SELECT History.Id, FirstNames.FirstName, LastNames.LastName, Products.Title,
+                            Actions.Action, History.Datetime, Categories.CategoryName
                             FROM History
                             INNER JOIN Users on History.UserId = Users.Id
                             INNER JOIN Actions on History.ActionId = Actions.Id
                             INNER JOIN Products on History.ProductId =  Products.Id
+                            INNER JOIN Categories on Products.CategoryId =  Categories.Id
                             INNER JOIN FullNames on Users.FullNameId = FullNames.Id
                             INNER JOIN FirstNames on FullNames.FirstNameId = FirstNames.Id
                             INNER JOIN LastNames on FullNames.LastNameId = LastNames.Id;";

@@ -24,5 +24,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
         public DateTime DateTime { get; set; }
         [Required]
         public string? Action { get; set; }
+        public string? CategoryName { get; set; }
     }
 }
