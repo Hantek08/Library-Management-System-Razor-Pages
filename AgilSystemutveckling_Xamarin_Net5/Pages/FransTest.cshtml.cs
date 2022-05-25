@@ -8,16 +8,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
     public class FransTestModel : PageModel
     {
 
-        List<Users> users = new List<Users>();
+        public static List<History> histories = new List<History>();
 
         public void OnGet()
         {
-            users = Service.GetService.Get.GetAllUsers();
-
-            users[0].Address = "Regnbågen 2";
-
-            Service.UpdateService.Update.User(users[0]);
-
+            Service.CreateService.Create.AddHistory(8, 16, 1);
+            histories = Service.GetService.Get.ActiveLoans(8);
         }
     }
 }
