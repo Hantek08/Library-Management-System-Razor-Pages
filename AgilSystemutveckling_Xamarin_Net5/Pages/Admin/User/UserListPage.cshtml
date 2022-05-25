@@ -44,7 +44,24 @@
             <tr>
                 <td><a>@item.FirstName @item.LastName</a></td>
                 <td>@item.Username</td>
-                <td>@item.Level</td>
+                @if(item.Level == 1)
+                {
+                    <td>
+                        Customer
+                    </td>
+                }
+                else if(item.Level == 2)
+                {
+                   <td>
+                        Employee
+                    </td> 
+                }
+                else
+                {
+                   <td>
+                        Admin
+                    </td> 
+                }
                 <td>@item.Address</td>
                 <td>@item.Blocked</td>
                 <td>
