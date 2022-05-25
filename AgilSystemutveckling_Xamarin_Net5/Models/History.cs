@@ -25,5 +25,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
         [Required]
         public string? Action { get; set; }
         public string? CategoryName { get; set; }
+        public string? ProductId { get; set; }
     }
 }

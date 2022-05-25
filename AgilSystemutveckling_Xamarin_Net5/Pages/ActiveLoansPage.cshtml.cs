@@ -1,3 +1,4 @@
+using AgilSystemutveckling_Xamarin_Net5.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -5,13 +6,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
     public class ActiveLoansPageModel : PageModel
     {
-        var t = Service.GetService.Get.ActiveLoans(Globals.LoggedInUser.Id);
+        public List<History?> LoandProductList = new List<History?>();
         public void OnGet()
         {
+            LoandProductList = Service.GetService.Get.ActiveLoans(Globals.LoggedInUser.Id);
         }
-        public void OnPostReturnProduct()
+        public void OnPostReturnProduct(int itemid)
         {
-
+            Service.CreateService.Create.AddHistory(Globals.LoggedInUser.Id, itemid, 2);
         }
     }
 }

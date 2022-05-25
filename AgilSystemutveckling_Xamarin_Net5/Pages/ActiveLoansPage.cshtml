@@ -34,19 +34,20 @@
             <th></th>
         </tr>
         
-        @foreach (var item in Globals.CartList)
+        @foreach (var item in Service.GetService.Get.ActiveLoans(Globals.LoggedInUser.Id))
         {
             <tr>
                 <td>@item.Title </td>
-                <td></td>
-                <td></td>
+                <td>@item.CategoryName</td>
+                <td>@item.DateTime</td>
+                <td>@item.DateTime.AddDays(14)</td>
                 <td>
                     <form method="post">
                         <input
                             type="image"                       
                             src="/image/returnIcon.png"
                             asp-page-handler="ReturnProduct" 
-                            asp-route-id="@item.Id"
+                            asp-route-itemid="@item.ProductId"
                             /> 
                     </form>
                 </td>

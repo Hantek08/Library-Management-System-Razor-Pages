@@ -1197,7 +1197,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static List<History?> ActiveLoans(int userId)
         {
-            var sql = $@"Select Title, Categories.CategoryName, Datetime
+            var sql = $@"Select Title, Categories.CategoryName, Datetime, ProductId
                         FROM History
 		                INNER JOIN Products on ProductId =  Products.Id
 		                INNER JOIN Actions on ActionId = Actions.Id
@@ -1258,7 +1258,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
                 foreach (var returned in historiesReturned)
                 {
-                    if (loaned.Title == returned.Title && loaned.DateTime < returned.DateTime)
+                    if (loaned.Title == returned.Title && loaned.DateTime <= returned.DateTime)
                     {
                         isReturned = true;
                         break;
