@@ -98,10 +98,10 @@
                         </li>
                     </ul>
                     <form method="post">
-                        @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0)
-                            {
+                        @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0 && Globals.LoggedInUser.Blocked == false)
+                        {
                                 <button id="make_a_loan" class="btn btn-default" asp-page-handler="AddToCart" asp-route-id="@item.Id" >Loan Product</button>
-                            }
+                        }
                     </form>
                 </div>
             </div>
