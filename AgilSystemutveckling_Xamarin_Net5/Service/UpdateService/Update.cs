@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
+using static AgilSystemutveckling_Xamarin_Net5.Service.GetService.Get;
 
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
@@ -62,6 +63,45 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
                 connection.Close();
             }
         }
-        #endregion
+
+        public static void Product(Products? product)
+        {
+            CheckIfObjectIsNull(product);
+
+            CheckStringFormat(product.AuthorName, product.CategoryName, product.SubCategoryName, product.Description, product.Title);
+
+            int categoryId = 0;
+            int subCategoryId = 0;
+            List<Categories?> categories = GetAllCategories();
+            List<SubCategories?> subCategories = GetAllSubCategories();
+
+            foreach(var category in categories)
+            {
+                if (product.CategoryName == category.CategoryName)
+                    categoryId = category.Id;
+            }
+            foreach(var subCategory in subCategories)
+            {
+                if (product.SubCategoryName == subCategory.SubCategoryName)
+                    subCategoryId = subCategory.Id;
+            }
+
+            var sql1 = @$"UPDATE Products 
+                                    SET Description = '{product.Description}', Title = '{product.Title}', 
+                                        UnitsInStock = {product.UnitsInStock}, Active = {product.Active}, 
+                                        ImgUrl = '{product.ImgUrl}', CategoryId = {categoryId}, SubCategoryId = {subCategoryId}
+                                    WHERE Id = {product.Id}";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                    try { connection.Execute(sql1); }
+                    catch (Exception e) { throw new Exception("Could not update product.", e); }
+
+                connection.Close();
+            }
+        }
     }
+        #endregion
 }
