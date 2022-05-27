@@ -20,7 +20,7 @@
         border: none;
         width: 406px;
         height: 103px;
-        margin-top: 209px;
+        margin-top: 50px;
         margin-right: 20px;
         border-radius:12px;
     }
@@ -32,7 +32,7 @@
         border: none;
         width: 406px;
         height: 103px;
-        margin-top: 209px;
+        margin-top: 50px;
         margin-left: 20px;
         border-radius:12px;
     }
@@ -65,11 +65,45 @@
         align-items: center;
         justify-content: center;
         }
+
+    /* Slideshow container */
+    .slideshow-container {
+        width: 400px;
+        position: relative;
+        margin: auto;
+        height: 400px;
+        background-color: white;
+        border-radius:12px;
+        display: flex;
+        justify-content: center;
+        margin-top: 100px;
+    }
+    
+    
 </style>
 
-<div class="text-center">
-    <h1 class="display-4">Stan AB Biblioteken</h1>
+<div class="slideshow-container">
+    <table>
+        <tr>
+            <td>
+                <h3 style="text-align:center; color: #6FC767; margin-top: 20px;"><b>Newest books</b></h3>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @foreach(var item in IndexModel.products)
+                {
+                    <!-- Full-width images with number and caption text -->
+                    <div class="mySlides">
+                        <img src="@item.ImgUrl" style="width:200px; height: 270px;">
+                    </div>
+
+                }
+            </td>
+        </tr>
+    </table>
 </div>
+<br>
     <div class="indexBtns">
         <form>
             <input id="LogIn" class="Buttons" type="submit" asp-page="/LoginPage" value="Login">
@@ -80,6 +114,23 @@
     </div>
 </div>
 
+
+<script>
+    let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {slideIndex = 1}
+      slides[slideIndex-1].style.display = "block";
+      setTimeout(showSlides, 3000); // Change image every 2 seconds
+    }
+</script>
 
 <style>
 
