@@ -1,12 +1,35 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using AgilSystemutveckling_Xamarin_Net5.Models;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Category
 {
-    public class IndexModel : PageModel
+    public class CategoryPageModel : PageModel
     {
+        public static List<Categories> CategoryList;
+        [BindProperty]
+        public Categories NewCategories { get; set; }
         public void OnGet()
         {
+            CategoryList = Service.GetService.Get.GetAllCategories();
         }
+
+        public void OnPost()
+        {
+            ViewData["Category"] = CategoryList;
+        }
+
+        public IActionResult OnPostAdd()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            Service.CreateService.Create.AddCategory(NewCategories);
+            return RedirectToPage("/Admin/Category/CategoryPage");
+        }
+
+
     }
 }

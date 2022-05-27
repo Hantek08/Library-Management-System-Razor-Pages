@@ -14,6 +14,10 @@
             <li class="nav-item">
             <a class="nav-link active" href="#">Cart</a>
             </li>
+
+            <li class="nav-item">
+            <a class="nav-link" href="ActiveLoansPage">Active Loans</a>
+            </li>
         }
 
     </ul>
@@ -52,7 +56,7 @@
     
 </div>
 
-@if(Globals.CartList.Count != 0)
+@if(Globals.CartList.Count != 0 && Globals.LoggedInUser.Blocked == false)
 {
     <form method="post">
         <button id="check_out_button" class="btn btn-default" asp-page-handler="CheckOut" >Check out</button>

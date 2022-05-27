@@ -1,13 +1,14 @@
 ﻿
-using System.Text;
-using AgilSystemutveckling_Xamarin_Net5.Models;
+
+
+
 
 namespace AgilSystemutveckling_Xamarin_Net5.Methods
 {
-    public class Methods
+    public static class Methods
     {
         /// <summary>
-        /// Method that checks if a variable number of strings are correctly formatted.
+        /// Method that checks if a variable number of strings for correct format and null.
         /// </summary>
         /// <param name="a"></param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -16,7 +17,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
         {
             for (int i = 0; i < a.Length; i++) 
             {
-                if (a[i] == null) { throw new ArgumentNullException($"{nameof(a)}", $"String value cannot be null. Please try again."); }
+                if (string.IsNullOrEmpty(a[i]))
+                    throw new ArgumentNullException($"{nameof(a)}", $"String value cannot be null or empty. Please try again."); 
                 
                 if (a[i].Contains('\'')) {
                     throw new FormatException(
@@ -24,14 +26,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
                         );
                 }
                 
-                if (a[i].Length > 250) { throw new FormatException($"String '{nameof(a)}' is too long. Maximum is 250 characters."); }
+                if (a[i].Length > 1000) { throw new FormatException($"String '{nameof(a)}' is too long. Maximum is 1000 characters."); }
             }
         }
 
-        public static bool CheckIfExists(string s)
+        public static void CheckIfObjectIsNull(object o)
         {
-            return false;
+            if (ReferenceEquals(o, null) == true) { throw new ArgumentNullException(nameof(o)); }
         }
-
     }
 }

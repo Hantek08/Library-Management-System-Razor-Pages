@@ -1,23 +1,18 @@
 ﻿using AgilSystemutveckling_Xamarin_Net5.Models;
 using Dapper;
 using MySqlConnector;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
 using static AgilSystemutveckling_Xamarin_Net5.Constants.Constant;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 {
-    public class Get
+    public static class Get
     {
 
         #region Category related
-        
+
         /// <summary>
         /// Get all categories.
         /// </summary>
@@ -77,7 +72,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
-                if(connection.State == ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     var subCategories = connection.Query<SubCategories?>(sql).ToList();
                     connection.Close();
@@ -101,14 +96,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 await connection.OpenAsync();
-                if(connection.State == ConnectionState.Open)
+                if (connection.State == ConnectionState.Open)
                 {
                     var subCategories = await connection.QueryAsync<SubCategories?>(sql);
                     await connection.CloseAsync();
 
                     return subCategories.ToList();
                 }
-                
+
                 return null;
             }
         }
@@ -349,7 +344,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 return null;
             }
         }
-      
 
         /// <summary>
         /// Gets all products sorted by author ascending async.
@@ -518,7 +512,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
             string? sql = $@"SELECT Title, AuthorId, SubCategoryId
                               FROM Products
-                              WHERE Products.CategoryId = '1';";
+                              WHERE Products.CategoryId = 1;";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -863,6 +857,28 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
             return null;
         }
+
+        public static List<Users?> AllBlockedUsers()
+        {
+            var sql = @"SELECT *
+                            FROM Users
+                            Where Blocked = '1';";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    var users = connection.Query<Users?>(sql);
+                    connection.Close();
+
+                    return users.ToList();
+                }
+            }
+
+            return null;
+
+        }
         #endregion
 
         #region Author related methods
@@ -1174,6 +1190,88 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             }
         }
 
+        /// <summary>
+        /// Show Active loans.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public static List<History?> ActiveLoans(int userId)
+        {
+            var sql = $@"Select Title, Categories.CategoryName, Datetime, ProductId
+                        FROM History
+		                INNER JOIN Products on ProductId =  Products.Id
+		                INNER JOIN Actions on ActionId = Actions.Id
+                        Inner Join Categories on CategoryId = Categories.Id
+                        Inner Join Users on UserId = Users.Id
+
+                        Where ActionId = 1 And UserId ={userId}";
+
+
+
+            var historiesLoaned = new List<History?>();
+
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                     historiesLoaned = connection.Query<History?>(sql).ToList();
+
+                    connection.Close();
+
+                    
+                }
+            }
+
+            var historiesReturned = new List<History?>();
+
+            var sql2 = $@"Select Title, Categories.CategoryName, Datetime
+                        FROM History
+		                INNER JOIN Products on ProductId =  Products.Id
+		                INNER JOIN Actions on ActionId = Actions.Id
+                        Inner Join Categories on CategoryId = Categories.Id
+                        Inner Join Users on UserId = Users.Id
+
+                        Where ActionId = 2 And UserId ={userId}";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    historiesReturned = connection.Query<History?>(sql2).ToList();
+
+                    connection.Close();
+
+
+                }
+            }
+
+            var activeLoanes = new List<History?>();
+
+            var isReturned = false;
+
+            foreach (var loaned in historiesLoaned)
+            {
+                isReturned = false;
+
+                foreach (var returned in historiesReturned)
+                {
+                    if (loaned.Title == returned.Title && loaned.DateTime <= returned.DateTime)
+                    {
+                        isReturned = true;
+                        break;
+                    }
+                }
+
+                if (!isReturned) 
+                {
+                    activeLoanes.Add(loaned);
+                }
+            }
+            return activeLoanes;
+        }
         #endregion
 
         #region History related
@@ -1183,13 +1281,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static List<History?> GetAllHistories()
         {
-            // !! Must be tested when histories are added.
-
-            string? sql = @$"SELECT History.Id, FirstNames.FirstName, LastNames.LastName, Products.Title, Actions.Action, History.Datetime
+            string? sql = @$"SELECT History.Id, FirstNames.FirstName, LastNames.LastName, Products.Title,
+                            Actions.Action, History.Datetime, Categories.CategoryName
                             FROM History
                             INNER JOIN Users on History.UserId = Users.Id
                             INNER JOIN Actions on History.ActionId = Actions.Id
                             INNER JOIN Products on History.ProductId =  Products.Id
+                            INNER JOIN Categories on Products.CategoryId =  Categories.Id
                             INNER JOIN FullNames on Users.FullNameId = FullNames.Id
                             INNER JOIN FirstNames on FullNames.FirstNameId = FirstNames.Id
                             INNER JOIN LastNames on FullNames.LastNameId = LastNames.Id;";
@@ -1215,8 +1313,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <returns></returns>
         public static async Task<List<History?>> GetAllHistoriesAsync()
         {
-            // !! Must be tested when histories are added.
-
             string? sql = @$"SELECT History.Id, FirstNames.FirstName, LastNames.LastName, Products.Title, Actions.Action, History.Datetime
                             FROM History
                             INNER JOIN Users on UserId = Users.Id
@@ -1257,32 +1353,15 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                 {
                     if (hist != null)
                     {
-                        if (hist.DateTime == DateTime.Today.AddMonths(-1))
+                        if (hist.DateTime <= DateTime.Today.AddDays(-14))
                         {
                             late.Add(hist);
                         }
                     }
                 }
             }
-
-            return null;
+            return late;
         }
-
-        /// <summary>
-        /// Gets books sorted by number of loans.
-        /// </summary>
-        /// <returns></returns>
-        public static List<History?> MostPopularBooks()
-        {
-            string? sql = @$"SELECT Product.Id, AuthorName
-                            FROM History
-                            INNER JOIN Actions on ActionId = Actions.Id
-                            INNER JOIN Products on ProductId =  Products.Id
-                            ORDER BY Actions";
-            // in progress
-            return GetAllHistories();
-        }
-
         #endregion
     }
 }

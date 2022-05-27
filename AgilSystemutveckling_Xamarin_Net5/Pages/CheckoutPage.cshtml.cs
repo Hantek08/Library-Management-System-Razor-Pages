@@ -26,7 +26,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         {
             foreach (var item in Globals.CartList)
             {
-                Service.CreateService.Create.AddLoan(Globals.LoggedInUser.Id, item.Id, 1);
+                Service.CreateService.Create.AddHistory(Globals.LoggedInUser.Id, item.Id, 1);
                 Globals.CartList = new List<Products>();
             }
         }

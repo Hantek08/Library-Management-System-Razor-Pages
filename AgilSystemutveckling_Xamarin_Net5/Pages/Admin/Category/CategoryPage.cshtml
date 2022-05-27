@@ -1,23 +1,116 @@
 ﻿@page 
-@model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Category.IndexModel
+@model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Category.CategoryPageModel
 @{
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-<div class="border backgroundWhite container">
-    <div class="row">
-        <div class="col-6">
-            <h2 class="text-primary">Category List</h2>
-        </div>
-        <div class="col-6 text-right">
-            <a asp-page="Upsert"class="btn btn-primary"><i class="fas fa-plus" style="color: white"></i> &nbsp; Create New</a>
-        </div>
-        <br /><br />
-        <table id="DT_load" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-            <th>Category Name</th>
-            <th></th>
-            </thead>
-        </table>
-    </div>
+<header class="Menu"> 
 
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="/SearchPage">Products</a>
+      </li>
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/Event/EventPage">Event</a>
+        </li>
+        
+      <li class="nav-item">
+        <a class="nav-link" href="/Admin/User/UserListPage">Users</a>
+      </li>
+            <li class="nav-item">
+        <a class="nav-link active" href="/Admin/Category/CategoryPage">Category</a>
+      </li>
+    </ul>
+   
+</header>
+
+<div class="users">
+    <div class="user-tools">
+        <a href="#myModal" role="button" class="btn user-add" data-bs-toggle="modal">Add Category</a>
+        <div class="user-search">
+            <form method="post">
+                <input id="myInput" onkeyup="myFunction()"  class="user-search-input" type="search" placeholder="Search" name="searchString" value="">
+            </form>            
+        </div>                   
+    </div>
+    <table id="myTable" class="user-list">
+        <tr>
+            <th>Category</th>
+            @*<th></th>
+            <th></th>*@
+
+        </tr>
+        @foreach (var item in CategoryPageModel.CategoryList)
+        {
+            <tr>
+
+                <td>@item.CategoryName</td>
+
+                @*<td><img alt="Delete"
+                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjxzdmcgd2lkdGg9IjFlbSIgaGVpZ2h0PSIxZW0iIHZpZXdCb3g9IjAgMCAxNiAxNiIgY2xhc3M9ImJpIGJpLXRyYXNoLWZpbGwiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMi41IDFhMSAxIDAgMCAwLTEgMXYxYTEgMSAwIDAgMCAxIDFIM3Y5YTIgMiAwIDAgMCAyIDJoNmEyIDIgMCAwIDAgMi0yVjRoLjVhMSAxIDAgMCAwIDEtMVYyYTEgMSAwIDAgMC0xLTFIMTBhMSAxIDAgMCAwLTEtMUg3YTEgMSAwIDAgMC0xIDFIMi41em0zIDRhLjUuNSAwIDAgMSAuNS41djdhLjUuNSAwIDAgMS0xIDB2LTdhLjUuNSAwIDAgMSAuNS0uNXpNOCA1YS41LjUgMCAwIDEgLjUuNXY3YS41LjUgMCAwIDEtMSAwdi03QS41LjUgMCAwIDEgOCA1em0zIC41YS41LjUgMCAwIDAtMSAwdjdhLjUuNSAwIDAgMCAxIDB2LTd6Ii8+DQo8L3N2Zz4=">
+                <img alt="Edit"
+                        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGVuY2lsLWZpbGwiIHZpZXdCb3g9IjAgMCAxNiAxNiI+CiAgPHBhdGggZD0iTTEyLjg1NC4xNDZhLjUuNSAwIDAgMC0uNzA3IDBMMTAuNSAxLjc5MyAxNC4yMDcgNS41bDEuNjQ3LTEuNjQ2YS41LjUgMCAwIDAgMC0uNzA4bC0zLTN6bS42NDYgNi4wNjFMOS43OTMgMi41IDMuMjkzIDlIMy41YS41LjUgMCAwIDEgLjUuNXYuNWguNWEuNS41IDAgMCAxIC41LjV2LjVoLjVhLjUuNSAwIDAgMSAuNS41di41aC41YS41LjUgMCAwIDEgLjUuNXYuMjA3bDYuNS02LjV6bS03LjQ2OCA3LjQ2OEEuNS41IDAgMCAxIDYgMTMuNVYxM2gtLjVhLjUuNSAwIDAgMS0uNS0uNVYxMmgtLjVhLjUuNSAwIDAgMS0uNS0uNVYxMWgtLjVhLjUuNSAwIDAgMS0uNS0uNVYxMGgtLjVhLjQ5OS40OTkgMCAwIDEtLjE3NS0uMDMybC0uMTc5LjE3OGEuNS41IDAgMCAwLS4xMS4xNjhsLTIgNWEuNS41IDAgMCAwIC42NS42NWw1LTJhLjUuNSAwIDAgMCAuMTY4LS4xMWwuMTc4LS4xNzh6Ii8+Cjwvc3ZnPg==">
+                    </td>*@
+            </tr>
+        }
+     </table>
+
+       <!-- Modal HTML -->
+    <form method="post">
+        <div id="myModal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Category</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        
+                          <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label asp-for="NewCategories.CategoryName" class="form-label">Category</label>
+                                    <input asp-for="NewCategories.CategoryName" type="text" class="form-control">
+                                   <span asp-validation-for="NewCategories.CategoryName" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                        </div>
+                         
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" asp-page-handler="Add">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
+@section Scripts { 
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 
+}
+ <script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 1; i < tr.length; i++) {
+    td = tr[i];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+

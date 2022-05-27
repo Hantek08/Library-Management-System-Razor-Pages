@@ -1,7 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
+
+
 
 namespace AgilSystemutveckling_Xamarin_Net5.Models
 {
+    public enum ActionEnum
+    {
+        Loaned = 1, Returned, Created, Hidden, Edited, BookSeminar
+    }
+
     public class History
     {
         [Key]
@@ -16,5 +24,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
         public DateTime DateTime { get; set; }
         [Required]
         public string? Action { get; set; }
+        public string? CategoryName { get; set; }
+        public string? ProductId { get; set; }
     }
 }

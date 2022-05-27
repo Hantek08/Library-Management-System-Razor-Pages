@@ -1,5 +1,5 @@
 ﻿@page
-@model AgilSystemutveckling_Xamarin_Net5.Pages.DescriptionPageModel
+@model AgilSystemutveckling_Xamarin_Net5.Pages.Event.EventDescriptionModel
 @{
 }
 
@@ -160,33 +160,19 @@
 <form method="post">
     <div class="containerDesc">
         <div class="row">
-        <div class="col-sm-3">
-            <img id="imageDesc" src="@DescriptionPageModel.imgUrl"/>
-        </div>
         <div class="col-sm-9">
             <div class="row">
                 <div class="col-8 col-sm-6">
                     <div class="desctitleauthor">
-                        <h3 class ="descTitle">@DescriptionPageModel.title</h3>
-                        <h5 class="descAuthor">Author: @DescriptionPageModel.author</h5>
+                        <h3 class ="descTitle">@EventDescriptionModel.title</h3>
                     </div>
-                </div>
-                <div class="col-4 col-sm-6">
-                    @if (Globals.LoggedInUser.Level == 1 && @DescriptionPageModel.unitsinstock > 0 && Globals.LoggedInUser.Blocked == false && Globals.CartList.Count < 5)
-                        { 
-
-                             <div class="popup" onclick="myFunction()">
-                                 <button type="submit" class="btn btn-primary" id="makealoan" asp-page-handler="AddToCart" >Lend</button> 
-                                 <span class="popuptext" id="myPopup">@DescriptionPageModel.title has been added</span>
-                             </div>
-                        }
                 </div>
             </div>
         </div>
         </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <p class="descHolder">@DescriptionPageModel.description</p>
+                    <p class="descHolder">@EventDescriptionModel.description</p>
                 </div>
             </div>
     </div>
