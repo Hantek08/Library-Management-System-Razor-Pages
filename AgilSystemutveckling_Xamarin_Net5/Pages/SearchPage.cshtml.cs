@@ -12,7 +12,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         public Products newBook { get; set; }
         public void OnGet()
         {
-            BookName = Get.GetAllProducts();
+            BookName = (List<Products?>)Get.GetAllProducts().Where(c => c.CategoryName != "Event").ToList();
         }
 
         public void OnPost()
@@ -28,7 +28,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             {
                 return Page();
             }
-
+            
             Service.CreateService.Create.AddProduct(newBook);
             return RedirectToPage("/SearchPage");
         }

@@ -104,10 +104,10 @@
                         </li>
                     </ul>
                     <form method="post">
-                        @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0)
-                            {
+                        @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0 && Globals.LoggedInUser.Blocked == false)
+                        {
                                 <button id="make_a_loan" class="btn btn-default" asp-page-handler="AddToCart" asp-route-id="@item.Id" >Loan Product</button>
-                            }
+                        }
                     </form>
                 </div>
             </div>
@@ -146,9 +146,9 @@
         margin-left: 100px;
     }
 
-     #make_a_loan{
+    #make_a_loan{
         float: right;
-        margin-top: 30px;
+        margin-top: 0px;
         width: 150px;
         height:40px;
         color:white;
@@ -156,6 +156,7 @@
         background-color:#6FC767;
         border-radius: 10px;
         border:0px;
+        margin-bottom: 15px;
     }
 
     #make_a_loan:hover{
