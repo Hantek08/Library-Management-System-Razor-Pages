@@ -41,7 +41,14 @@
                             </li>
                         }
                         </ul>
-                        
+                        @if(Globals.LoggedInUser.Blocked == true)
+                        {
+                            <ul>
+                                <h5 style="color:red;">Account Blocked: Inform Employee for further assistance!</h5>
+                            </ul>  
+                        }
+                    
+
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
                         <li class="nav-item">
