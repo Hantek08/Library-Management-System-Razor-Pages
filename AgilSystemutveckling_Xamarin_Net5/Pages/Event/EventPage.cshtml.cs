@@ -35,7 +35,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Event
 
         public void OnPostBooked(int id)
         {
-           
+
         }
     }
 }
