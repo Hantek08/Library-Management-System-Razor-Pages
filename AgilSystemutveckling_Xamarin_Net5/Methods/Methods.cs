@@ -8,7 +8,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
     public static class Methods
     {
         /// <summary>
-        /// Method that checks if a variable number of strings for correct format and null.
+        /// Method that checks a variable number of strings for correct format and null.
         /// </summary>
         /// <param name="a"></param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -27,10 +27,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
                     throw new FormatException($"String '{nameof(a)}' is too long. Maximum is 250 characters.");
             }
         }
-
+        /// <summary>
+        /// Checks if an object is null.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void CheckIfObjectIsNull(object o)
         {
-            if (ReferenceEquals(o, null) == true) { throw new ArgumentNullException(nameof(o)); }
+            if (o is null) { throw new ArgumentNullException(nameof(o)); }
         }
     }
 }

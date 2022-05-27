@@ -4,6 +4,7 @@ using System.Configuration;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Constants
 {
+    // Class that contains the connection string as a private constant.
     public static class Constant
     {
 
