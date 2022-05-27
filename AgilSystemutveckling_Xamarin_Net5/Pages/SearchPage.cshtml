@@ -98,7 +98,7 @@
                         </li>
                     </ul>
                     <form method="post">
-                        @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0 && Globals.LoggedInUser.Blocked == false)
+                        @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0 && Globals.LoggedInUser.Blocked == false && Globals.CartList.Count < 5)
                         {
                                 <button id="make_a_loan" class="btn btn-default" asp-page-handler="AddToCart" asp-route-id="@item.Id" >Loan Product</button>
                         }
@@ -184,7 +184,7 @@ $(document).ready(function(){
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add User</h5>
+                    <h5 class="modal-title">Add Product</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
