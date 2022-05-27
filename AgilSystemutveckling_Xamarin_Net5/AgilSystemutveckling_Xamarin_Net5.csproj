@@ -15,16 +15,17 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="MySqlConnector" Version="2.1.8" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\TestService\DeleteService\" />
-    <Folder Include="Pages\TestService\UpdateService\" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\image\account.PNG" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Using Include="System.ComponentModel.DataAnnotations" Version="6.0.0" />
+	</ItemGroup>
+	
+	
 </Project>

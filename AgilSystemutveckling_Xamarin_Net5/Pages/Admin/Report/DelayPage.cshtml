@@ -1,5 +1,5 @@
 ﻿@page
-@model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Report.LendingPageModel
+@model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Report.DelayPageModel
 @{
 }
 <style>
@@ -36,10 +36,10 @@
         @if (Globals.LoggedInUser.Level > 1)
         {
           <li class="nav-item">
-            <a class="nav-link active" href="/Admin/Report/LendingPage">Lendings</a>
+            <a class="nav-link" href="/Admin/Report/LendingPage">Lendings</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/Admin/Report/DelayPage">Delays</a>
+            <a class="nav-link active" href="/Admin/Report/DelayPage">Delays</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/Admin/Report/MostPopularPage">Most Popular Items</a>
@@ -54,26 +54,20 @@
     <table class="user-list">
         <tr>
             <th>Name</th>
-            <th>Action</th>
             <th>Title</th>
             <th>Date</th>
             <th></th>
             <th></th>
-
         </tr>
-        @foreach (var item in Service.GetService.Get.GetAllHistories())
+        @foreach (var item in Service.GetService.Get.LateReturns())
         {
             <tr>
                 <td><a>@item.FirstName @item.LastName</a></td>
-                <td>@item.Action</td>
                 <td>@item.Title</td>
                 <td>@item.DateTime.Date</td>
             </tr>
-
         }
      </table>
    </div>
     <button id="printbutton" onclick="printContent('divPrint')">Print content</button> 
 </div>
-
-

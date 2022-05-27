@@ -9,14 +9,22 @@
 <header class="Menu"> 
 
     <ul class="nav nav-pills nav-fill">
-        <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Products</a>
-        </li>
+        
+        @if (Globals.LoggedInUser.Level > 0)
+        {
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Products</a>
+            </li>
+        }
 
         @if (Globals.LoggedInUser.Level == 1)
         {
             <li class="nav-item">
             <a class="nav-link" href="CheckoutPage">Cart</a>
+            </li>
+
+            <li class="nav-item">
+            <a class="nav-link" href="ActiveLoansPage">Active Loans</a>
             </li>
         }
 
@@ -24,6 +32,12 @@
         {
           <li class="nav-item">
             <a class="nav-link" href="/Admin/User/UserListPage">Users</a>
+          </li>
+        }
+         @if (Globals.LoggedInUser.Level > 1)
+        {
+          <li class="nav-item">
+            <a class="nav-link" href="/Admin/Category/CategoryPage">Category</a>
           </li>
         }
     </ul>
@@ -37,7 +51,7 @@
                             
         <div class="col-2">
             <div class="mt-3 mb-3">
-                @if (Globals.LoggedInUser.Level > 1)
+                @if (Globals.LoggedInUser.Level > 1 && Globals.LoggedInUser.Blocked == false)
                 {
                     <a id="addbutton11" href="#myModal" role="button" class="btn product-add" data-bs-toggle="modal">Add Product</a>
                 }
@@ -60,14 +74,35 @@
                 <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
                     <img class="imgSize" src="@item.ImgUrl"/>
                 </div>
-            
+
                 <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
                     <h4>@item.Title</h4>
                     <ul style="list-style-type: none;">
                         <li>By @item.AuthorName</li>
                         <li>@item.CategoryName</li>
-                        <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">Info</a></li>
+                        <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">View Details</a></li>
+                        <li id="unitsav">
+                            @if (item.UnitsInStock < 1)
+                                {
+                                    <p style="color:red;">All copies in use</p>
+                                }
+                            @if (Globals.LoggedInUser.Level > 1)
+                            {
+
+                                @if(item.UnitsInStock >= 1)
+                                {
+                                    <p style="color:green;">@item.UnitsInStock Available</p>
+                                } 
+                            }
+                           
+                        </li>
                     </ul>
+                    <form method="post">
+                        @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0 && Globals.LoggedInUser.Blocked == false)
+                        {
+                                <button id="make_a_loan" class="btn btn-default" asp-page-handler="AddToCart" asp-route-id="@item.Id" >Loan Product</button>
+                        }
+                    </form>
                 </div>
             </div>
         </div>
@@ -103,6 +138,28 @@
 
     #addbutton{
         margin-left: 100px;
+    }
+
+    #make_a_loan{
+        float: right;
+        margin-top: 0px;
+        width: 150px;
+        height:40px;
+        color:white;
+        font-weight:bold;
+        background-color:#6FC767;
+        border-radius: 10px;
+        border:0px;
+        margin-bottom: 15px;
+    }
+
+    #make_a_loan:hover{
+        background-color:#4FC157;
+    }
+
+    #unitsav{
+        margin-top: 50px;
+        font-size: 15px;
     }
 </style>
 
@@ -167,7 +224,7 @@ $(document).ready(function(){
                             <div class="mb-3">
                                 <label asp-for="newBook.CategoryName" class="form-label">Category</label>
                                  <select asp-for="newBook.CategoryName" class="form-control"> 
-                                    <option value="">-- Select Level --</option>  
+                                    <option value="">-- Select Category --</option>  
                                     <option value="Book">Book</option> 
                                     <option value="E-Book">E-Book</option> 
                                     <option value="Movie">Movie</option> 
@@ -176,20 +233,29 @@ $(document).ready(function(){
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
                                 <label asp-for="newBook.SubCategoryName" class="form-label">SubCategory</label>
                                  <select asp-for="newBook.SubCategoryName" class="form-control"> 
-                                    <option value="">-- Select Level --</option>  
+                                    <option value="">-- Select Subcategory --</option>  
                                     <option value="Fiction">Fiction</option> 
                                     <option value="Non-Fiction">Non-Fiction</option> 
                                 </select>
                             <span asp-validation-for="newBook.SubCategoryName" class="text-danger"></span>
                             </div>
                         </div>
-                    </div>   
+                    </div> 
+                       <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label asp-for="newBook.UnitsInStock" class="form-label">Unit In Stock</label>
+                                <input asp-for="newBook.UnitsInStock" type="number" min="1" max="100" class="form-control">
+                                <span asp-validation-for="newBook.UnitsInStock" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
                     
                       <div class="row">
                         <div class="col-12">
@@ -209,3 +275,6 @@ $(document).ready(function(){
             </div>
         </div>
     </form>
+    @section Scripts { 
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 
+}
