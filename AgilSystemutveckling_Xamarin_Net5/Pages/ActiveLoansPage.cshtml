@@ -9,6 +9,13 @@
         <a class="nav-link" aria-current="page" href="SearchPage">Products</a>
         </li>
 
+         @if (Globals.LoggedInUser.Level > 0)
+        {
+            <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="Event/EventPage">Event</a>
+            </li>
+        }
+
         @if (Globals.LoggedInUser.Level == 1)
         {
             <li class="nav-item">
