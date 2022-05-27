@@ -1,11 +1,7 @@
 ﻿@page
-@model AgilSystemutveckling_Xamarin_Net5.Pages.SearchPageModel
+@model AgilSystemutveckling_Xamarin_Net5.Pages.Event.EventPageModel
 @{
-    ViewData["Title"] = "Search page";
 }
-
-
-
 <header class="Menu"> 
 
     <ul class="nav nav-pills nav-fill">
@@ -13,16 +9,15 @@
         @if (Globals.LoggedInUser.Level > 0)
         {
             <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Products</a>
+            <a class="nav-link" aria-current="page" href="#">Products</a>
             </li>
         }
-        @if (Globals.LoggedInUser.Level > 0)
+         @if (Globals.LoggedInUser.Level > 0)
         {
             <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="Event/EventPage">Event</a>
+            <a class="nav-link active" aria-current="page" href="/Event/EventPage">Event</a>
             </li>
         }
-
         @if (Globals.LoggedInUser.Level == 1)
         {
             <li class="nav-item">
@@ -59,7 +54,7 @@
             <div class="mt-3 mb-3">
                 @if (Globals.LoggedInUser.Level > 1 && Globals.LoggedInUser.Blocked == false)
                 {
-                    <a id="addbutton11" href="#myModal" role="button" class="btn product-add" data-bs-toggle="modal">Add Product</a>
+                    <a id="addbutton11" href="#myModal" role="button" class="btn product-add" data-bs-toggle="modal">Add Event</a>
                 }
             </div>
         </div>
@@ -71,22 +66,21 @@
     </div>
 
 </div>
+@if(EventPageModel.EventsList.Count == 0)
+{
+  <h4>No Events</h4>  
+}
 
-@foreach (var item in SearchPageModel.BookName)
+@foreach (var item in EventPageModel.EventsList)
 { 
     <div class="container">
         <div id="mycard" class="row">
             <div class="row">
-                <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
-                    <img class="imgSize" src="@item.ImgUrl"/>
-                </div>
 
                 <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
-                    <h4>@item.Title</h4>
+                    <h3>@item.Title</h3>
                     <ul style="list-style-type: none;">
-                        <li>By @item.AuthorName</li>
-                        <li>@item.CategoryName</li>
-                        <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">View Details</a></li>
+                        <li><a id="link_to_Info" asp-page="/Event/EventDescription" asp-route-id="@item.Id">View Details</a></li>
                         <li id="unitsav">
                             @if (item.UnitsInStock < 1)
                                 {
@@ -106,7 +100,7 @@
                     <form method="post">
                         @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0)
                             {
-                                <button id="make_a_loan" class="btn btn-default" asp-page-handler="AddToCart" asp-route-id="@item.Id" >Loan Product</button>
+                                <button id="make_a_loan" class="btn btn-default" asp-page-handler="Booked" asp-route-id="@item.Id" >Book Event</button>
                             }
                     </form>
                 </div>
@@ -184,12 +178,12 @@ $(document).ready(function(){
 
 
     <!-- Modal HTML -->
-    <form method="post" >
+   <form method="post" >
     <div id="myModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add User</h5>
+                    <h5 class="modal-title">Add Event</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
@@ -197,66 +191,18 @@ $(document).ready(function(){
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label asp-for="newBook.Title" class="form-label">Title</label>
-                                <input asp-for="newBook.Title" type="text" class="form-control">
-                                <span asp-validation-for="newBook.Title" class="text-danger"></span>
+                                <label asp-for="NewEvent.Title" class="form-label">Title</label>
+                                <input asp-for="NewEvent.Title" type="text" class="form-control">
+                                <span asp-validation-for="NewEvent.Title" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label asp-for="newBook.AuthorName" class="form-label">Author</label>
-                                <input asp-for="newBook.AuthorName" type="text" class="form-control">
-                                <span asp-validation-for="newBook.AuthorName" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                      <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label asp-for="newBook.ImgUrl" class="form-label">Image URL</label>
-                                <input asp-for="newBook.ImgUrl" type="text" class="form-control">
-                                <span asp-validation-for="newBook.ImgUrl" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label asp-for="newBook.CategoryName" class="form-label">Category</label>
-                                 <select asp-for="newBook.CategoryName" class="form-control"> 
-                                    <option value="">-- Select Category --</option>  
-                                    <option value="Book">Book</option> 
-                                    <option value="E-Book">E-Book</option> 
-                                    <option value="Movie">Movie</option> 
-                                </select>
-                            <span asp-validation-for="newBook.CategoryName" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label asp-for="newBook.SubCategoryName" class="form-label">SubCategory</label>
-                                 <select asp-for="newBook.SubCategoryName" class="form-control"> 
-                                    <option value="">-- Select Subcategory --</option>  
-                                    <option value="Fiction">Fiction</option> 
-                                    <option value="Non-Fiction">Non-Fiction</option> 
-                                </select>
-                            <span asp-validation-for="newBook.SubCategoryName" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div> 
                        <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label asp-for="newBook.UnitsInStock" class="form-label">Unit In Stock</label>
-                                <input asp-for="newBook.UnitsInStock" type="number" min="1" max="100" class="form-control">
-                                <span asp-validation-for="newBook.UnitsInStock" class="text-danger"></span>
+                                <label asp-for="NewEvent.UnitsInStock" class="form-label">Unit In Stock</label>
+                                <input asp-for="NewEvent.UnitsInStock" type="number" min="1" max="100" class="form-control">
+                                <span asp-validation-for="NewEvent.UnitsInStock" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -265,9 +211,9 @@ $(document).ready(function(){
                       <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label asp-for="newBook.Description" class="form-label">Description</label>
-                                <input asp-for="newBook.Description" type="text" class="form-control">
-                                <span asp-validation-for="newBook.Description" class="text-danger"></span>
+                                <label asp-for="NewEvent.Description" class="form-label">Description</label>
+                                <textarea asp-for="NewEvent.Description" type="text" class="form-control"></textarea>
+                                <span asp-validation-for="NewEvent.Description" class="text-danger"></span>
                             </div>
                         </div>
                      </div>
