@@ -35,8 +35,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Event
 
         public void OnPostBooked(int id)
         {
-            
-                Service.CreateService.Create.AddLoan(Globals.LoggedInUser.Id, id, 6);
+
            
         }
     }
