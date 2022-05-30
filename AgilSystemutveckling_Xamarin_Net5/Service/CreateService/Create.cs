@@ -13,6 +13,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 {
     public static class Create
     {
+        
 
         #region User related
         /// <summary>
@@ -22,76 +23,98 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <exception cref="Exception"></exception>
         public static void AddUser(Users? user)
         {
+            // Calls method that checks if the variable passed in is null.
             CheckIfObjectIsNull(user);
 
+            // Calls method that checks if passed in variable properties are null, correctly formatted for SQL or short enough.
             CheckStringFormat(user.FirstName, user.LastName);
 
+            // Declaration of temporary variables.
             int firstNameId = 0;
             int lastNameId = 0;
             int fullNameId = 0;
 
+            // Declaration of bool variables.
             bool firstNameExists = false;
             bool lastNameExists = false;
 
+            // Get the full list of first names to compare with the newly entered one from Front end.
             var firstNames = GetAllFirstNames();
-            if (firstNames == null) { throw new NullReferenceException(); }
 
+            // Check if the list is null.
+            CheckIfObjectIsNull(firstNames);
+
+            // For each first name, check if it is null or if it already exists in database.
             foreach (var item in firstNames)
             {
                 if (item != null && user.FirstName == item.FirstName)
                 {
+                    // Set the firstNameId to be the same as item ID, then break to the next statement.
                     firstNameId = item.Id;
                     firstNameExists = true;
                     break;
                 }
             }
 
+            // If first name does not exist in the database, add it using INSERT.
             if (firstNameExists == false)
             {
 
                 var sql = @$"INSERT INTO FirstNames (FirstName)
                                     VALUES ('{user.FirstName}')";
 
-
+                // Using MySQLConnection with connection string found in Constants folder.
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
+                    // Open connection.
                     connection.Open();
+                    // Check whether connection state is open.
                     if (connection.State == ConnectionState.Open)
-                        connection.Execute(sql);
+                        connection.Execute(sql); // Execute SQL query.
 
+                    // Close connection before leaving to the next statement.
                     connection.Close();
                 }
-
+                // Get the Id of the first name the current user has.
                 var sql2 = @$"SELECT Id
                                     FROM FirstNames
                                     WHERE FirstName = '{user.FirstName}'";
 
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
+                    // Open connection.
                     connection.Open();
+                    // Check whether connection state is open.
                     if (connection.State == ConnectionState.Open)
-                        firstNameId = connection.QuerySingle<int>(sql2);
-
+                        firstNameId = connection.QuerySingle<int>(sql2); // Execute single-row query.
+                    
+                    // Close connection before leaving to the next statement.
                     connection.Close();
                 }
             }
 
+            // Get all last names from database.
             var lastNames = GetAllLastNames();
+
+            // Check whether the list is null.
             if (lastNames == null) { throw new NullReferenceException(); }
 
+            // For each last name, check if it is null, and compare the user last name to the last names in database.
             foreach (var item in lastNames)
             {
+                // Check for null.
                 if (item == null) { throw new NullReferenceException(); }
 
                 if (user.LastName == item.LastName)
                 {
+                    // Set current last name ID to the existing last name's ID, then exit to the next statement.
                     lastNameId = item.Id;
                     lastNameExists = true;
                     break;
                 }
             }
 
-
+            // If last name was not matched, add it to the database.
             if (lastNameExists == false)
             {
                 var sql = @$"INSERT INTO LastNames (LastName) 
@@ -120,6 +143,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 }
             }
 
+            // Query for adding a new FullNames object using first name and last name ID's.
             var sqlFN = @$"INSERT INTO FullNames (FirstNameId, LastNameId)
                                   VALUES ({firstNameId}, {lastNameId})";
 
@@ -145,8 +169,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 connection.Close();
             }
 
+            // Perform format check for user string properties.
             CheckStringFormat(user.Username, user.Password, user.Address);
 
+            // Query for adding a user.
             var sqlMain = @$"INSERT INTO Users (FullNameId, Username, Password, AccessId, Address, Blocked) 
                                     VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}',
                                     {user.Blocked})";
@@ -163,7 +189,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         }
 
         /// <summary>
-        /// Adds a user asynchronously to the database.
+        /// Asynchronous version of AddUser.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -307,20 +333,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 await connection.OpenAsync();
                 if (connection.State == ConnectionState.Open)
                 {
-                    // We can either use try for all executes or for none since CheckStringFormat will make sure the correct format is passed.
-                    /*try
-                    {*/
                     await connection.ExecuteAsync(sqlMain);
-                    await connection.CloseAsync();
-                    /*}
-                    catch (Exception e) { throw new Exception("Could not add user.", e); }*/
+                    await connection.CloseAsync();   
                 }
             }
 
             return user;
-
-
-
 
         }
         #endregion
@@ -335,8 +353,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         {
             CheckIfObjectIsNull(author);
             CheckStringFormat(author.AuthorName);
+
+            // Add author using INSERT.
             var sql = @$"INSERT INTO Authors (AuthorName)
-                                VALUES (@{author.AuthorName})";
+                                VALUES ({author.AuthorName})";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -349,7 +369,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         }
 
         /// <summary>
-        /// Adds an author asynchronously to the database.
+        /// Asynchronous version of AddAuthor.
         /// </summary>
         /// <param name="author"></param>
         /// <returns></returns>
