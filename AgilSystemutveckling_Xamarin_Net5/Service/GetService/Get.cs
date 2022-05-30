@@ -1248,8 +1248,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                      historiesLoaned = connection.Query<History?>(sql).ToList();
 
                     connection.Close();
-
-                    
                 }
             }
 
@@ -1287,7 +1285,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
                 foreach (var returned in historiesReturned)
                 {
-                    if (loaned.Title == returned.Title && loaned.DateTime <= returned.DateTime)
+                    if (loaned.Title == returned.Title && loaned.DateTime < returned.DateTime)
                     {
                         isReturned = true;
                         break;
