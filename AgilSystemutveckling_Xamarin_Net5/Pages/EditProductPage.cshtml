@@ -96,7 +96,16 @@
     }
 
  
+    #edit_description_area{
+        margin-top: 16px;
+        margin-left: 17px;
+        min-height: calc(7.5em + 0.75rem + 3px);
+        width: 765px;
+    }
 
+    #save_changes_button{
+    
+}
 </style>
 
 <form method="post">
@@ -111,14 +120,18 @@
                     <div class="desctitleauthor">
                         <h3 class ="descTitle">@DescriptionPageModel.title</h3>
                         <h5 class="descAuthor">Author: @DescriptionPageModel.author</h5>
+                        
                     </div>
                 </div>                
             </div>
         </div>
+        <div class="col-4 col-sm-6">
+            <button id="save_changes_button" class="btn btn-default" asp-page-handler="SaveChanges">Save Changes</button>
+        </div>
         </div>
             <div contenteditable="true" class="row">
                 <div class="col-sm-12">
-                    <p class="descHolder">@DescriptionPageModel.description</p>
+                    <textarea name="newDescription" id="edit_description_area" asp-for="@EditProductPageModel.EditProduct.Description" class="form-control" ></textarea>
                 </div>
             </div>
     </div>

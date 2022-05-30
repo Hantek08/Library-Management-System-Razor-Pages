@@ -11,6 +11,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         public static string author;
         public static string imgUrl;
         public static int unitsinstock;
+        public static int productId;
 
         public void OnGet(int id)
         {
@@ -20,7 +21,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             author = product.AuthorName;
             imgUrl = product.ImgUrl;
             unitsinstock = product.UnitsInStock;
-
+            productId = product.Id;
         }
 
         public void OnPost()
@@ -29,7 +30,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             // git test
         }
         public void OnPostAddToCart()
-        {
+        { 
 
             Globals.CartList.Add(product);
             Thread.Sleep(3000);
