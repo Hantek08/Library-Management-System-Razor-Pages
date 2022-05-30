@@ -104,7 +104,8 @@
     }
 
     #save_changes_button{
-    
+    margin-top: 141px;
+    margin-left: -32px;
 }
 </style>
 
@@ -114,18 +115,17 @@
         <div class="col-sm-3">
             <img id="imageDesc" src="@DescriptionPageModel.imgUrl"/>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-7">
             <div class="row">
                 <div class="col-8 col-sm-6">
                     <div class="desctitleauthor">
                         <h3 class ="descTitle">@DescriptionPageModel.title</h3>
-                        <h5 class="descAuthor">Author: @DescriptionPageModel.author</h5>
-                        
+                        <h5 class="descAuthor">Author: @DescriptionPageModel.author</h5>                        
                     </div>
                 </div>                
             </div>
         </div>
-        <div class="col-4 col-sm-6">
+        <div class="col-2">
             <button id="save_changes_button" class="btn btn-default" asp-page-handler="SaveChanges">Save Changes</button>
         </div>
         </div>
