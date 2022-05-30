@@ -7,20 +7,29 @@
     <div class="containerDesc">
         <h1 id="full_name">@EditUserPageModel.UserInfo.FirstName @EditUserPageModel.UserInfo.LastName</h1>
         <div class="info_box">
-            <h5>Accses: @EditUserPageModel.UserInfo.Level</h5>
-            <h5>Username: @EditUserPageModel.UserInfo.Username</h5>
-            <h5>Addres: @EditUserPageModel.UserInfo.Address</h5>
-            <h5>Blocked: @EditUserPageModel.UserInfo.Blocked</h5>
-             <form method="post">
-                @if(@EditUserPageModel.UserInfo.Blocked == true)
-                {
-                    <button class="btn btn-default" asp-page-handler="Unblock"> Unblock</button>
-                }
-                else
-                {
-                    <button class="btn btn-default" asp-page-handler="Block"> Block </button>
-                }
-            </form>
+            <div>
+                <label style="margin-top:60px;margin-bottom: 40px;"> New Addres: 
+                    <input type="text"/>
+                </label>
+            </div>
+            <div>
+                <label style="margin-top:10px;margin-bottom: 40px;"> New Password: 
+                    <input type="text"/>
+                </label>
+            </div>
+            <label id="blocked_label">Blocked:
+                <h5>@EditUserPageModel.UserInfo.Blocked</h5>
+                <form method="post">
+                    @if(@EditUserPageModel.UserInfo.Blocked == true)
+                    {
+                        <button class="btn btn-default" asp-page-handler="Unblock"> Unblock</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-default" asp-page-handler="Block" style="background-color:red;"> Block </button>
+                    }
+                </form>
+            </label>
         </div>
 
     </div>
@@ -45,5 +54,9 @@
     .info_box{
         margin-left: 50px;
          margin-top: 25px;
+    }
+
+    #blocked_label{
+
     }
  </style>
