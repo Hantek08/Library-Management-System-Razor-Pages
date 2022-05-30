@@ -13,7 +13,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 {
     public static class Create
     {
-        
+
 
         #region User related
         /// <summary>
@@ -87,7 +87,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     // Check whether connection state is open.
                     if (connection.State == ConnectionState.Open)
                         firstNameId = connection.QuerySingle<int>(sql2); // Execute single-row query.
-                    
+
                     // Close connection before leaving to the next statement.
                     connection.Close();
                 }
@@ -107,7 +107,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
                 if (user.LastName == item.LastName)
                 {
-                    // Set current last name ID to the existing last name's ID, then exit to the next statement.
+                    // Set current last name ID to the existing last name's ID, then exit to the next statement, avoiding duplicates in database.
                     lastNameId = item.Id;
                     lastNameExists = true;
                     break;
@@ -119,6 +119,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             {
                 var sql = @$"INSERT INTO LastNames (LastName) 
                                     VALUES ('{user.LastName}')";
+
 
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
@@ -158,7 +159,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
             var sqlFN2 = @$"SELECT Id
                                   FROM FullNames
-                                  WHERE LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
+                                  WHERE LastNameId = {lastNameId} AND FirstNameId = {firstNameId}";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -174,8 +175,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
             // Query for adding a user.
             var sqlMain = @$"INSERT INTO Users (FullNameId, Username, Password, AccessId, Address, Blocked) 
-                                    VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}',
-                                    {user.Blocked})";
+                                    VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}', {user.Blocked})";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -230,7 +230,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
             if (firstNameExists == false)
             {
-                var sql = @$"INSERT INTO FirstNames (FirstName) 
+                var sql = @$"INSERT INTO FirstNames (FirstName)
                                     VALUES ('{user.FirstName}')";
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
@@ -257,6 +257,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
             List<LastNames?> lastNames = GetAllLastNames();
             CheckIfObjectIsNull(lastNames);
+
             foreach (var item in lastNames)
             {
                 CheckIfObjectIsNull(item);
@@ -334,7 +335,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 if (connection.State == ConnectionState.Open)
                 {
                     await connection.ExecuteAsync(sqlMain);
-                    await connection.CloseAsync();   
+                    await connection.CloseAsync();
                 }
             }
 
@@ -624,6 +625,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <returns></returns>
         public static void AddCategory(Categories? category)
         {
+            CheckIfObjectIsNull(category);
+            CheckStringFormat(category.CategoryName);
+
             var cmdText = @$"INSERT INTO Categories (CategoryName)
                                     VALUES ('{category.CategoryName}')";
 
@@ -682,6 +686,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 connection.Open();
                 if (connection.State == ConnectionState.Open)
                     connection.Execute(cmdText);
+
+                connection.Close();
             }
         }
 
@@ -703,6 +709,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 await connection.OpenAsync();
                 if (connection.State == ConnectionState.Open)
                     await connection.ExecuteAsync(cmdText);
+
+                await connection.CloseAsync();
             }
             return subcategory;
         }
@@ -712,26 +720,37 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
         public static void AddHistory(int UserId, int ProductId, int ActionId)
         {
-            var sqlMain = @$"INSERT INTO History (UserId, ProductId, Datetime, ActionId)
+            // Check if id is a positive integer.
+            if (UserId > -1 || ProductId > -1 || ActionId > -1)
+            {
+
+                var sqlMain = @$"INSERT INTO History (UserId, ProductId, Datetime, ActionId)
                                     VALUES ({UserId}, {ProductId}, '{DateTime.Now}', {ActionId})";
 
-            using (var connection = new MySqlConnection(ConnectionString))
-            {
-                connection.Open();
-                if (connection.State == ConnectionState.Open)
-                    connection.Execute(sqlMain);
+                using (var connection = new MySqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    if (connection.State == ConnectionState.Open)
+                        connection.Execute(sqlMain);
 
-                connection.Close();
+                    connection.Close();
+                }
+
+                // Get product using method that takes product ID.
+                Products? product = GetProductById(ProductId);
+                CheckIfObjectIsNull(product);
+
+                // ActionID 1 corresponds to loan.
+                if (ActionId == 1)
+                {
+                    // Remove unit that is loaned from the stock.
+                    int unitsInStock = product.UnitsInStock - 1;
+                    UpdateUnitsInStock(ProductId, unitsInStock);
+                }
+
             }
+            else { throw new Exception("ID's cannot be less than 0."); }
 
-            Products? product = GetProductById(ProductId);
-            CheckIfObjectIsNull(product);
-
-            if (ActionId == 1)
-            {
-                int unitsInStock = product.UnitsInStock - 1;
-                UpdateUnitsInStock(ProductId, unitsInStock);
-            }
         }
 
         #endregion

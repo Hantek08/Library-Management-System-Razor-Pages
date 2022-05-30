@@ -35,7 +35,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
         /// </summary>
         /// <param name="o"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static void CheckIfObjectIsNull(object o)
+        public static void CheckIfObjectIsNull(object? o)
         {
             // If object o is null, throw argumentnullexception.
             if (o is null) { throw new ArgumentNullException(nameof(o)); }
