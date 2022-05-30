@@ -727,9 +727,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             Products? product = GetProductById(ProductId);
             CheckIfObjectIsNull(product);
 
-
-            int unitsInStock = product.UnitsInStock - 1;
-            UpdateUnitsInStock(ProductId, unitsInStock);
+            if (ActionId == 1)
+            {
+                int unitsInStock = product.UnitsInStock - 1;
+                UpdateUnitsInStock(ProductId, unitsInStock);
+            }
         }
 
         #endregion

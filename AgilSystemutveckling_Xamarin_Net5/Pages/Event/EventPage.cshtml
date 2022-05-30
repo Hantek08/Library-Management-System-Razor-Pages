@@ -1,4 +1,6 @@
 ﻿@page
+@using AgilSystemutveckling_Xamarin_Net5
+@using AgilSystemutveckling_Xamarin_Net5.Pages.Event
 @model AgilSystemutveckling_Xamarin_Net5.Pages.Event.EventPageModel
 @{
 }
@@ -9,7 +11,7 @@
         @if (Globals.LoggedInUser.Level > 0)
         {
             <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="../SearchPage">Products</a>
+            <a class="nav-link" aria-current="page" href="../ProductPage">Products</a>
             </li>
         }
          @if (Globals.LoggedInUser.Level > 0)
@@ -54,7 +56,7 @@
             <div class="mt-3 mb-3">
                 @if (Globals.LoggedInUser.Level > 1 && Globals.LoggedInUser.Blocked == false)
                 {
-                    <a id="addbutton11" href="#myModal" role="button" class="btn product-add" data-bs-toggle="modal">Add Event</a>
+                    <a id="addbutton11" href="#myModal" role="button" class="btn product-add" data-bs-toggle="modal" style="margin-left: 74px;">Add Event</a>
                 }
             </div>
         </div>
@@ -77,32 +79,12 @@
         <div id="mycard" class="row">
             <div class="row">
 
-                <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
+                <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;height:145px;">
                     <h3>@item.Title</h3>
                     <ul style="list-style-type: none;">
                         <li><a id="link_to_Info" asp-page="/Event/EventDescription" asp-route-id="@item.Id">View Details</a></li>
-                        <li id="unitsav">
-                            @if (item.UnitsInStock < 1)
-                                {
-                                    <p style="color:red;">All copies in use</p>
-                                }
-                            @if (Globals.LoggedInUser.Level > 1)
-                            {
-
-                                @if(item.UnitsInStock >= 1)
-                                {
-                                    <p style="color:green;">@item.UnitsInStock Available</p>
-                                } 
-                            }
-                           
-                        </li>
+                        
                     </ul>
-                    <form method="post">
-                        @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0)
-                            {
-                                <button id="make_a_loan" class="btn btn-default" asp-page-handler="Booked" asp-route-id="@item.Id" >Book Event</button>
-                            }
-                    </form>
                 </div>
             </div>
         </div>
@@ -197,29 +179,20 @@ $(document).ready(function(){
                             </div>
                         </div>
                     </div>
-                       <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label asp-for="NewEvent.UnitsInStock" class="form-label">Unit In Stock</label>
-                                <input asp-for="NewEvent.UnitsInStock" type="number" min="1" max="100" class="form-control">
-                                <span asp-validation-for="NewEvent.UnitsInStock" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
                     
                     
                       <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
                                 <label asp-for="NewEvent.Description" class="form-label">Description</label>
-                                <textarea asp-for="NewEvent.Description" type="text" class="form-control"></textarea>
+                                <textarea asp-for="NewEvent.Description" class="form-control" ></textarea>
                                 <span asp-validation-for="NewEvent.Description" class="text-danger"></span>
                             </div>
                         </div>
                      </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button  class="btn btn-primary" asp-page-handler="Add" >Save</button>
+                            <button  class="btn btn-primary" asp-page-handler="Add" id="bt" >Save</button>
                         </div>
                     </div>
                 </div>
@@ -227,5 +200,10 @@ $(document).ready(function(){
         </div>
     </form>
     @section Scripts { 
+         <script>
+    tinyMCE.init({
+        selector: 'textarea',
+    });
+  </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 
 }

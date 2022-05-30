@@ -29,6 +29,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Event
             NewEvent.ImgUrl = " ";
             NewEvent.CategoryName = "Event";
             NewEvent.SubCategoryName = "Event";
+            NewEvent.UnitsInStock = 0;
             Service.CreateService.Create.AddProduct(NewEvent);
             return RedirectToPage("/Event/EventPage");
         }
