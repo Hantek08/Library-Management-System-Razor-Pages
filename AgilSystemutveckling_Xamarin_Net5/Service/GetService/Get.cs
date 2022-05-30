@@ -171,6 +171,35 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return null;
         }
 
+        public static List<Products?> PopularProducts(int limitBy)
+        {
+            string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
+                            Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                            FROM Products
+                            INNER JOIN Authors on Products.AuthorId = Authors.Id
+                            INNER JOIN Categories on Products.CategoryId = Categories.Id
+                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id
+                            where Categories.CategoryName != 'Event'
+                            order by Id desc
+                            limit {limitBy}";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    var products = connection.Query<Products?>(sql).ToList();
+
+                    connection.Close();
+
+                    return products;
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Gets specific product by ID.
         /// </summary>

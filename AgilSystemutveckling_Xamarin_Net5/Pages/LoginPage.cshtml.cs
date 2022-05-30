@@ -29,7 +29,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
                     /*HttpContext.Session.SetString("username", Username);
                     HttpContext.Session.SetString(Username, username);*/
                     Globals.LoggedInUser = item;
-                    return RedirectToPage("/SearchPage");
+                    return RedirectToPage("/ProductPage");
                 }
             }
             return Page();

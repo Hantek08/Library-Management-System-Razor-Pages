@@ -38,7 +38,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             BookName = Get.GetAllProducts();
             var product = BookName.Where(c => c.Id == id).ToList();
             Globals.CartList.Add(product[0]);
-            
+            Thread.Sleep(3000);
+
         }
     }
 }
