@@ -121,7 +121,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-                            Products.UnitsInStock, Products.InStock, Products.ImgUrl
+                            Products.UnitsInStock, Products.InStock, Products.ImgUrl, Products.Active
                             FROM Products
                             INNER JOIN Authors on Products.AuthorId = Authors.Id
                             INNER JOIN Categories on Products.CategoryId = Categories.Id
