@@ -5,6 +5,7 @@
 @{
 }
 
+
 <style>
     .containerDesc{
         position: absolute;
@@ -186,8 +187,8 @@
 
                              <div class="popup" onclick="myFunction()">
                                  <button type="submit" class="btn btn-primary" id="makealoan" asp-page-handler="AddToCart" >Lend</button> 
-                                 <span class="popuptext" id="myPopup">@DescriptionPageModel.title has been added</span>
-                             </div>
+@*                                 <span class="popuptext" id="myPopup">@DescriptionPageModel.title has been added</span>
+*@                             </div>
                         }
                     else if(Globals.LoggedInUser.Level > 1)
                     {
@@ -217,14 +218,14 @@
     @*<input id="backToSearch" class="Buttons" type="submit" value="Back">*@
 </form> 
 
-<script>
+@*<script>
 // When the user clicks on div, open the popup
 function myFunction() {
   var popup = document.getElementById("myPopup");
   popup.classList.toggle("show");
 }
 
-</script>
+</script>*@
 
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>

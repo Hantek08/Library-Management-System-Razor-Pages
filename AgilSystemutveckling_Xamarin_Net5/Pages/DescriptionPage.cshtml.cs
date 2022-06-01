@@ -33,7 +33,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         { 
 
             Globals.CartList.Add(product);
-            Thread.Sleep(3000);
+            TempData["success"] = product.Title + " has been added";
+            //Thread.Sleep(3000);
             //return RedirectToPage("/DescriptionPage", new { id = product.Id });
         }
 

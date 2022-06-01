@@ -94,12 +94,14 @@
                                 }
                             @if (Globals.LoggedInUser.Level > 1)
                             {
-
+                               <form method="post">    
                                 @if(item.UnitsInStock >= 1)
                                 {
                                     <a href="#myModalEdit" data-bs-toggle="modal" style="color:green;">@item.UnitsInStock Available</a>
                                 } 
+                                </form>
                             }
+                       
                            
                         </li>
                     </ul>
@@ -284,6 +286,7 @@ $(document).ready(function(){
 
       <!-- Modal HTML -->
     <form method="post" >
+        <input type="hidden" asp-for="EditProducts.Id"/>
     <div id="myModalEdit" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -297,15 +300,15 @@ $(document).ready(function(){
                        <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label asp-for="newBook.UnitsInStock" class="form-label">Update Unit In Stock</label>
-                                <input asp-for="newBook.UnitsInStock" type="number" min="0" max="100" class="form-control">
-                                <span asp-validation-for="newBook.UnitsInStock" class="text-danger"></span>
+                                <label asp-for="EditProducts.UnitsInStock" class="form-label">Update Unit In Stock</label>
+                                <input asp-for="EditProducts.UnitsInStock" type="number" min="0" max="100" class="form-control">
+                                <span asp-validation-for="EditProducts.UnitsInStock" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button  class="btn btn-primary" asp-page-handler="Add" >Update</button>
+                            <button  class="btn btn-primary" asp-page-handler="Edit" >Update</button>
                         </div>
                     </div>
                 </div>
