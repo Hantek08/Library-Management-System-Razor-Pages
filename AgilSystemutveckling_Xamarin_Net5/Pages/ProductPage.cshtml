@@ -93,14 +93,14 @@
                             <li id="unitsav">
                                 @if (item.UnitsInStock < 1)
                                 {
-                                    <p style="color:red;">All copies in use</p>
+                                    <p style="color:red; margin-top: -37px;">All copies in use</p>
                                 }
                                 @if (Globals.LoggedInUser.Level > 1)
                                 {
 
                                     @if (item.UnitsInStock >= 1)
                                     {
-                                        <p style="color:green;">@item.UnitsInStock Available</p>
+                                        <p style="color:green;margin-top: -37px;">@item.UnitsInStock Available</p>
 
                                     }
                                      <form method="post">
