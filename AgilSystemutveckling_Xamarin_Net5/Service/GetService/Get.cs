@@ -10,6 +10,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 {
     public static class Get
     {
+        /*
+         * Methods used to get lists with data from the database.
+         * All the lists contains instances of a class found in
+         * the Models folder.
+         */
 
         #region Category related
 
@@ -114,7 +119,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         #region Product related methods
 
         /// <summary>
-        /// Gets all products.
+        /// Gets all products in a list of instances of Products.
         /// </summary>
         /// <returns></returns>
         public static List<Products?> GetAllProducts()
@@ -171,6 +176,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return null;
         }
 
+        /// <summary>
+        /// Gets a list of the most loaned products, excluding booked events and limited 
+        /// by 'limitBy' parameter.
+        /// The list is instances of the class Product found in Models folder.
+        /// </summary>
+        /// <param name="limitBy">The limit on popular products to get.</param>
+        /// <returns></returns>
         public static List<Products?> PopularProducts(int limitBy)
         {
             string? sql = @$"SELECT Products.Id, Products.Title, Products.Description,
@@ -202,6 +214,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         /// <summary>
         /// Gets specific product by ID.
+        /// The object is an instance of the class Product found in Models folder.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -261,6 +274,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         /// <summary>
         /// Gets all products sorted by category A-Ö.
+        /// The list is instances of the class Product found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static List<Products?> GetAllProductsSortedByCategoryAsc()
@@ -291,6 +305,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         /// <summary>
         /// Gets all products sorted by category A-Ö async.
+        /// The list is instances of the class Product found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static async Task<List<Products?>> GetAllProductsSortedByCategoryAscAsync()
@@ -321,6 +336,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         /// <summary>
         /// Gets all products sorted by category Ö-A.
+        /// The list is instances of the class Product found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static List<Products?> GetAllProductsSortedByCategoryDesc()
@@ -406,6 +422,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         /// <summary>
         /// Gets all products that are marked as active/non-hidden.
+        /// The list is instances of the class Product found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static List<Products?> GetAllActiveProducts()
@@ -469,6 +486,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         /// <summary>
         /// Gets all products that are marked as inactive/hidden.
+        /// The list is instances of the class Product found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static List<Products?> GetAllInActiveProducts()
@@ -588,7 +606,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         }
 
         /// <summary>
-        /// Gets all by category.
+        /// Gets all by category, limited by in parameter 'CategoryName'.
+        /// The list is instances of the class Product found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static List<Products?> GetAllByCategory(string CategoryName)
@@ -645,6 +664,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             }
         }
 
+        /// <summary>
+        /// Gets recently added products from the database.
+        /// The list is instances of the class Product found in Models folder.
+        /// </summary>
+        /// <param name="CategoryName">Product category.</param>
+        /// <param name="limitProductsBy">Number to limit recently added products by.</param>
+        /// <returns></returns>
         public static List<Products?> RecentlyAddedByCategory(string CategoryName, int limitProductsBy)
         {
             CheckStringFormat(CategoryName);
@@ -677,7 +703,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         #region User related methods
         /// <summary>
-        /// Gets all users.
+        /// Gets all users in a list.
+        /// The list is instances of the class Users found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static List<Users?> GetAllUsers()
@@ -732,6 +759,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         }
         /// <summary>
         /// Gets all users sorted A-Ö.
+        /// The list is instances of the class Users found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static List<Users?> GetAllUsersOrderedAlphabetically()
@@ -778,6 +806,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         /// <summary>
         /// Gets all users sorted Ö-A.
+        /// The list is instances of the class Users found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static List<Users?> GetAllUsersReverseOrder()
@@ -828,6 +857,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         /// <summary>
         /// Gets all users sorted depending on a specific character.
+        /// The list is instances of the class Users found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static List<Users?> GetAllUsersStartingWithLetter(char a)
@@ -1086,6 +1116,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         /// <summary>
         /// Gets all first names from FirstNames table.
+        /// The list is instances of the class FirstNames found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static List<FirstNames?> GetAllFirstNames()
@@ -1139,6 +1170,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
         /// <summary>
         /// Gets all last names from LastNames table.
+        /// The list is instances of the class LastNames found in Models folder.
         /// </summary>
         /// <returns></returns>
         public static List<LastNames?> GetAllLastNames()
@@ -1220,7 +1252,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         }
 
         /// <summary>
-        /// Show Active loans.
+        /// Gets a list of loans that havent been returned yet.
+        /// The list is instances of the class History found in Models folder.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -1392,7 +1425,3 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         #endregion
     }
 }
-
-/*Products.Id, Products.Title, Products.Description,
-Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
-Products.UnitsInStock, Products.InStock, Products.ImgUrl*/
