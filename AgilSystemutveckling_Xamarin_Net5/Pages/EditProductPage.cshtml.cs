@@ -15,6 +15,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         {
             EditProduct.Description = Request.Form["newDescription"];
             Service.UpdateService.Update.Product(EditProduct);
+            TempData["success"] = "Changes has been saved";
             return RedirectToPage("./DescriptionPage", new { id = DescriptionPageModel.productId });
         }
     }

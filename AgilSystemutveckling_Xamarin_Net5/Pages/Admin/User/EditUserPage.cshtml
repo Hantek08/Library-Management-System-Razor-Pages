@@ -7,20 +7,22 @@
     <div class="containerDesc">
         <h1 id="full_name">@EditUserPageModel.UserInfo.FirstName @EditUserPageModel.UserInfo.LastName</h1>
         <div class="info_box">
-            <div>
+            <div class="infodesc">
                 <label style="margin-top:60px;margin-bottom: 40px; font-weight: bold;"> New Addres: 
-                    <input type="text"/>
+                    <input name="newAddress" asp-for="@EditUserPageModel.UserInfo.Address" style="margin-left: 30px;" type="text"/>
+                    <button id="save_changes_button" class="btn btn-default" asp-page-handler="SaveAddress">Save</button>
                 </label>
             </div>
-            <div>
+            <div class="infodesc">
                 <label style="margin-top:10px;margin-bottom: 40px; font-weight: bold;"> New Password: 
-                    <input type="text"/>
+                    <input name="newPassword" asp-for="@EditUserPageModel.UserInfo.Password" style="margin-left: 15px;" type="password"/>
+                    <button id="save_changes_button" class="btn btn-default" asp-page-handler="SavePassword">Save</button>
                 </label>
             </div>
             <div>
             <label style="font-weight: bold;" id="blocked_label">Blocked:
-                <h5 class="child">@EditUserPageModel.UserInfo.Blocked</h5>
-                <div>
+@*                <h5 class="child">@EditUserPageModel.UserInfo.Blocked</h5>*@
+                <div class="child">
                 <form method="post">
                     @if(@EditUserPageModel.UserInfo.Blocked == true)
                     {
@@ -46,7 +48,7 @@
      .containerDesc{
             position: absolute;
             width: 450px;
-            height: 456px;
+            height: 400px;
             margin-left: 397px;
             background: #FFFFFF;
             border-radius: 79px;
@@ -60,7 +62,7 @@
    
 
     .info_box{
-         margin-left: 77px;
+         margin-left: 40px;
          margin-top: -28px;
     }
 
@@ -71,5 +73,14 @@
     .child{
         display: inline-block;
         font-style: italic;
+    }
+    #save_changes_button{
+        font-size: 13px;
+        display: inline-block;
+        
+    }
+    .infodesc{
+        white-space: nowrap;
+        
     }
  </style>
