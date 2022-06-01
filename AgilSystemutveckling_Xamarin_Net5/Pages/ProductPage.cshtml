@@ -97,7 +97,7 @@
                                <form method="post">    
                                 @if(item.UnitsInStock >= 1)
                                 {
-                                    <a href="#myModalEdit" data-bs-toggle="modal" style="color:green;">@item.UnitsInStock Available</a>
+                                    <p style="color:green;">@item.UnitsInStock Available</p>
                                 } 
                                 </form>
                             }
@@ -184,7 +184,6 @@ $(document).ready(function(){
   });
 });
 </script>
-
 
     <!-- Modal HTML -->
     <form method="post" >
@@ -284,37 +283,6 @@ $(document).ready(function(){
         </div>
     </form>
 
-      <!-- Modal HTML -->
-    <form method="post" >
-        <input type="hidden" asp-for="EditProducts.Id"/>
-    <div id="myModalEdit" class="modal fade" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Update Unit In Stock</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <div class="modal-body">
-
-                       <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label asp-for="EditProducts.UnitsInStock" class="form-label">Update Unit In Stock</label>
-                                <input asp-for="EditProducts.UnitsInStock" type="number" min="0" max="100" class="form-control">
-                                <span asp-validation-for="EditProducts.UnitsInStock" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button  class="btn btn-primary" asp-page-handler="Edit" >Update</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
     @section Scripts { 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 
 }
