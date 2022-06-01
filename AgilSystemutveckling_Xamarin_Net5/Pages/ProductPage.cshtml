@@ -73,48 +73,62 @@
 </div>
 
 @foreach (var item in SearchPageModel.BookName)
-{ 
-    <div class="container">
-        <div id="mycard" class="row">
-            <div class="row">
-                <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
-                    <img class="imgSize" src="@item.ImgUrl"/>
-                </div>
+{
+    if (Globals.LoggedInUser.Level > 1 || item.Active == 1)
+    {
 
-                <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
-                    <h4>@item.Title</h4>
-                    <ul style="list-style-type: none;">
-                        <li>By @item.AuthorName</li>
-                        <li>@item.CategoryName</li>
-                        <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">View Details</a></li>
-                        <li id="unitsav">
-                            @if (item.UnitsInStock < 1)
+        <div class="container">
+            <div id="mycard" class="row">
+                <div class="row">
+                    <div class="col-1" style="margin-bottom:20px; background-color:#F2F2F2">
+                        <img class="imgSize" src="@item.ImgUrl"/>
+                    </div>
+
+                    <div class="col-8" style="margin-bottom:20px; margin-left:90px; background-color: white; border-radius:12px;">
+                        <h4>@item.Title</h4>
+                        <ul style="list-style-type: none;">
+                            <li>By @item.AuthorName</li>
+                            <li>@item.CategoryName</li>
+                            <li><a id="link_to_Info" asp-page="/DescriptionPage" asp-route-id="@item.Id">View Details</a></li>
+                            <li id="unitsav">
+                                @if (item.UnitsInStock < 1)
                                 {
                                     <p style="color:red;">All copies in use</p>
                                 }
-                            @if (Globals.LoggedInUser.Level > 1)
-                            {
-                               <form method="post">    
-                                @if(item.UnitsInStock >= 1)
+                                @if (Globals.LoggedInUser.Level > 1)
                                 {
-                                    <p style="color:green;">@item.UnitsInStock Available</p>
-                                } 
-                                </form>
-                            }
-                       
-                           
-                        </li>
-                    </ul>
-                    <form method="post">
-                        @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0 && Globals.LoggedInUser.Blocked == false && Globals.CartList.Count < 5)
-                        {
+
+                                    @if (item.UnitsInStock >= 1)
+                                    {
+                                        <p style="color:green;">@item.UnitsInStock Available</p>
+
+                                    }
+                                     <form method="post">
+                                        @if (item.Active == 1)
+                                        {
+                                            <button asp-page-handler="MakeProductHidden" asp-route-id="@item.Id" style="border:none; background-color:white;"> <img src="/image/icons8-Unhidden-30.png"/> </button>
+                                        }
+                                        else
+                                        {
+                                            <button asp-page-handler="MakeProductUnhidden" asp-route-id="@item.Id"  style="border:none; background-color:white;"> <img src="/image/icons8-hidden-30.png"/> </button>
+                                        }
+                                    </form>
+                                }
+
+
+                            </li>
+                        </ul>
+                        <form method="post">
+                            @if (Globals.LoggedInUser.Level == 1 && item.UnitsInStock > 0 && Globals.LoggedInUser.Blocked == false && Globals.CartList.Count < 5)
+                            {
                                 <button id="make_a_loan" class="btn btn-default" asp-page-handler="AddToCart" asp-route-id="@item.Id" >Loan Product</button>
-                        }
-                    </form>
+                            }
+                        </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-</div>
+        }
 }
 
 <style>

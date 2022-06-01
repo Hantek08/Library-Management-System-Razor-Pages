@@ -57,12 +57,24 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             var product = BookName.Where(c => c.Id == id).ToList();
             Globals.CartList.Add(product[0]);
             TempData["success"] = product[0].Title + " has been added";
-            //Thread.Sleep(3000);
 
         }
 
-
-
-
+        public IActionResult OnPostMakeProductHidden(int id)
+        {
+            var product = Service.GetService.Get.GetProductById(id);
+            product.Active = 0;
+            product.Id = id;
+            Service.UpdateService.Update.Product(product);
+            return RedirectToPage("/ProductPage");
+        }
+        public IActionResult OnPostMakeProductUnhidden(int id)
+        {
+            var product = Service.GetService.Get.GetProductById(id);
+            product.Active = 1;
+            product.Id = id;
+            Service.UpdateService.Update.Product(product);
+            return RedirectToPage("/ProductPage");
+        }
     }
 }
