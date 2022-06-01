@@ -22,7 +22,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
                     throw new ArgumentNullException($"{nameof(a)}", $"String value cannot be null or empty. Please try again."); 
                 
                 if (a[i].Contains('\'')) {
-                    throw new FormatException(
+                   throw new FormatException(
                         $"String in parameter '{nameof(a)}' contains at least one single quote. Please check again and remove any single quotes."
                         );
                 }
