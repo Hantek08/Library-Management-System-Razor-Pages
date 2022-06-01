@@ -21,7 +21,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             author = product.AuthorName;
             imgUrl = product.ImgUrl;
             unitsinstock = product.UnitsInStock;
-            productId = product.Id;
+            productId = id;
         }
 
         public void OnPost()

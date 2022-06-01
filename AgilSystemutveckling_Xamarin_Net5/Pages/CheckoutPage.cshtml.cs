@@ -29,6 +29,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
                 Service.CreateService.Create.AddHistory(Globals.LoggedInUser.Id, item.Id, 1);
                 Globals.CartList = new List<Products>();
             }
+            TempData["success"] = "Checkout completed";
         }
     }
 }
