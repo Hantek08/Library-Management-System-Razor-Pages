@@ -637,6 +637,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             }
         }
 
+        //Gets all by Category Async
         public static async Task<List<Products?>> GetAllByCategoryAsync(string CategoryName)
         {
             CheckStringFormat(CategoryName);
@@ -917,6 +918,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return null;
         }
 
+        //Gets all blocked users
         public static List<Users?> AllBlockedUsers()
         {
             var sql = @"SELECT *
@@ -1027,6 +1029,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             else { throw new FormatException("A letter must be passed in the method."); }
 
         }
+
+        //Get all authors in alphabetically order
         public static List<Authors?> GetAllAuthorsOrderedAlphabetically()
         {
             var sql = @$"Select Id, AuthorName 
@@ -1047,6 +1051,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return null;
         }
 
+        //Get all authors starts from Ö-A
         public static List<Authors?> GetAllAuthorsReverseOrder()
         {
             var sql = @$"Select Id, AuthorName 
@@ -1068,6 +1073,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             return null;
         }
 
+        //Get all authors ordered by ID
         public static List<Authors?> GetAllAuthorsOrderedById()
         {
             var sql = @$"Select Id, AuthorName 
@@ -1089,6 +1095,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
             }
         }
 
+        //Get all the authors ordered by ID start from highest
         public static List<Authors?> GetAllAuthorsReverseOrderId()
         {
             var sql = @$"Select Id, AuthorName 
