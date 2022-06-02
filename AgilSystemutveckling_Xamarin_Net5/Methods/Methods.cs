@@ -30,13 +30,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
                          );
                 }
 
-                if (a[i].Contains('\''))
-                {
-                    throw new FormatException(
-                         $"String in parameter '{nameof(a)}' contains at least one single quote. Please check again and remove any single quotes."
-                         );
-                }
-
                 if (a[i].Length > 1000) { throw new FormatException($"String '{nameof(a)}' is too long. Maximum is 1000 characters."); }
             }
         }
