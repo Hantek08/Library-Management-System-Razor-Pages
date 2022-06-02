@@ -24,7 +24,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         public static void AddUser(Users? user)
         {
             // Calls method that checks if the variable passed in is null.
-            CheckIfObjectIsNull(user);
+            if(user is null) { throw new ArgumentNullException(nameof(user)); }
 
             // Calls method that checks if passed in variable properties are null, correctly formatted for SQL or short enough.
             CheckStringFormat(user.FirstName, user.LastName);
@@ -42,7 +42,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             var firstNames = GetAllFirstNames();
 
             // Check if the list is null.
-            CheckIfObjectIsNull(firstNames);
+            if(firstNames is null) { throw new NullReferenceException(nameof(firstNames)); }
 
             // For each first name, check if it is null or if it already exists in database.
             foreach (var item in firstNames)
@@ -99,7 +99,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             // Check whether the list is null.
             if (lastNames == null) { throw new NullReferenceException(); }
 
-            // For each last name, check if it is null, and compare the user last name to the last names in database.
+            // For each last name, check if it is null, and compare the user last name to the last names already present in database.
             foreach (var item in lastNames)
             {
                 // Check for null.
@@ -227,10 +227,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <param name="product"></param>
         public static void AddProduct(Products? product)
         {
-            CheckIfObjectIsNull(product);
+            if(product is null) throw new ArgumentNullException(nameof(product));
 
             CheckStringFormat(product.Description, product.CategoryName, product.SubCategoryName);
-
+/*
             // Get all authors using method.
             static List<Authors?> GetAllAuthors()
             {
@@ -251,7 +251,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 }
                 return null;
             }
-            
+
             static List<Categories?> GetAllCategories()
             {
                 var sql = @$"SELECT Id, CategoryName 
@@ -262,7 +262,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     connection.Open();
                     if (connection.State == ConnectionState.Open)
                     {
-                        var categories = connection.Query<Categories?>(sql).ToList();
+                        var categories = connection.Query<Categories?>(sql);
 
                         connection.Close();
 
@@ -289,7 +289,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     }
                 }
                 return null;
-            }
+            }*/
 
             int AuthorId = 0;
             int CategoryId = 0;
@@ -299,13 +299,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             bool CategoryExists = false;
             bool SubCategoryExists = false;
 
-            List<Authors?> authors = GetAllAuthors();
+            List<Authors?>? authors = GetAllAuthors();
 
-            CheckIfObjectIsNull(authors);
+            if(authors is null) { throw new ArgumentNullException(nameof(authors)); }
 
             foreach (var author in authors)
             {
-                CheckIfObjectIsNull(author);
+                if(author is null) { throw new NullReferenceException(nameof(author)); }
 
                 if (author.AuthorName == product.AuthorName)
                 {
@@ -343,13 +343,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 }
             }
 
-            List<Categories?> categories = GetAllCategories();
+            List<Categories?>? categories = GetAllCategories();
 
-            CheckIfObjectIsNull(categories);
+            if(categories is null) { throw new ArgumentNullException(nameof(categories)); } 
 
             foreach (var category in categories)
             {
-                CheckIfObjectIsNull(category);
+                if(category is null) { throw new NullReferenceException(nameof(category)); }
 
                 if (category.CategoryName == product.CategoryName)
                 {
@@ -358,7 +358,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     break;
                 }
             }
-
 
             if (CategoryExists == false)
             {
@@ -389,11 +388,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 }
             }
 
-            List<SubCategories?> subCategories = GetAllSubCategories();
-            CheckIfObjectIsNull(subCategories);
+            List<SubCategories?>? subCategories = GetAllSubCategories();
+            if(subCategories is null) { throw new ArgumentNullException(nameof(subCategories)); }
             foreach (SubCategories? subCategory in subCategories)
             {
-                CheckIfObjectIsNull(subCategory);
+                if (subCategory is null) { throw new NullReferenceException(nameof(subCategory)); }
 
                 if (subCategory.SubCategoryName == product.SubCategoryName)
                 {
@@ -457,7 +456,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <returns></returns>
         public static void AddCategory(Categories? category)
         {
-            CheckIfObjectIsNull(category);
+            if(category is null) { throw new ArgumentNullException(nameof(category)); }
+
             CheckStringFormat(category.CategoryName);
 
             var cmdText = @$"INSERT INTO Categories (CategoryName)
@@ -477,13 +477,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
         #region Subcategory related
         /// <summary>
-        /// Adds new subcategory to the database.
+        /// Adds a new subcategory to the database.
         /// </summary>
         /// <param name="subcategory"></param>
-        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void AddSubCategory(SubCategories? subcategory)
         {
-            CheckIfObjectIsNull(subcategory);
+            if(subcategory is null) { throw new ArgumentNullException(nameof(subcategory)); }
             CheckStringFormat(subcategory.SubCategoryName);
 
             var cmdText = @$"INSERT INTO SubCategory (SubCategoryName)
@@ -498,11 +498,17 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 connection.Close();
             }
         }
-
         #endregion
 
         #region Loan related
-
+        /// <summary>
+        /// Adds a new history related to a user id, using a product id and specifies the action performed by a user on a product.
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="ProductId"></param>
+        /// <param name="ActionId"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="Exception"></exception>
         public static void AddHistory(int UserId, int ProductId, int ActionId)
         {
             // Check if id is a positive integer.
@@ -523,7 +529,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
                 // Get product using method that takes product ID.
                 Products? product = GetProductById(ProductId);
-                CheckIfObjectIsNull(product);
+
+                if (product is null) { throw new ArgumentNullException(nameof(product)); }
 
                 // ActionID 1 corresponds to loan.
                 if (ActionId == 1)
@@ -533,11 +540,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     UpdateUnitsInStock(ProductId, unitsInStock);
                 }
 
-            }
-            else { throw new Exception("ID's cannot be less than 0."); }
-
+            } else { throw new Exception("ID's cannot be less than 0."); }
         }
-
         #endregion
     }
 }
