@@ -1,5 +1,5 @@
 
-
+using static AgilSystemutveckling_Xamarin_Net5.Service.DeleteService.Delete;
 
 var builder = WebApplication.CreateBuilder(args);
 

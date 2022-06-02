@@ -43,34 +43,35 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.DeleteService
 
         #region Product related
 
-        //needs to be fixed
+       
+       
+        public static void DeleteProduct(int id)
+        { //Deletes products by id! User enters id of the product that should be deleted.
 
-        //public static void DeleteProduct(int id)
-        //{
-        //    var sql = @$"DELETE FROM Product
-        //                        WHERE id = @id";
+            var sql = @$"DELETE FROM Products
+                                WHERE id = {id}";
 
-        //    using (MySqlConnection connection = new MySqlConnection(connString))
-        //    {
-        //        connection.Open();
+            using (MySqlConnection connection = new MySqlConnection(connString))
+            {
+                connection.Open();
 
-        //        if ((connection != null) || (connection.State == System.Data.ConnectionState.Open))
-        //        {
-        //            try
-        //            {
-        //                connection.Execute(sql, new { id = id });
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                Console.WriteLine(e.Message);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            // display to user that connection could not be made
-        //        }
-        //    }
-        //}
+                if ((connection != null) || (connection.State == System.Data.ConnectionState.Open))
+                {
+                    try
+                    {
+                        connection.Execute(sql, new { id = id });
+                    }
+                    catch (Exception e)
+                    {
+                       Console.WriteLine(e.Message);
+                    }
+                }
+                else
+                {
+                    // display to user that connection could not be made
+                }
+            }
+        }
 
         #endregion
 
