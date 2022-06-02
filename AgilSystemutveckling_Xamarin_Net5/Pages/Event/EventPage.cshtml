@@ -92,32 +92,42 @@
     <div id="collapse-@i" class="accordion-collapse collapse" aria-labelledby="heading-@i" data-bs-parent="#accordionExample">
       <div class="accordion-body">
           @Html.Raw(@item.Description)
+         
+         <div class="btn-group" role="group">
+                       <a asp-page-handler="Delete"  asp-route-id="@item.Id"  onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger" style="border: none;background-color: white;">
+							<img alt="Delete"
+                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjxzdmcgd2lkdGg9IjFlbSIgaGVpZ2h0PSIxZW0iIHZpZXdCb3g9IjAgMCAxNiAxNiIgY2xhc3M9ImJpIGJpLXRyYXNoLWZpbGwiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMi41IDFhMSAxIDAgMCAwLTEgMXYxYTEgMSAwIDAgMCAxIDFIM3Y5YTIgMiAwIDAgMCAyIDJoNmEyIDIgMCAwIDAgMi0yVjRoLjVhMSAxIDAgMCAwIDEtMVYyYTEgMSAwIDAgMC0xLTFIMTBhMSAxIDAgMCAwLTEtMUg3YTEgMSAwIDAgMC0xIDFIMi41em0zIDRhLjUuNSAwIDAgMSAuNS41djdhLjUuNSAwIDAgMS0xIDB2LTdhLjUuNSAwIDAgMSAuNS0uNXpNOCA1YS41LjUgMCAwIDEgLjUuNXY3YS41LjUgMCAwIDEtMSAwdi03QS41LjUgMCAwIDEgOCA1em0zIC41YS41LjUgMCAwIDAtMSAwdjdhLjUuNSAwIDAgMCAxIDB2LTd6Ii8+DQo8L3N2Zz4=">
+						</a>
+						<a asp-page="/Event/EditEvent" asp-route-id="@item.Id" class="btn btn-primary mx-2" style="padding: 6px 12px; border: none;background-color: white;">
+							<img alt="Edit"
+                        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGVuY2lsLWZpbGwiIHZpZXdCb3g9IjAgMCAxNiAxNiI+CiAgPHBhdGggZD0iTTEyLjg1NC4xNDZhLjUuNSAwIDAgMC0uNzA3IDBMMTAuNSAxLjc5MyAxNC4yMDcgNS41bDEuNjQ3LTEuNjQ2YS41LjUgMCAwIDAgMC0uNzA4bC0zLTN6bS42NDYgNi4wNjFMOS43OTMgMi41IDMuMjkzIDlIMy41YS41LjUgMCAwIDEgLjUuNXYuNWguNWEuNS41IDAgMCAxIC41LjV2LjVoLjVhLjUuNSAwIDAgMSAuNS41di41aC41YS41LjUgMCAwIDEgLjUuNXYuMjA3bDYuNS02LjV6bS03LjQ2OCA3LjQ2OEEuNS41IDAgMCAxIDYgMTMuNVYxM2gtLjVhLjUuNSAwIDAgMS0uNS0uNVYxMmgtLjVhLjUuNSAwIDAgMS0uNS0uNVYxMWgtLjVhLjUuNSAwIDAgMS0uNS0uNVYxMGgtLjVhLjQ5OS40OTkgMCAwIDEtLjE3NS0uMDMybC0uMTc5LjE3OGEuNS41IDAgMCAwLS4xMS4xNjhsLTIgNWEuNS41IDAgMCAwIC42NS42NWw1LTJhLjUuNSAwIDAgMCAuMTY4LS4xMWwuMTc4LS4xNzh6Ii8+Cjwvc3ZnPg==">
+						</a>
+						
+		</div>
+    </div>
+   @* <form method="post">
+      <div class="delete-edit-event">
+        <input type="image" alt="Delete"
+           src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjxzdmcgd2lkdGg9IjFlbSIgaGVpZ2h0PSIxZW0iIHZpZXdCb3g9IjAgMCAxNiAxNiIgY2xhc3M9ImJpIGJpLXRyYXNoLWZpbGwiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMi41IDFhMSAxIDAgMCAwLTEgMXYxYTEgMSAwIDAgMCAxIDFIM3Y5YTIgMiAwIDAgMCAyIDJoNmEyIDIgMCAwIDAgMi0yVjRoLjVhMSAxIDAgMCAwIDEtMVYyYTEgMSAwIDAgMC0xLTFIMTBhMSAxIDAgMCAwLTEtMUg3YTEgMSAwIDAgMC0xIDFIMi41em0zIDRhLjUuNSAwIDAgMSAuNS41djdhLjUuNSAwIDAgMS0xIDB2LTdhLjUuNSAwIDAgMSAuNS0uNXpNOCA1YS41LjUgMCAwIDEgLjUuNXY3YS41LjUgMCAwIDEtMSAwdi03QS41LjUgMCAwIDEgOCA1em0zIC41YS41LjUgMCAwIDAtMSAwdjdhLjUuNSAwIDAgMCAxIDB2LTd6Ii8+DQo8L3N2Zz4="
+           asp-page-handler="Delete" 
+            asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete?')"  />
+      
+          <input type="image" alt="Edit"
+          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktcGVuY2lsLWZpbGwiIHZpZXdCb3g9IjAgMCAxNiAxNiI+CiAgPHBhdGggZD0iTTEyLjg1NC4xNDZhLjUuNSAwIDAgMC0uNzA3IDBMMTAuNSAxLjc5MyAxNC4yMDcgNS41bDEuNjQ3LTEuNjQ2YS41LjUgMCAwIDAgMC0uNzA4bC0zLTN6bS42NDYgNi4wNjFMOS43OTMgMi41IDMuMjkzIDlIMy41YS41LjUgMCAwIDEgLjUuNXYuNWguNWEuNS41IDAgMCAxIC41LjV2LjVoLjVhLjUuNSAwIDAgMSAuNS41di41aC41YS41LjUgMCAwIDEgLjUuNXYuMjA3bDYuNS02LjV6bS03LjQ2OCA3LjQ2OEEuNS41IDAgMCAxIDYgMTMuNVYxM2gtLjVhLjUuNSAwIDAgMS0uNS0uNVYxMmgtLjVhLjUuNSAwIDAgMS0uNS0uNVYxMWgtLjVhLjUuNSAwIDAgMS0uNS0uNVYxMGgtLjVhLjQ5OS40OTkgMCAwIDEtLjE3NS0uMDMybC0uMTc5LjE3OGEuNS41IDAgMCAwLS4xMS4xNjhsLTIgNWEuNS41IDAgMCAwIC42NS42NWw1LTJhLjUuNSAwIDAgMCAuMTY4LS4xMWwuMTc4LS4xNzh6Ii8+Cjwvc3ZnPg=="
+          asp-page="/Event/EditEvent"
+          asp-route-id="@item.Id" />
+    </div>  
+   </form>*@
+             
       </div>
     </div>
-  </div>
+
  
 }
 </div>
 </div>
 </div>
 </div>
-@*
-
-    <div class="container">
-        <div id="mycard" class="row">
-            <div class="row">
-
-                <div class="col-8" style="margin-bottom:2px; margin-left:90px; background-color: white; border-radius:5px;height:145px;">
-                    <h3 style="color:#5f6c75;">@item.Title</h3>
-                    <ul style="list-style-type: none;">
-                        <li><a id="link_to_Info" asp-page="/Event/EventDescription" asp-route-id="@item.Id">View Details</a></li>
-                        
-                    </ul>
-                </div>
-            </div>
-        </div>
-</div>*@
-
 
 <style>
     .BookTitle{
