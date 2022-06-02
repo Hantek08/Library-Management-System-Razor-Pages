@@ -114,7 +114,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 }
             }
 
-            // If last name was not matched, add it to the database.
+            // If last name was not matched, add it to the database using INSERT.
             if (lastNameExists == false)
             {
                 var sql = @$"INSERT INTO LastNames (LastName) 
@@ -188,163 +188,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             }
         }
 
-        /// <summary>
-        /// Asynchronous version of AddUser.
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public static async Task<Users?> AddUserAsync(Users? user)
-        {
-            // Performs check if user passed is null.
-            CheckIfObjectIsNull(user);
-
-            // Performs check on strings in user for correct format and null.
-            CheckStringFormat(user.FirstName, user.LastName);
-
-            int fullNameId = 0;
-            int firstNameId = 0;
-            int lastNameId = 0;
-
-            bool firstNameExists = false;
-            bool lastNameExists = false;
-
-            List<FirstNames?> firstNames = GetAllFirstNames();
-
-
-
-            foreach (var item in firstNames)
-            {
-                CheckIfObjectIsNull(item);
-                CheckStringFormat(item.FirstName);
-
-                if (user.FirstName == item.FirstName)
-                {
-                    firstNameId = item.Id;
-                    firstNameExists = true;
-                    break;
-                }
-            }
-
-
-
-            if (firstNameExists == false)
-            {
-                var sql = @$"INSERT INTO FirstNames (FirstName)
-                                    VALUES ('{user.FirstName}')";
-                using (var connection = new MySqlConnection(ConnectionString))
-                {
-                    await connection.OpenAsync();
-                    if (connection.State == ConnectionState.Open)
-                        await connection.ExecuteAsync(sql);
-
-                    await connection.CloseAsync();
-                }
-
-                var sql2 = @$"SELECT Id
-                                    FROM FirstNames
-                                    WHERE FirstName = '{user.FirstName}'";
-
-                using (var connection = new MySqlConnection(ConnectionString))
-                {
-                    await connection.OpenAsync();
-                    if (connection.State == ConnectionState.Open)
-                        firstNameId = connection.QuerySingleAsync<int>(sql2).Result;
-
-                    await connection.CloseAsync();
-                }
-            }
-
-            List<LastNames?> lastNames = GetAllLastNames();
-            CheckIfObjectIsNull(lastNames);
-
-            foreach (var item in lastNames)
-            {
-                CheckIfObjectIsNull(item);
-
-                if (user.LastName == item.LastName)
-                {
-                    lastNameId = item.Id;
-                    lastNameExists = true;
-                    break;
-                }
-            }
-
-            if (lastNameExists == false)
-            {
-                var sql = @$"INSERT INTO LastNames (LastName) 
-                                    VALUES ('{user.LastName}')";
-                using (var connection = new MySqlConnection(ConnectionString))
-                {
-                    await connection.OpenAsync();
-                    if (connection.State == ConnectionState.Open)
-                        await connection.ExecuteAsync(sql);
-
-                    await connection.CloseAsync();
-                }
-
-                var sql2 = @$"SELECT Id
-                                    FROM LastNames
-                                    WHERE LastName = '{user.LastName}'";
-
-                using (var connection = new MySqlConnection(ConnectionString))
-                {
-                    await connection.OpenAsync();
-                    if (connection.State == ConnectionState.Open)
-                    {
-                        lastNameId = connection.QuerySingleAsync<int>(sql2).Result;
-                        await connection.CloseAsync();
-                    }
-
-                }
-            }
-
-            var sqlFN = @$"INSERT INTO FullNames (FirstNameId, LastNameId) 
-                                VALUES ({firstNameId}, {lastNameId})";
-
-            using (var connection = new MySqlConnection(ConnectionString))
-            {
-                await connection.OpenAsync();
-                if (connection.State == ConnectionState.Open)
-                    await connection.ExecuteAsync(sqlFN);
-
-                await connection.CloseAsync();
-            }
-
-            var sqlFN2 = @$"SELECT Id
-                                FROM FullNames
-                                WHERE LastNameId = {lastNameId} and FirstNameId = {firstNameId}";
-
-            using (var connection = new MySqlConnection(ConnectionString))
-            {
-                await connection.OpenAsync();
-                if (connection.State == ConnectionState.Open)
-                    fullNameId = connection.QuerySingleAsync<int>(sqlFN2).Result;
-
-                await connection.CloseAsync();
-            }
-
-            CheckStringFormat(user.Username, user.Password, user.Address);
-
-            var sqlMain = @$"INSERT INTO Users (FullNameId, Username, Password, AccessId, Address, Blocked) 
-                                    VALUES ({fullNameId}, '{user.Username}', '{user.Password}', {user.Level}, '{user.Address}', {user.Blocked})";
-
-            using (var connection = new MySqlConnection(ConnectionString))
-            {
-                await connection.OpenAsync();
-                if (connection.State == ConnectionState.Open)
-                {
-                    await connection.ExecuteAsync(sqlMain);
-                    await connection.CloseAsync();
-                }
-            }
-
-            return user;
-
-        }
         #endregion
 
         #region Author related
+
+/* Can be removed 
+ 
         /// <summary>
         /// Adds an author to the database.
         /// </summary>
@@ -368,38 +217,21 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 connection.Close();
             }
         }
-
-        /// <summary>
-        /// Asynchronous version of AddAuthor.
-        /// </summary>
-        /// <param name="author"></param>
-        /// <returns></returns>
-        public static async Task<Authors?> AddAuthorAsync(Authors? author)
-        {
-            CheckIfObjectIsNull(author);
-            CheckStringFormat(author.AuthorName);
-            var sql = @$"INSERT INTO Authors (AuthorName)
-                                VALUES (@{author.AuthorName})";
-
-            using (var connection = new MySqlConnection(ConnectionString))
-            {
-                await connection.OpenAsync();
-                if (connection.State == ConnectionState.Open)
-                    await connection.ExecuteAsync(sql);
-
-                await connection.CloseAsync();
-            }
-            return author;
-        }
+*/
         #endregion
 
         #region Product related
+        /// <summary>
+        /// Adds a product to the library database.
+        /// </summary>
+        /// <param name="product"></param>
         public static void AddProduct(Products? product)
         {
             CheckIfObjectIsNull(product);
 
             CheckStringFormat(product.Description, product.CategoryName, product.SubCategoryName);
 
+            // Get all authors using method.
             static List<Authors?> GetAllAuthors()
             {
 
@@ -419,7 +251,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 }
                 return null;
             }
-
+            
             static List<Categories?> GetAllCategories()
             {
                 var sql = @$"SELECT Id, CategoryName 
@@ -641,30 +473,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             }
         }
 
-        /// <summary>
-        /// Adds new category asynchronously to the database.
-        /// </summary>
-        /// <param name="category"></param>
-        /// <returns></returns>
-        public static async Task<Categories?> AddCategoryAsync(Categories? category)
-        {
-            CheckIfObjectIsNull(category);
-            CheckStringFormat(category.CategoryName);
-
-            var cmdText = @$"INSERT INTO Categories (CategoryName)
-                                    VALUES ('{category.CategoryName}')";
-
-            using (var connection = new MySqlConnection(ConnectionString))
-            {
-                await connection.OpenAsync();
-                if (connection.State == ConnectionState.Open)
-                    await connection.ExecuteAsync(cmdText);
-
-                await connection.CloseAsync();
-            }
-
-            return category;
-        }
         #endregion
 
         #region Subcategory related
@@ -691,29 +499,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             }
         }
 
-        /// <summary>
-        /// Adds new subcategory asynchronously to the database.
-        /// </summary>
-        /// <param name="subcategory"></param>
-        /// <returns></returns>
-        public static async Task<SubCategories?> AddSubCategoryAsync(SubCategories? subcategory)
-        {
-            CheckIfObjectIsNull(subcategory);
-            CheckStringFormat(subcategory.SubCategoryName);
-
-            var cmdText = @$"INSERT INTO SubCategory (SubCategoryName)
-                                    VALUES ({subcategory.SubCategoryName})";
-
-            using (var connection = new MySqlConnection(ConnectionString))
-            {
-                await connection.OpenAsync();
-                if (connection.State == ConnectionState.Open)
-                    await connection.ExecuteAsync(cmdText);
-
-                await connection.CloseAsync();
-            }
-            return subcategory;
-        }
         #endregion
 
         #region Loan related
