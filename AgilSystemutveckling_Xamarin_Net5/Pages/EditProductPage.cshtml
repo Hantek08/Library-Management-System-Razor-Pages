@@ -121,6 +121,7 @@
 
 </style>
 
+<!--Edit description layout -->
 <form method="post">
     <div class="containerDesc">
         <div class="row">
@@ -146,28 +147,20 @@
                     <textarea name="newDescription" id="edit_description_area" asp-for="@EditProductPageModel.EditProduct.Description" class="form-control" ></textarea>
                 </div>
             </div>
+            <!--Units in stock edit-->
             <div id="desc_for_counter">In Stock:
                 <input name="newStockAmount" asp-for="@EditProductPageModel.EditProduct.UnitsInStock" type="number" min="0" max="100" class="form-control"/>
             </div>
     </div>
  </form>
 
-
+<!--Back Arrow symbol-->
 <form action="/ProductPage">
     <button class="backToSearch">
         <i class="bi bi-arrow-left" id="backToSearchimg"></i>
     </button>
-    @*<input id="backToSearch" class="Buttons" type="submit" value="Back">*@
 </form> 
 
-<script>
-    // When the user clicks on div, open the popup
-    function myFunction() {
-      var popup = document.getElementById("myPopup");
-      popup.classList.toggle("show");
-    }
-
-</script>
 
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
