@@ -34,10 +34,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Event
             return RedirectToPage("/Event/EventPage");
         }
 
-        public void OnPostBooked(int id)
+        public IActionResult OnPostDelete(int id)
         {
+            Service.DeleteService.Delete.DeleteProduct(id);
+            TempData["success"] = "Event deleted successfully";
+            return RedirectToPage("/Event/EventPage");
 
-           
         }
     }
 }
