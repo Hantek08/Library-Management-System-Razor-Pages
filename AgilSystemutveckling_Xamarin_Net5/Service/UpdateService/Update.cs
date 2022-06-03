@@ -43,7 +43,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
 
         #region user related
         public static void User(Users? user)
-        {
+        {// This method updates user 
             CheckIfObjectIsNull(user);
 
             CheckStringFormat(user.Username, user.Password, user.Address);
