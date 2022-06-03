@@ -43,8 +43,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
 
         #region user related
         public static void User(Users? user)
-        {// This method updates user 
-            CheckIfObjectIsNull(user);
+        {
+            if(user is null) { throw new ArgumentNullException(nameof(user)); }
 
             CheckStringFormat(user.Username, user.Password, user.Address);
 
@@ -66,22 +66,26 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
 
         public static void Product(Products? product)
         {
-            CheckIfObjectIsNull(product);
+            if(product is null) { throw new ArgumentNullException(nameof(product)); }
 
             CheckStringFormat(product.AuthorName, product.CategoryName, product.SubCategoryName, product.Description, product.Title);
 
             int categoryId = 0;
             int subCategoryId = 0;
-            List<Categories?> categories = GetAllCategories();
-            List<SubCategories?> subCategories = GetAllSubCategories();
+            List<Categories?>? categories = GetAllCategories();
+            if(categories is null) { throw new NullReferenceException(nameof(categories)); }
+            List<SubCategories?>? subCategories = GetAllSubCategories();
+            if(subCategories is null) { throw new NullReferenceException(nameof(subCategories)); }
 
             foreach(var category in categories)
             {
+                if(category is null) { throw new NullReferenceException(nameof(category)); }
                 if (product.CategoryName == category.CategoryName)
                     categoryId = category.Id;
             }
             foreach(var subCategory in subCategories)
             {
+                if(subCategory is null) { throw new NullReferenceException(nameof(subCategory)); }
                 if (product.SubCategoryName == subCategory.SubCategoryName)
                     subCategoryId = subCategory.Id;
             }
