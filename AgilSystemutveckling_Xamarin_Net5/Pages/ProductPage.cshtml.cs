@@ -60,6 +60,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         }
 
+
         public IActionResult OnPostMakeProductHidden(int id)
         {
             var product = Service.GetService.Get.GetProductById(id);
@@ -75,6 +76,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             product.Id = id;
             Service.UpdateService.Update.Product(product);
             return RedirectToPage("/ProductPage");
+        }
+
+        public void OnPostBookProduct(int id)
+        {
+             var product = BookName.Where(c => c.Id == id).ToList();
+            Service.CreateService.Create.AddHistory(Globals.LoggedInUser.Id, id, 7);
+              
+             TempData["success"] = product[0].Title + " has been booked";
         }
     }
 }
