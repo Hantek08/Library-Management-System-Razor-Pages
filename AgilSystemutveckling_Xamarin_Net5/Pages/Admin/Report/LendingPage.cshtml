@@ -2,34 +2,7 @@
 @model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Report.LendingPageModel
 @{
 }
-<style>
-   .cont{
-       border: 1px;
-       border-color: black;
-   }
-   #printbutton{
-       margin-left: 750px;
-       color: white;
-       background-color: #6FC767;
-       border-radius: 10px;
-       border: 0px;       
-   }
-   #divPrint{
-       margin-top: 20px;
-   }
-</style>
-    
- <script>
-       function printContent(el){
-        var restorepage = document.body.innerHTML;
-        var printcontent = document.getElementById(el).innerHTML;
-        document.body.innerHTML = printcontent;
-        window.print();
-        document.body.innerHTML = printcontent;
-        history.go(0);
-    }
-	</script>
-
+<!-- Bootstrap nav-tab to navigiate throug all 4 pages -->
 <header class="Menu"> 
 
     <ul class="nav nav-pills nav-fill">
@@ -48,7 +21,7 @@
     </ul>
    
 </header>
-
+<!--Lending info listed in a table -->
 <div class="users">
   <div id="divPrint">
     <table class="user-list">
@@ -75,5 +48,7 @@
    </div>
     <button id="printbutton" onclick="printContent('divPrint')">Print content</button> 
 </div>
+
+
 
 
