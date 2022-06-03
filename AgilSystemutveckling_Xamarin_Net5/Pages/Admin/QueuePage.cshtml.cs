@@ -7,6 +7,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin
     {
         public void OnGet()
         {
+
         }
     }
 }
