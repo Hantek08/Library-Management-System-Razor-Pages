@@ -7,13 +7,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User
     {
         [BindProperty]
         public static Models.Users user { get; set; }
+
         public ActionResult OnPost()
         {
             if(!ModelState.IsValid)
             {
                 return Page();
             }
-            //TestService.GetService.Get.AddUser(user);
             return RedirectToPage("/Admin/User/UserListPage");
         }
     }

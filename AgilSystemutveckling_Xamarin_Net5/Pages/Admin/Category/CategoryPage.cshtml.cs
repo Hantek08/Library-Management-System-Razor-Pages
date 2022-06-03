@@ -9,6 +9,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Category
         public static List<Categories> CategoryList;
         [BindProperty]
         public Categories NewCategories { get; set; }
+
+        //Get all categories
         public void OnGet()
         {
             CategoryList = Service.GetService.Get.GetAllCategories();
@@ -19,6 +21,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.Category
             ViewData["Category"] = CategoryList;
         }
 
+        // Add a category
         public IActionResult OnPostAdd()
         {
             if (!ModelState.IsValid)

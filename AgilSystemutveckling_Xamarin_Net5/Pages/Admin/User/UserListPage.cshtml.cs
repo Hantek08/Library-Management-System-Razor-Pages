@@ -11,6 +11,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User
         [BindProperty]
         public Models.Users newUser { get; set; }
 
+        //Gets all users into list
         public void OnGet()
         {
             UserList = Service.GetService.Get.GetAllUsers();
@@ -22,6 +23,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User
             // git test
         }
 
+        // Add new user
         public IActionResult OnPostAdd()
         {   
             if (!ModelState.IsValid)
