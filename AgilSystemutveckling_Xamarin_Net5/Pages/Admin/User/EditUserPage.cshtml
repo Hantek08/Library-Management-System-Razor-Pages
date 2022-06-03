@@ -2,7 +2,7 @@
 @model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.User.EditUserPageModel
 @{
 }
-
+<!--A form to edit user address and password-->
 <form method="post">
     <div class="containerDesc">
         <h1 id="full_name">@EditUserPageModel.UserInfo.FirstName @EditUserPageModel.UserInfo.LastName</h1>
@@ -21,8 +21,9 @@
             </div>
             <div>
             <label style="font-weight: bold;" id="blocked_label">Blocked:
-@*                <h5 class="child">@EditUserPageModel.UserInfo.Blocked</h5>*@
+
                 <div class="child">
+                   <!--this will block and unblock user -->
                 <form method="post">
                     @if(@EditUserPageModel.UserInfo.Blocked == true)
                     {
@@ -48,7 +49,7 @@
     <button class="backToSearch">
         <i class="bi bi-arrow-left" id="backToSearchimg"></i>
     </button>
-    @*<input id="backToSearch" class="Buttons" type="submit" value="Back">*@
+
 </form> 
 
  <style>
