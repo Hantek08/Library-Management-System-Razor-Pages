@@ -10,9 +10,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         [BindProperty]
         public string Password { get; set; }
-        [BindProperty]
-        public static string LoginError { get; set; }
-
+        
         public void OnGet()
         {
 
@@ -33,11 +31,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
                     Globals.LoggedInUser = item;
                     return RedirectToPage("/ProductPage");
                 }
-                //else
-                //{
-                //    LoginError = "Wrong username or password try again!";
-                //   
-                //}
+                
             }
             return Page();
 

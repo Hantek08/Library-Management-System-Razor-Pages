@@ -1,0 +1,45 @@
+﻿@page
+@model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.QueuePageModel
+@{
+}
+<style>
+   .cont{
+       border: 1px;
+       border-color: black;
+   }
+   #printbutton{
+       margin-left: 750px;
+       color: white;
+       background-color: #6FC767;
+       border-radius: 10px;
+       border: 0px;       
+   }
+   #divPrint{
+       margin-top: 20px;
+   }
+</style>
+
+<div class="users">
+  <div id="divPrint">
+    <table class="user-list">
+        <tr>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Date</th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        @foreach (var item in Service.GetService.Get.ActiveBookings())
+        {
+            <tr>
+                <td><a>@item.FirstName @item.LastName</a></td>
+                <td>@item.Title</td>
+                <td>@item.DateTime.Date</td>
+            </tr>
+
+        }
+     </table>
+   </div>
+    <button id="printbutton" onclick="printContent('divPrint')">Print content</button> 
+</div>
