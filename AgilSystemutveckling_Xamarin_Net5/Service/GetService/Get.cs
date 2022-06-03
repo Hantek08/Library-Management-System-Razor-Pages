@@ -1282,12 +1282,92 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         }
         #endregion
 
-        #region History related
         /// <summary>
-        /// Gets all histories.
+        /// Displays a list of all items with action ID 7 (Booked to a user) with instances of Histories.
+        /// Method to see Active bookings.
         /// </summary>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        public static List<History?>? GetAllHistories()
+        /// 
+        public static List<History?>? ActiveBookings(int userId)
+        {
+            var sql = $@"Select Products.Title, History.Datetime, History.ProductId, Actions.Action
+                        FROM History
+		                INNER JOIN Products on ProductId =  Products.Id
+		                INNER JOIN Actions on ActionId = Actions.Id
+                        INNER JOIN Users on UserId = Users.Id
+                        INNER JOIN FullNames on FullNameId = FullNames.Id
+                        INNER JOIN FirstNames on FirstNameId = FirstNames.Id
+                        INNER JOIN LastNames on LastNameId = LastNames.Id
+                        WHERE ActionId = 7 And UserId = {userId}";
+           
+            List<History?>? historiesBooked = new();
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    historiesBooked = connection.Query<History?>(sql).ToList();
+
+                    connection.Close();
+
+
+                }
+            }
+
+            var sqlLent = $@"Select Title, Datetime, ProductId
+                        FROM History
+		                INNER JOIN Products on ProductId =  Products.Id
+		                INNER JOIN Actions on ActionId = Actions.Id
+                        
+                        INNER JOIN Users on UserId = Users.Id
+                        WHERE ActionId = 1 And UserId = {userId}";
+
+
+
+            List<History?>? historiesLent = new();
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    historiesLent = connection.Query<History?>(sqlLent).ToList();
+
+                    connection.Close();
+                }
+            }
+
+
+            List<History?>? activeBookings = new();
+
+            bool isLent;
+
+            foreach (var booked in historiesBooked)
+            {
+                isLent = false;
+
+                foreach (var lent in historiesLent)
+                {
+                    if (booked.Title == lent.Title && booked.DateTime < lent.DateTime)
+                    {
+                        isLent = true;
+                        break;
+                    }
+                }
+                // If a product is not loaned, add to the list of active bookings.
+                if (!isLent) { activeBookings.Add(booked); }
+            }
+            return activeBookings;
+        }
+
+           
+            #region History related
+            /// <summary>
+            /// Gets all histories.
+            /// </summary>
+            /// <returns></returns>
+            public static List<History?>? GetAllHistories()
         {
             string? sql = @$"SELECT History.Id, FirstNames.FirstName, LastNames.LastName, Products.Title,
                             Actions.Action, History.Datetime, Categories.CategoryName
