@@ -1289,7 +1289,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <param name="userId"></param>
         /// <returns></returns>
         /// 
-        public static List<History?>? ActiveBookings(int userId)
+        public static List<History?>? ActiveBookings()
         {
             var sql = $@"Select Products.Title, History.Datetime, History.ProductId, Actions.Action
                         FROM History
@@ -1299,7 +1299,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                         INNER JOIN FullNames on FullNameId = FullNames.Id
                         INNER JOIN FirstNames on FirstNameId = FirstNames.Id
                         INNER JOIN LastNames on LastNameId = LastNames.Id
-                        WHERE ActionId = 7 And UserId = {userId}";
+                        WHERE ActionId = 7";
            
             List<History?>? historiesBooked = new();
             using (var connection = new MySqlConnection(ConnectionString))
@@ -1321,7 +1321,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 		                INNER JOIN Actions on ActionId = Actions.Id
                         
                         INNER JOIN Users on UserId = Users.Id
-                        WHERE ActionId = 1 And UserId = {userId}";
+                        WHERE ActionId = 1";
 
 
 
