@@ -1291,7 +1291,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// 
         public static List<History?>? ActiveBookings()
         {
-            var sql = $@"Select Firstnames.Firstname, Lastnames.Lastname, Products.Title, History.Datetime, History.ProductId, Actions.Action
+            var sql = $@"Select FirstNames.FirstName, LastNames.LastName, Products.Title, History.Datetime, History.ProductId, Actions.Action
                         FROM History
 		                INNER JOIN Products on ProductId =  Products.Id
 		                INNER JOIN Actions on ActionId = Actions.Id
