@@ -10,6 +10,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         {
         }
 
+        // Delete the items you've chosen from the cart
         public void OnPostDeliteFromCart(int id)
         {
             for (int i = 0; i < Globals.CartList.Count; i++)
@@ -21,7 +22,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
                 }
             }           
         }
-
+        
+        //Adds the items you've chosen into History
         public void OnPostCheckOut()
         {
             foreach (var item in Globals.CartList)
@@ -29,7 +31,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
                 Service.CreateService.Create.AddHistory(Globals.LoggedInUser.Id, item.Id, 1);
                 Globals.CartList = new List<Products>();
             }
-            TempData["success"] = "Checkout completed";
+            TempData["success"] = "Checkout completed"; // Popup
         }
     }
 }

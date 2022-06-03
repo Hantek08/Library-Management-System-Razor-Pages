@@ -16,7 +16,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         }
 
-
+        // Check if login credentials match any user in the system
+        // If true returns as logged in user else stuck at login page
         public IActionResult OnPost()
         {
 
