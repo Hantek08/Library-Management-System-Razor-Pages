@@ -17,3 +17,13 @@ In the 'Methods' folder are the methods used to error handle the string variable
 
 Constants:
 The constants folder contains the connectionstring used to connect to the database.
+
+
+History related regions:
+Everything history related relates to the history table in the database. It is used to save a history for loans, returns, bookings etc.
+
+Category related regions:
+Category refers to categories like books, movies, events, etc.
+
+SubCategory related regions:
+SubCategory refers to categories fiction, non-fiction, etc.
