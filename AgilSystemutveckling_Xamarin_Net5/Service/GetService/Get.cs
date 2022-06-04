@@ -8,6 +8,7 @@ using static AgilSystemutveckling_Xamarin_Net5.Methods.Methods;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 {
+    // Static class to prevent instantiations of the class - it is only used to provide methods.
     public static class Get
     {
         /*

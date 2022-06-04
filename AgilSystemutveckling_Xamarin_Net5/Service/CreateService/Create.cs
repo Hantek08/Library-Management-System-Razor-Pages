@@ -180,36 +180,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
         #endregion
 
-        #region Author related
-
-        /* Unused method, author is added in AddProduct.
-
-                /// <summary>
-                /// Adds an author to the database.
-                /// </summary>
-                /// <param name="author"></param>
-                /// <returns></returns>
-                public static void AddAuthor(Authors? author)
-                {
-                    CheckIfObjectIsNull(author);
-                    CheckStringFormat(author.AuthorName);
-
-                    // Add author using INSERT.
-                    var sql = @$"INSERT INTO Authors (AuthorName)
-                                        VALUES ({author.AuthorName})";
-
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        connection.Open();
-                        if (connection.State == ConnectionState.Open)
-                            connection.Execute(sql);
-
-                        connection.Close();
-                    }
-                }
-        */
-        #endregion
-
         #region Product related
         /// <summary>
         /// Adds a product to the library database.
@@ -220,67 +190,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             if (product is null) throw new ArgumentNullException(nameof(product));
 
             CheckStringFormat(product.Description, product.CategoryName, product.SubCategoryName);
-            /*
-                        // Get all authors using method.
-                        static List<Authors?> GetAllAuthors()
-                        {
-
-                            var sql = @$"Select Id, AuthorName 
-                                            From Authors";
-
-                            using (var connection = new MySqlConnection(ConnectionString))
-                            {
-                                connection.Open();
-                                if (connection.State == ConnectionState.Open)
-                                {
-                                    var author = connection.Query<Authors?>(sql).ToList();
-                                    connection.Close();
-
-                                    return author;
-                                }
-                            }
-                            return null;
-                        }
-
-                        static List<Categories?> GetAllCategories()
-                        {
-                            var sql = @$"SELECT Id, CategoryName 
-                                                FROM Categories";
-
-                            using (var connection = new MySqlConnection(ConnectionString))
-                            {
-                                connection.Open();
-                                if (connection.State == ConnectionState.Open)
-                                {
-                                    var categories = connection.Query<Categories?>(sql);
-
-                                    connection.Close();
-
-                                    return categories.ToList();
-                                }
-                            }
-                            return null;
-                        }
-
-                        static List<SubCategories?> GetAllSubCategories()
-                        {
-                            var sql = @$"SELECT Id, SubCategoryName 
-                                                FROM SubCategories";
-
-                            using (var connection = new MySqlConnection(ConnectionString))
-                            {
-                                connection.Open();
-                                if (connection.State == ConnectionState.Open)
-                                {
-                                    var subCategories = connection.Query<SubCategories?>(sql).ToList();
-                                    connection.Close();
-
-                                    return subCategories;
-                                }
-                            }
-                            return null;
-                        }*/
-
+            
             // Declare int and bool variables.
             int AuthorId = 0;
             int CategoryId = 0;
