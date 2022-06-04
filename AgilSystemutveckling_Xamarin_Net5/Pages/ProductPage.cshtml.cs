@@ -2,12 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using AgilSystemutveckling_Xamarin_Net5.Models;
 using AgilSystemutveckling_Xamarin_Net5.Service.GetService;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AgilSystemutveckling_Xamarin_Net5.Pages
 {
     public class SearchPageModel : PageModel
     {
         public static List<Products?> BookName;
+        public List<SelectListItem> Options { get; set; }
 
         [BindProperty]
         public Products newBook { get; set; }
@@ -19,6 +21,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         public void OnGet()
         {
             BookName = (List<Products?>)Get.GetAllProducts().Where(c => c.CategoryName != "Event").ToList();
+            Options = Service.GetService.Get.GetAllCategories().Select(c => 
+                                                                        new SelectListItem
+                                                                        {
+                                                                            Text = c.CategoryName,
+                                                                            Value = c.CategoryName
+                                                                        }).ToList();
+              
         }
 
         // OnGet for later edits
