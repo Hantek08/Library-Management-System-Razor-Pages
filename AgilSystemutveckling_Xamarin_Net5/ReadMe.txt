@@ -1,4 +1,4 @@
-﻿This is a short explanation about where to find 
+﻿This is a short explanation about where to find things and what its about.
 
 
 Pages:
