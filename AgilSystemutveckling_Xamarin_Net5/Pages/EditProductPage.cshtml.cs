@@ -12,6 +12,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             EditProduct.Id = DescriptionPageModel.productId;
         }
 
+
+        // To save the changes you have written and upload them to database
         public IActionResult OnPostSaveChanges()
         {
             int stockNumberHolder;
@@ -20,7 +22,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             int.TryParse(Request.Form["newStockAmount"], out stockNumberHolder);
             EditProduct.UnitsInStock = stockNumberHolder;
             Service.UpdateService.Update.Product(EditProduct);
-            TempData["success"] = "Changes has been saved";
+            TempData["success"] = "Changes has been saved"; // Popup
             return RedirectToPage("./DescriptionPage", new { id = DescriptionPageModel.productId });
         }
     }

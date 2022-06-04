@@ -3,7 +3,7 @@
 @{
       Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-
+<!-- Bootstrap nav-tab to navigiate through all 4 pages -->
 <header class="Menu"> 
 
     <ul class="nav nav-pills nav-fill">
@@ -24,6 +24,7 @@
    
 </header>
 
+<!--Add Button and searchbar-->
 <div class="users">
     <div class="user-tools">
         <a href="#myModal" role="button" class="btn user-add" data-bs-toggle="modal">Add User</a>
@@ -33,6 +34,7 @@
             </form>            
         </div>                   
     </div>
+    <!--Users info listed in a table -->
     <table id="myTable" class="user-list">
         <tr>
             <th>Name</th>
@@ -83,7 +85,7 @@
         }
      </table>
 
-       <!-- Modal HTML -->
+       <!-- Add user popup window -->
     <form method="post">
         <div id="myModal" class="modal fade" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -170,8 +172,8 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 
 }
  <script>
+     // Search filter function
 function myFunction() {
-  // Declare variables
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();

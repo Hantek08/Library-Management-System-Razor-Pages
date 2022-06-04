@@ -1,0 +1,30 @@
+﻿@page
+@model AgilSystemutveckling_Xamarin_Net5.Pages.Admin.QueuePageModel
+@{
+}
+
+<!--ActiveBookings info listed in a table -->
+<div class="users">
+  <div id="divPrint">
+    <table class="user-list">
+        <tr>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Date</th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        @foreach (var item in Service.GetService.Get.ActiveBookings())
+        {
+            <tr>
+                <td><a>@item.FirstName @item.LastName</a></td>
+                <td>@item.Title</td>
+                <td>@item.DateTime.Date</td>
+            </tr>
+
+        }
+     </table>
+   </div>
+    <button id="printbutton" onclick="printContent('divPrint')">Print content</button> 
+</div>

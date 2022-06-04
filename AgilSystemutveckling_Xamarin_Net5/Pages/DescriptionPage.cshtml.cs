@@ -13,6 +13,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         public static int unitsinstock;
         public static int productId;
 
+        // Save product information into props 
+        // To use in front-end page
         public void OnGet(int id)
         {
             product = Service.GetService.Get.GetProductById(id);
@@ -29,9 +31,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             ViewData["Books"] = description;
             // git test
         }
+        
+        // Adds the chosen product to cart
         public void OnPostAddToCart()
         { 
-
             Globals.CartList.Add(product);
             TempData["success"] = product.Title + " has been added";
         }

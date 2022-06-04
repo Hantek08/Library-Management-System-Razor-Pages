@@ -10,13 +10,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
 
         [BindProperty]
         public string Password { get; set; }
-
+        
         public void OnGet()
         {
 
         }
 
-
+        // Check if login credentials match any user in the system
+        // If true returns as logged in user else stuck at login page
         public IActionResult OnPost()
         {
 
@@ -31,8 +32,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
                     Globals.LoggedInUser = item;
                     return RedirectToPage("/ProductPage");
                 }
+                
             }
             return Page();
+
         }
     }
 }

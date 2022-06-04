@@ -14,11 +14,14 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
         
         [BindProperty]
         public Products EditProducts { get; set; }
+
+        // Get a list of all products
         public void OnGet()
         {
             BookName = (List<Products?>)Get.GetAllProducts().Where(c => c.CategoryName != "Event").ToList();
         }
 
+        // OnGet for later edits
         public void OnGetProdById(int id)
         {
             EditProducts = Get.GetProductById(id);
@@ -29,16 +32,19 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             ViewData["Books"] = BookName;
             // git test
         }
-        
+
+        // Be able to edit a specific product
         public IActionResult OnPostEdit()
         {
             Service.UpdateService.Update.UpdateUnitsInStock(EditProducts.Id, EditProducts.UnitsInStock);
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 return RedirectToPage("/ProductPage");
             }
             return Page();
         }
+        
+        // Add a new product
         public IActionResult OnPostAdd()
         {
 
@@ -51,15 +57,17 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             return RedirectToPage("/ProductPage");
         }
 
+        // Adds product to cart
         public void OnPostAddToCart(int id)
         {
             BookName = Get.GetAllProducts();
             var product = BookName.Where(c => c.Id == id).ToList();
             Globals.CartList.Add(product[0]);
-            TempData["success"] = product[0].Title + " has been added";
+            TempData["success"] = product[0].Title + " has been added"; // Popup
 
         }
 
+        // Be able to make product hidden from customer
         public IActionResult OnPostMakeProductHidden(int id)
         {
             var product = Service.GetService.Get.GetProductById(id);
@@ -68,6 +76,8 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             Service.UpdateService.Update.Product(product);
             return RedirectToPage("/ProductPage");
         }
+
+        // Be able to unhide product from customer
         public IActionResult OnPostMakeProductUnhidden(int id)
         {
             var product = Service.GetService.Get.GetProductById(id);
@@ -75,6 +85,15 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages
             product.Id = id;
             Service.UpdateService.Update.Product(product);
             return RedirectToPage("/ProductPage");
+        }
+
+        // Be able to make a booking for a product
+        public void OnPostBookProduct(int id)
+        {
+             var product = BookName.Where(c => c.Id == id).ToList();
+            Service.CreateService.Create.AddHistory(Globals.LoggedInUser.Id, id, 7);
+              
+             TempData["success"] = product[0].Title + " has been booked";
         }
     }
 }

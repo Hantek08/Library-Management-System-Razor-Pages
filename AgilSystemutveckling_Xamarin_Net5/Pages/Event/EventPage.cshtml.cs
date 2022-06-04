@@ -10,10 +10,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Event
         public static List<Products?> EventsList;
         [BindProperty]
         public Products NewEvent { get; set; }
+
+        // Gets everything for the category "Event"
         public void OnGet()
         {
-            EventsList = Get.GetAllByCategory("Event");
-            
+            EventsList = Get.GetAllByCategory("Event");           
         }
 
         public void OnPost()
@@ -22,6 +23,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Event
             // git test
         }
 
+        // For adding new event
         public IActionResult OnPostAdd()
         {
 
@@ -34,10 +36,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Pages.Event
             return RedirectToPage("/Event/EventPage");
         }
 
+        // Delete an event
         public IActionResult OnPostDelete(int id)
         {
             Service.DeleteService.Delete.DeleteProduct(id);
-            TempData["success"] = "Event deleted successfully";
+            TempData["success"] = "Event deleted successfully"; // Popup
             return RedirectToPage("/Event/EventPage");
 
         }

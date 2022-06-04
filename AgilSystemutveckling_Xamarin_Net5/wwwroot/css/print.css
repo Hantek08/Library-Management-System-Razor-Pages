@@ -1,0 +1,19 @@
+﻿body {
+}
+.cont {
+    border: 1px;
+    border-color: black;
+}
+
+#printbutton {
+    margin-left: 750px;
+    color: white;
+    background-color: #6FC767;
+    border-radius: 10px;
+    border: 0px;
+}
+
+#divPrint {
+    margin-top: 20px;
+}
+

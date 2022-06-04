@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgilSystemutveckling_Xamarin_Net5.Pages.testPages
+namespace AgilSystemutveckling_Xamarin_Net5.Pages.Admin
 {
-    public class FransModel : PageModel
+    public class QueuePageModel : PageModel
     {
-        
         public void OnGet()
         {
 
