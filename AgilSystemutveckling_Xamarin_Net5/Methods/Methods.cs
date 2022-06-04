@@ -8,20 +8,16 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
     public static class Methods
     {
         /// <summary>
-        /// Method that checks a variable number of strings for correct format (no single quotes) and null.
+        /// Method that checks a variable number of strings for correct format (no single quotes) and if they exceed the maximum (of 3000) characters.
         /// </summary>
         /// <param name="a"></param>
-        /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="FormatException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static void CheckStringFormat(params string?[] a)
         {
             // For each params passed into the method, check each if-clause argument and stop at any exception found.
             for (int i = 0; i < a.Length; i++)
             {
-                if (a[i] is null)
-                {
-                    throw new ArgumentNullException($"{nameof(a)}", $"String value cannot be null or empty. Please try again.");
-                }
 
                 if (a[i].Contains('\''))
                 {
@@ -30,7 +26,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Methods
                          );
                 }
 
-                if (a[i].Length > 3000) { throw new FormatException($"String '{nameof(a)}' is too long. Maximum is 3000 characters."); }
+                if (a[i].Length > 3000) { throw new ArgumentOutOfRangeException($"String '{nameof(a)}' is too long. Maximum is 3000 characters."); }
             }
         }
     }
