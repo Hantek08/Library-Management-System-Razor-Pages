@@ -27,3 +27,7 @@ Category refers to categories like books, movies, events, etc.
 
 SubCategory related regions:
 SubCategory refers to categories fiction, non-fiction, etc.
+
+Global Variables:
+The global variabels can be found in the Globals class, they are used for getting information from one page to the other and keeping track of 
+who is logged in, whats in the cart etc.
