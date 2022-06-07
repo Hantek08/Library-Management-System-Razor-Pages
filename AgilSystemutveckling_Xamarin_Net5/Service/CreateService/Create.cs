@@ -22,13 +22,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <exception cref="Exception"></exception>
         public static void AddUser(Users? user)
         {
-            // Calls method that checks if the variable passed in is null.
+            // Null-checks running inline to prevent nullable reference warnings throughout code.
             if (user is null) { throw new ArgumentNullException(nameof(user)); }
 
             // Calls method that checks if passed in variable properties are null, correctly formatted for SQL or short enough.
             CheckStringFormat(user.FirstName, user.LastName);
 
-            // Declaration of temporary variables.
+            // Declaration of int variables for name ID's.
             int firstNameId = 0;
             int lastNameId = 0;
             int fullNameId = 0;
@@ -39,8 +39,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
             // Get the full list of first names to compare with the newly entered one from Front end.
             var firstNames = GetAllFirstNames();
+
             // Check if list is null.
-            if(firstNames is null) { throw new NullReferenceException(nameof(firstNames)); }
+            if (firstNames is null) { throw new NullReferenceException(nameof(firstNames)); }
 
             // For each first name, check if it is null and if it already exists in database.
             foreach (var item in firstNames)
@@ -49,19 +50,22 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 {
                     // Set the firstNameId to be the same as item ID, then break to the next statement.
                     firstNameId = item.Id;
+
+                    // Switch firstNameExists to true.
                     firstNameExists = true;
+                    // Break to the next statement.
                     break;
                 }
             }
 
-            // If first name does not exist in the database, add it using INSERT.
+            // If first name did not exist in the database, go here and add it using INSERT.
             if (firstNameExists == false)
             {
 
                 var sql = @$"INSERT INTO FirstNames (FirstName)
                                     VALUES ('{user.FirstName}')";
 
-                // Using MySQLConnection with connection string found in Constants folder.
+                // Using MySQLConnection with constant connectionstring stored in Constants folder.
                 using (var connection = new MySqlConnection(ConnectionString))
                 {
                     // Open MySQL connection.
@@ -70,7 +74,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     if (connection.State == ConnectionState.Open)
                         connection.Execute(sql); // Execute SQL query.
 
-                    // Close connection before leaving to the next statement.
+                    // Close connection before exiting block.
                     connection.Close();
                 }
                 // Query to get the Id of the first name of the current user.
@@ -84,17 +88,18 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     if (connection.State == ConnectionState.Open)
                         firstNameId = connection.QuerySingle<int>(sql2); // Execute single-row query, adding first name ID from database to an int variable.
 
-                    // Close connection before leaving to the next statement.
+
                     connection.Close();
                 }
             }
 
             // Get all last names from database.
             var lastNames = GetAllLastNames();
-            if(lastNames is null) { throw new NullReferenceException(nameof(lastNames)); }
+            if (lastNames is null) { throw new NullReferenceException(nameof(lastNames)); }
+
             // For each last name, check if it is null, and compare the user last name to the last names already present in database.
             foreach (var item in lastNames)
-            { 
+            {
                 if (item is not null && user.LastName == item.LastName)
                 {
                     // Set current last name ID to the existing last name's ID, then exit to the next statement, avoiding duplicates in database.
@@ -172,42 +177,12 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 connection.Open();
                 if (connection.State == ConnectionState.Open)
                     try { connection.Execute(sqlMain); }
-                    catch (Exception e) { throw new Exception("Could not add user.", e); }
+                    catch (Exception e) { throw new Exception("Could not add user.", e); } // Throws new exception if user could not be added.
 
                 connection.Close();
             }
         }
 
-        #endregion
-
-        #region Author related
-
-        /* Unused method, author is added in AddProduct.
-
-                /// <summary>
-                /// Adds an author to the database.
-                /// </summary>
-                /// <param name="author"></param>
-                /// <returns></returns>
-                public static void AddAuthor(Authors? author)
-                {
-                    CheckIfObjectIsNull(author);
-                    CheckStringFormat(author.AuthorName);
-
-                    // Add author using INSERT.
-                    var sql = @$"INSERT INTO Authors (AuthorName)
-                                        VALUES ({author.AuthorName})";
-
-                    using (var connection = new MySqlConnection(ConnectionString))
-                    {
-                        connection.Open();
-                        if (connection.State == ConnectionState.Open)
-                            connection.Execute(sql);
-
-                        connection.Close();
-                    }
-                }
-        */
         #endregion
 
         #region Product related
@@ -217,69 +192,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <param name="product"></param>
         public static void AddProduct(Products? product)
         {
+            // Null-check to avoid nullable reference warnings.
             if (product is null) throw new ArgumentNullException(nameof(product));
 
+            // Check format of strings to avoid database errors.
             CheckStringFormat(product.Description, product.CategoryName, product.SubCategoryName);
-            /*
-                        // Get all authors using method.
-                        static List<Authors?> GetAllAuthors()
-                        {
-
-                            var sql = @$"Select Id, AuthorName 
-                                            From Authors";
-
-                            using (var connection = new MySqlConnection(ConnectionString))
-                            {
-                                connection.Open();
-                                if (connection.State == ConnectionState.Open)
-                                {
-                                    var author = connection.Query<Authors?>(sql).ToList();
-                                    connection.Close();
-
-                                    return author;
-                                }
-                            }
-                            return null;
-                        }
-
-                        static List<Categories?> GetAllCategories()
-                        {
-                            var sql = @$"SELECT Id, CategoryName 
-                                                FROM Categories";
-
-                            using (var connection = new MySqlConnection(ConnectionString))
-                            {
-                                connection.Open();
-                                if (connection.State == ConnectionState.Open)
-                                {
-                                    var categories = connection.Query<Categories?>(sql);
-
-                                    connection.Close();
-
-                                    return categories.ToList();
-                                }
-                            }
-                            return null;
-                        }
-
-                        static List<SubCategories?> GetAllSubCategories()
-                        {
-                            var sql = @$"SELECT Id, SubCategoryName 
-                                                FROM SubCategories";
-
-                            using (var connection = new MySqlConnection(ConnectionString))
-                            {
-                                connection.Open();
-                                if (connection.State == ConnectionState.Open)
-                                {
-                                    var subCategories = connection.Query<SubCategories?>(sql).ToList();
-                                    connection.Close();
-
-                                    return subCategories;
-                                }
-                            }
-                            return null;
-                        }*/
 
             // Declare int and bool variables.
             int AuthorId = 0;
@@ -290,7 +207,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             bool CategoryExists = false;
             bool SubCategoryExists = false;
 
-            // Populate a new list of authors with authors in database.
+            // Populate a new list of authors with authors in database using GetAllAuthors method.
             List<Authors?>? authors = GetAllAuthors();
 
             // Check if list was populated.
@@ -299,18 +216,21 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             // Iterate through authors list to see if there is an author with the same name.
             foreach (var author in authors)
             {
+                // Null-check to avoid .NET 6 null reference warnings.
                 if (author is null) { throw new NullReferenceException(nameof(author)); }
 
+                // When the id matches, enter if clause.
                 if (author.AuthorName == product.AuthorName)
                 {
-                    // Set the int variable to be the same as author id from database.
+                    // Set the authorid int variable equal to the author.id from database.
                     AuthorId = author.Id;
+
                     // The author already exists, so break out to the next statement.
                     AuthorExists = true;
                     break;
                 }
             }
-            // Go here if author does not exist yet.
+            // Go here if no match was found for authorname.
             if (AuthorExists == false)
             {
                 // Add the author using INSERT.
@@ -326,6 +246,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     connection.Close();
                 }
 
+                // Select the author ID that corresponds to the product's AuthorName.
                 var sql2 = @$"SELECT Id
                                     FROM Authors
                                     WHERE AuthorName = '{product.AuthorName}'";
@@ -340,7 +261,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                 }
             }
 
-            // The following code repeats the above code.
+            /* The following code mostly repeats the above code. */
 
             List<Categories?>? categories = GetAllCategories();
 
@@ -431,7 +352,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
                     connection.Close();
                 }
             }
-            // Check if string format is correct (no single quotes, not null, not above 3000 characters long.
+            // Check if string format is correct (no single quotes and not above 3000 characters long.
             CheckStringFormat(product.Title, product.Description, product.ImgUrl);
 
             var sqlMain = @$"INSERT INTO Products (Title, Description, AuthorId, CategoryId, SubCategoryId, UnitsInStock, ImgUrl) 
@@ -451,14 +372,15 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
         #region Category related
         /// <summary>
-        /// Adds new category to the database.
+        /// Adds a new category to the database.
         /// </summary>
         /// <param name="category"></param>
-        /// <returns></returns>
         public static void AddCategory(Categories? category)
         {
+            // Check if category passed to the method is null.
             if (category is null) { throw new ArgumentNullException(nameof(category)); }
 
+            // Check format of the categoryname.
             CheckStringFormat(category.CategoryName);
 
             var cmdText = @$"INSERT INTO Categories (CategoryName)
@@ -484,7 +406,10 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
         /// <exception cref="ArgumentNullException"></exception>
         public static void AddSubCategory(SubCategories? subcategory)
         {
+            // Check if subcategory passed to the method is null.
             if (subcategory is null) { throw new ArgumentNullException(nameof(subcategory)); }
+
+            // Check if format is correct to avoid database errors.
             CheckStringFormat(subcategory.SubCategoryName);
 
             var cmdText = @$"INSERT INTO SubCategory (SubCategoryName)

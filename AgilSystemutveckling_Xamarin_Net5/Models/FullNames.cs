@@ -1,5 +1,5 @@
 ﻿
-using System.ComponentModel.DataAnnotations;
+
 
 
 
@@ -13,8 +13,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
         public int FirstNameId { get; set; }
         [Required]
         public int LastNameId { get; set; }
-        
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-     }
+    }
 }

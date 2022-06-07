@@ -2,6 +2,8 @@
 @model AgilSystemutveckling_Xamarin_Net5.Pages.CheckoutPageModel
 @{
 }
+
+<!-- Bootstrap nav-tab to navigiate through all 4 pages -->
 <header class="Menu"> 
 
     <ul class="nav nav-pills nav-fill">
@@ -30,6 +32,8 @@
     </ul>
    
 </header>
+
+<!--Checkout info listed in a table -->
 <div class="users">
     
         <table id="myTable" class="user-list">
@@ -63,6 +67,7 @@
     
 </div>
 
+<!--Checkout button -->
 @if(Globals.CartList.Count != 0 && Globals.LoggedInUser.Blocked == false)
 {
     <form method="post">

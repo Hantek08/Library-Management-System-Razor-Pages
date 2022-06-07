@@ -4,6 +4,8 @@
 @model AgilSystemutveckling_Xamarin_Net5.Pages.Event.EventPageModel
 @{
 }
+
+<!-- Bootstrap nav-tab to navigiate through pages -->
 <header class="Menu"> 
 
     <ul class="nav nav-pills nav-fill">
@@ -48,7 +50,7 @@
 </header>
 
     
-
+<!--Add Button and searchbar-->
 <div class="container">
     <div class="row">
                             
@@ -65,10 +67,12 @@
 </div>
 
 
-@if(EventPageModel.EventsList.Count == 0)
+@if(EventPageModel.EventsList.Count == 0) // If no events then message
 {
   <h4>No Events</h4>  
 }
+
+<!--Layout for the events -->
 <div class="container">
 <div class="row">
 <div class="col-8" style="margin-left:70px;">
@@ -89,9 +93,9 @@
           @Html.Raw(@item.Description)
          
         @if (Globals.LoggedInUser.Level > 1)
-                                {
-                                    <div class="btn-group" role="group">
-                                        <form method="post">
+        {
+        <div class="btn-group" role="group">
+            <form method="post">
                 <button asp-page-handler="Delete"  asp-route-id="@item.Id"  onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger" style="border: none;background-color: white;">
 					<img alt="Delete"
                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjxzdmcgd2lkdGg9IjFlbSIgaGVpZ2h0PSIxZW0iIHZpZXdCb3g9IjAgMCAxNiAxNiIgY2xhc3M9ImJpIGJpLXRyYXNoLWZpbGwiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMi41IDFhMSAxIDAgMCAwLTEgMXYxYTEgMSAwIDAgMCAxIDFIM3Y5YTIgMiAwIDAgMCAyIDJoNmEyIDIgMCAwIDAgMi0yVjRoLjVhMSAxIDAgMCAwIDEtMVYyYTEgMSAwIDAgMC0xLTFIMTBhMSAxIDAgMCAwLTEtMUg3YTEgMSAwIDAgMC0xIDFIMi41em0zIDRhLjUuNSAwIDAgMSAuNS41djdhLjUuNSAwIDAgMS0xIDB2LTdhLjUuNSAwIDAgMSAuNS0uNXpNOCA1YS41LjUgMCAwIDEgLjUuNXY3YS41LjUgMCAwIDEtMSAwdi03QS41LjUgMCAwIDEgOCA1em0zIC41YS41LjUgMCAwIDAtMSAwdjdhLjUuNSAwIDAgMCAxIDB2LTd6Ii8+DQo8L3N2Zz4=">
@@ -164,7 +168,7 @@
     }
 </style>
 
-    <!-- Modal HTML -->
+    <!-- Add event popup -->
    <form method="post" >
     <div id="myModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">

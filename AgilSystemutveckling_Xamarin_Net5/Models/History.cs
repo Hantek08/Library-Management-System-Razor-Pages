@@ -7,7 +7,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Models
 {
     public enum ActionEnum
     {
-        Loaned = 1, Returned, Created, Hidden, Edited, BookSeminar,Booked
+        Loaned = 1, Returned, Created, Hidden, Edited, BookSeminar, Booked
     }
 
     public class History

@@ -5,7 +5,7 @@
 }
 
 
-
+<!-- Bootstrap nav-tab to navigiate through all 4 pages -->
 <header class="Menu"> 
 
     <ul class="nav nav-pills nav-fill">
@@ -51,7 +51,7 @@
 </header>
 
     
-
+<!--Add Button and searchbar-->
 <div class="container">
     <div class="row">
                             
@@ -69,9 +69,9 @@
             </div>
         </div>
     </div>
-
 </div>
 
+<!--Products and info listed in a table -->
 @foreach (var item in SearchPageModel.BookName)
 {
     if (Globals.LoggedInUser.Level > 1 || item.Active == 1)
@@ -203,7 +203,7 @@ $(document).ready(function(){
 });
 </script>
 
-    <!-- Modal HTML -->
+    <!-- Add product popup -->
     <form method="post" >
     <div id="myModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
@@ -248,11 +248,8 @@ $(document).ready(function(){
                         <div class="col-12">
                             <div class="mb-3">
                                 <label asp-for="newBook.CategoryName" class="form-label">Category</label>
-                                 <select asp-for="newBook.CategoryName" class="form-control"> 
-                                    <option value="">-- Select Category --</option>  
-                                    <option value="Book">Book</option> 
-                                    <option value="E-Book">E-Book</option> 
-                                    <option value="Movie">Movie</option> 
+                                 <select asp-items="Model.Options" asp-for="newBook.CategoryName" class="form-control"> 
+                                    <option value="">-- Select Category --</option>                                     
                                 </select>
                             <span asp-validation-for="newBook.CategoryName" class="text-danger"></span>
                             </div>
@@ -263,7 +260,8 @@ $(document).ready(function(){
                             <div class="mb-3">
                                 <label asp-for="newBook.SubCategoryName" class="form-label">SubCategory</label>
                                  <select asp-for="newBook.SubCategoryName" class="form-control"> 
-                                    <option value="">-- Select Subcategory --</option>  
+                                    
+                                    <option value="">-- Select Subcategory --</option> 
                                     <option value="Fiction">Fiction</option> 
                                     <option value="Non-Fiction">Non-Fiction</option> 
                                 </select>

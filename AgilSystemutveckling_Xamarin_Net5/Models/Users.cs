@@ -1,13 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+
+
 
 
 namespace AgilSystemutveckling_Xamarin_Net5.Models
 {
-    public enum AccessLevels {
+    public enum AccessLevels
+    {
         Visitor = 1,
         User,
         Employee,
-        Admin 
+        Admin
     }
     public class Users
     {

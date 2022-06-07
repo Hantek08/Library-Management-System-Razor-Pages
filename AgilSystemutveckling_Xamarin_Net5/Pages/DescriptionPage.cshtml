@@ -99,62 +99,7 @@
         margin-top: 30px;
     }
 
-    /* Popup container - can be anything you want */
-    .popup {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 0px;
-  height: 0px;
 
-
-}
-
-/* The actual popup */
-/*.popup .popuptext {
-  visibility: hidden;
-  width: 300px;
-  background-color: #6FC767;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 8px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: 400px;
-}
-.popup*/ .popuptext {
-  visibility: hidden;
-  width: 400px;
-  height: 50px;
-  font-weight: bold;
-  font-size:medium;
-  background-color: #6FC767;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 8px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-top: 10px;
-  margin-left: 350px;
-}
-
-
-/* Toggle this class - hide and show the popup */
-.popup .show {
-  visibility: visible;
-  -webkit-animation: fadeIn 3s;
-  animation: fadeIn 3s;
-}
 
 #editbutton{
     margin-left: 143px;
@@ -164,9 +109,9 @@
     font-size: 10px;
 }
 
-
 </style>
 
+<!--Description layout with all the info of a product -->
 <form method="post">
     <div class="containerDesc">
         <div class="row">
@@ -184,11 +129,9 @@
                 <div class="col-4 col-sm-6">
                     @if (Globals.LoggedInUser.Level == 1 && @DescriptionPageModel.unitsinstock > 0 && Globals.LoggedInUser.Blocked == false && Globals.CartList.Count < 5)
                         { 
-
                              <div class="popup" onclick="myFunction()">
                                  <button type="submit" class="btn btn-primary" id="makealoan" asp-page-handler="AddToCart" >Lend</button> 
-@*                                 <span class="popuptext" id="myPopup">@DescriptionPageModel.title has been added</span>
-*@                             </div>
+                             </div>
                         }
                     else if(Globals.LoggedInUser.Level > 1)
                     {
@@ -210,22 +153,13 @@
     </div>
  </form>
 
-
+ <!--Back Arrow symbol-->
 <form action="/ProductPage">
     <button class="backToSearch">
         <i class="bi bi-arrow-left" id="backToSearchimg"></i>
     </button>
-    @*<input id="backToSearch" class="Buttons" type="submit" value="Back">*@
 </form> 
 
-@*<script>
-// When the user clicks on div, open the popup
-function myFunction() {
-  var popup = document.getElementById("myPopup");
-  popup.classList.toggle("show");
-}
-
-</script>*@
 
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
