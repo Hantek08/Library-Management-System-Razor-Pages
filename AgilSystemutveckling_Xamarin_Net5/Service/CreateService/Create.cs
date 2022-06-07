@@ -41,7 +41,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
             var firstNames = GetAllFirstNames();
 
             // Check if list is null.
-            if(firstNames is null) { throw new NullReferenceException(nameof(firstNames)); }
+            if (firstNames is null) { throw new NullReferenceException(nameof(firstNames)); }
 
             // For each first name, check if it is null and if it already exists in database.
             foreach (var item in firstNames)
@@ -95,11 +95,11 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
             // Get all last names from database.
             var lastNames = GetAllLastNames();
-            if(lastNames is null) { throw new NullReferenceException(nameof(lastNames)); }
+            if (lastNames is null) { throw new NullReferenceException(nameof(lastNames)); }
 
             // For each last name, check if it is null, and compare the user last name to the last names already present in database.
             foreach (var item in lastNames)
-            { 
+            {
                 if (item is not null && user.LastName == item.LastName)
                 {
                     // Set current last name ID to the existing last name's ID, then exit to the next statement, avoiding duplicates in database.
@@ -197,7 +197,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.CreateService
 
             // Check format of strings to avoid database errors.
             CheckStringFormat(product.Description, product.CategoryName, product.SubCategoryName);
-            
+
             // Declare int and bool variables.
             int AuthorId = 0;
             int CategoryId = 0;

@@ -14,15 +14,18 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
 {
     public static class Update
     {
+        //For Admin to update units in Stock
+
         #region Stock related
         /// <summary>
         /// Updates number of units in stock by product id and specified number of products.
+        /// Method is purposely implemented for Administrators.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="unitsInStock"></param>
         public static void UpdateUnitsInStock(int id, int unitsInStock)
         {
-            //For Admin to update units in Stock
+
             var cmdText = @$"UPDATE Products 
                                     SET UnitsInStock = {unitsInStock}
                                     WHERE Id = {id}";
@@ -41,7 +44,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
         }
         #endregion
 
-        #region user related
+        #region User related
         /// <summary>
         /// Updates a specified User.
         /// </summary>
@@ -50,7 +53,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
         /// <exception cref="Exception"></exception>
         public static void User(Users? user)
         {
-            if(user is null) { throw new ArgumentNullException(nameof(user)); }
+            if (user is null) { throw new ArgumentNullException(nameof(user)); }
 
             CheckStringFormat(user.Username, user.Password, user.Address);
 
@@ -79,28 +82,29 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
         /// <exception cref="Exception"></exception>
         public static void Product(Products? product)
         {
-            if(product is null) { throw new ArgumentNullException(nameof(product)); }
+            if (product is null) { throw new ArgumentNullException(nameof(product)); }
 
-            CheckStringFormat(product.AuthorName, product.CategoryName, product.SubCategoryName, product.Description, product.Title, product.ImgUrl);
+            CheckStringFormat(product.AuthorName, product.CategoryName, product.SubCategoryName,
+                              product.Description, product.Title, product.ImgUrl);
 
             int categoryId = 0;
             int subCategoryId = 0;
 
             List<Categories?>? categories = GetAllCategories();
-            if(categories is null) { throw new NullReferenceException(nameof(categories)); }
+            if (categories is null) { throw new NullReferenceException(nameof(categories)); }
 
             List<SubCategories?>? subCategories = GetAllSubCategories();
-            if(subCategories is null) { throw new NullReferenceException(nameof(subCategories)); }
+            if (subCategories is null) { throw new NullReferenceException(nameof(subCategories)); }
 
-            foreach(var category in categories)
+            foreach (var category in categories)
             {
-                if(category is null) { throw new NullReferenceException(nameof(category)); }
-                if (product.CategoryName == category.CategoryName) 
+                if (category is null) { throw new NullReferenceException(nameof(category)); }
+                if (product.CategoryName == category.CategoryName)
                     categoryId = category.Id;
             }
-            foreach(var subCategory in subCategories)
+            foreach (var subCategory in subCategories)
             {
-                if(subCategory is null) { throw new NullReferenceException(nameof(subCategory)); }
+                if (subCategory is null) { throw new NullReferenceException(nameof(subCategory)); }
                 if (product.SubCategoryName == subCategory.SubCategoryName)
                     subCategoryId = subCategory.Id;
             }
@@ -123,5 +127,5 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.UpdateService
             }
         }
     }
-        #endregion
+    #endregion
 }
