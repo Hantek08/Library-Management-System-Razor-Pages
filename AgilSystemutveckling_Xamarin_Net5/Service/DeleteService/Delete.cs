@@ -7,30 +7,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.DeleteService
 {
     public static class Delete
     {
-
-        #region Author related
-        public static void DeleteAuthor(int id)
-        {
-            var sql = @$"DELETE FROM Author
-                                WHERE id = @id";
-
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-            {
-                connection.Open();
-
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.Execute(sql, new { id = id });
-
-                    connection.Close();
-                }
-            }
-        }
-            #endregion
-
         #region Product related
-
-
         /// <summary>
         /// Deletes a product from the database.
         /// </summary>
@@ -53,7 +30,6 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.DeleteService
                 }
             }
         }
-
         #endregion
         
     }

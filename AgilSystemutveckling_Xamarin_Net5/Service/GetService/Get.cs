@@ -14,7 +14,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /*
          * Class set to static to prevent instantiations.
          * Methods used to get lists with data from the database.
-         * All the lists contains instances of a class found in
+         * All the lists contains instances of respective classes found in
          * the Models folder.
          */
 
@@ -28,7 +28,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         {
             // Set sql query to the desired information to be fetched from MySQL database.
             string? sql = @$"SELECT Id, CategoryName
-                                FROM Categories";
+                             FROM Categories";
 
             // Using statement passing in mySqlConnection with connection string.
             using (var connection = new MySqlConnection(ConnectionString))
@@ -62,7 +62,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         public static List<SubCategories?>? GetAllSubCategories()
         {
             string? sql = @$"SELECT Id, SubCategoryName 
-                                FROM SubCategories";
+                            FROM SubCategories";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -93,9 +93,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                             Authors.AuthorName, Categories.CategoryName, SubCategories.SubCategoryName,
                             Products.UnitsInStock, Products.InStock, Products.ImgUrl, Products.Active
                             FROM Products
-                            INNER JOIN Authors on Products.AuthorId = Authors.Id
-                            INNER JOIN Categories on Products.CategoryId = Categories.Id
-                            INNER JOIN SubCategories on Products.SubCategoryId = SubCategories.Id";
+                            INNER JOIN Authors ON Products.AuthorId = Authors.Id
+                            INNER JOIN Categories ON Products.CategoryId = Categories.Id
+                            INNER JOIN SubCategories ON Products.SubCategoryId = SubCategories.Id";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -222,16 +222,16 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <summary>
         /// Gets all users in a list.
         /// </summary>
-        /// <returns>A list of Users </returns>
+        /// <returns>A list of all Users in database.</returns>
         public static List<Users?>? GetAllUsers()
         {
             var sql = @$"Select Users.Id, Users.Username, Users.Password, Users.Address, Users.Blocked, 
                         FirstNames.FirstName, LastNames.LastName, Access.Level
-                        from Users
-                        inner join FullNames on Users.FullNameId = FullNames.Id
-                        inner join FirstNames on FullNames.FirstNameId = FirstNames.Id
-                        inner join LastNames on FullNames.LastNameId = LastNames.Id
-                        inner join Access on Users.AccessId = Access.Id";
+                        FROM Users
+                        INNER JOIN FullNames on Users.FullNameId = FullNames.Id
+                        INNER JOIN FirstNames on FullNames.FirstNameId = FirstNames.Id
+                        INNER JOIN LastNames on FullNames.LastNameId = LastNames.Id
+                        INNER JOIN Access on Users.AccessId = Access.Id";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -252,7 +252,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
         /// <summary>
         /// Get all authors.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of all authors in database.</returns>
         public static List<Authors?>? GetAllAuthors()
         {
             var sql = @$"Select Id, AuthorName 
@@ -267,11 +267,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                     connection.Close();
 
                     return authors;
-
                 }
-
-                return null;
             }
+            return null;
         }
         #endregion
 
@@ -364,14 +362,13 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
             List<History?>? historiesReturned = new();
 
-            var sql2 = $@"Select Title, Categories.CategoryName, Datetime
-                        FROM History
-		                INNER JOIN Products on ProductId =  Products.Id
-		                INNER JOIN Actions on ActionId = Actions.Id
-                        Inner Join Categories on CategoryId = Categories.Id
-                        Inner Join Users on UserId = Users.Id
-
-                        Where ActionId = 2 And UserId ={userId}";
+            var sql2 = $@"SELECT Title, Categories.CategoryName, Datetime
+                                FROM History
+		                        INNER JOIN Products ON ProductId =  Products.Id
+		                        INNER JOIN Actions ON ActionId = Actions.Id
+                                INNER JOIN Categories ON CategoryId = Categories.Id
+                                INNER JOIN Users ON UserId = Users.Id
+                                WHERE ActionId = 2 AND UserId ={userId}";
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
@@ -406,6 +403,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                         break;
                     }
                 }
+
                 // If a product is not returned, add to the list of active loans.
                 if (!isReturned) { activeLoans.Add(lent); }
             }
@@ -433,6 +431,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
                                 WHERE ActionId = 7";
 
             List<History?>? historiesBooked = new();
+
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
@@ -446,10 +445,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.GetService
 
             var sqlLent = $@"SELECT Title, Datetime, ProductId
                                     FROM History
-		                            INNER JOIN Products on ProductId =  Products.Id
-		                            INNER JOIN Actions on ActionId = Actions.Id
-                        
-                                    INNER JOIN Users on UserId = Users.Id
+		                            INNER JOIN Products ON ProductId =  Products.Id
+		                            INNER JOIN Actions ON ActionId = Actions.Id
+                                    INNER JOIN Users ON UserId = Users.Id
                                     WHERE ActionId = 1";
 
             List<History?>? historiesLent = new();
