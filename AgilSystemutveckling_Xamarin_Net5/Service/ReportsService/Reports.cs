@@ -15,7 +15,7 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.ReportsService
 {
     public static class Reports
     {
-
+        #region Product related
         /// <summary>
         /// Gets books sorted by number of loans.
         /// </summary>
@@ -45,39 +45,9 @@ namespace AgilSystemutveckling_Xamarin_Net5.Service.ReportsService
                     return histories;
                 }
             }
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the most active users.
-        /// </summary>
-        /// <param name="limitBy"></param>
-        /// <returns></returns>
-        public static List<FullNames?>? MostActiveUsers(int limitBy)
-        {
-            string? sql = @$"SELECT FirstNames.FirstName, LastNames.LastName
-                            FROM History
-                            INNER JOIN Users ON History.UserId = Users.Id
-                            INNER JOIN FullNames ON Users.FullNameId = FullNames.Id
-                            INNER JOIN FirstNames ON FullNames.FirstNameId = FirstNames.Id
-                            INNER JOIN LastNames ON FullNames.LastNameId = LastNames.Id
-                            GROUP BY FullNameId
-                            ORDER BY COUNT(UserId) DESC
-                            LIMIT {limitBy}";
-            using (var connection = new MySqlConnection(ConnectionString))
-            {
-                connection.Open();
-                if (connection.State == ConnectionState.Open)
-                {
-                    var fullName = connection.Query<FullNames?>(sql).ToList();
-
-                    connection.Close();
-
-                    return fullName;
-                }
-            }
 
             return null;
         }
+        #endregion
     }
 }
