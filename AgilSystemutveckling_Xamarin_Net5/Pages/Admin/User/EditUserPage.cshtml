@@ -3,24 +3,45 @@
 @{
 }
 <!--A form to edit user address and password-->
+
+  
 <form method="post">
-    <div class="containerDesc">
-        <h1 id="full_name">@EditUserPageModel.UserInfo.FirstName @EditUserPageModel.UserInfo.LastName</h1>
-        <div class="info_box">
-            <div class="infodesc">
-                <label style="margin-top:60px;margin-bottom: 40px; font-weight: bold;"> New Addres: 
-                    <input name="newAddress" asp-for="@EditUserPageModel.UserInfo.Address" style="margin-left: 30px;" type="text"/>
-                    <button id="save_changes_button" class="btn btn-default" asp-page-handler="SaveAddress">Save</button>
-                </label>
-            </div>
-            <div class="infodesc">
-                <label style="margin-top:10px;margin-bottom: 40px; font-weight: bold;"> New Password: 
-                    <input name="newPassword" asp-for="@EditUserPageModel.UserInfo.Password" style="margin-left: 15px;" type="password"/>
-                    <button id="save_changes_button" class="btn btn-default" asp-page-handler="SavePassword">Save</button>
-                </label>
-            </div>
+
+    <div class="container">
+                             <div class="row">
+                                  <div class="col-5">
+			                    <h2 class="text-primary pl-3"> @EditUserPageModel.UserInfo.FirstName @EditUserPageModel.UserInfo.LastName</h2>
+                                <hr />
+                                </div>
+                                </div>
+                                <div class="row align-items-center">
+                                     <div class="col col-md-2 mb-3 ">
+                                  <label asp-for="@EditUserPageModel.UserInfo.Address"  class="form-label"  style="font-weight: 500;">New Address</label>
+
+                              </div>
+                                <div class="col col-md-4 mb-3" style="margin-left: -115px;">
+                                    <input name="newAddress" asp-for="@EditUserPageModel.UserInfo.Address" type="text" class="form-control">
+                              </div>
+                              <div class="col col-md-4 mb-3">
+                                    	<button asp-page-handler="SaveAddress" type="submit" class="btn btn-secondary" style="width:150px;">Update</button>
+                            </div>
+                              </div>
+                            
+                     <div class="row align-items-center">
+                                     <div class="col col-md-2 mb-3">
+                                  <label asp-for="@EditUserPageModel.UserInfo.Password" class="form-label"  style="font-weight: 500;">New Password</label>
+
+                              </div>
+                                <div class="col col-md-4 mb-3" style="margin-left: -115px;">
+                                    <input name="newPassword" asp-for="@EditUserPageModel.UserInfo.Password" type="password" value="" class="form-control">
+                              </div>
+                              <div class="col col-md-4 mb-3">
+                                    	<button asp-page-handler="SavePassword" type="submit" class="btn btn-secondary" style="width:150px;">Update</button>
+                            </div>
+                              </div>
+       
             <div>
-            <label style="font-weight: bold;" id="blocked_label">Blocked:
+            <label style="font-weight: 500;" id="blocked_label">Blocked:
 
                 <div class="child">
                    <!--this will block and unblock user -->
@@ -42,7 +63,6 @@
             </div>
         </div>
 
-    </div>
  </form>
 
  <form action="/Admin/User/UserListPage">
