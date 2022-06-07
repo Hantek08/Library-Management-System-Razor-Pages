@@ -71,7 +71,7 @@
                 <td>@item.Address</td>
                 <td>@item.Blocked</td>
                 <td>
-                    @if(Globals.LoggedInUser.Level >= item.Level)
+                    @if(Globals.LoggedInUser.Level > item.Level)
                     {
                        <a
                         asp-page="/Admin/User/EditUserPage"
